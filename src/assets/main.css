@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+/* Cyber-Morph Custom Theme Variables (v4 style) */
+@theme {
+  --color-neon-blue: #00f2ff;
+  --color-neon-green: #39ff14;
+  --color-cyber-dark: #0a0a0c;
+  --color-cyber-gray: #1a1a2e;
+}
+
+:root {
+  background-color: var(--color-cyber-dark);
+  color: white;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
