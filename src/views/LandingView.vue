@@ -226,7 +226,7 @@ const drawTailgater = (ctx, p) => {
   const drawY = p.y - bounce
   
   // Body (Square block)
-  ctx.fillStyle = '#1a1a24' // Very dark grey/blue
+  ctx.fillStyle = '#3b1d52' // Dark purple
   ctx.fillRect(p.x - p.width / 2, drawY - p.height / 2, p.width, p.height)
   
   // Face area (hidden inside hood/mask)
@@ -329,17 +329,52 @@ const draw = () => {
 
 onMounted(() => {
   window.addEventListener('resize', resizeCanvas)
-  // Distribute servers safely away from the center text
+  // Distribute servers safely away from the center text and each other
   const w = window.innerWidth
   const h = window.innerHeight
+  const placedServers = []
+  const minDistance = 110 // Minimum spacing between server units
+  
   servers.forEach(obs => {
-    // 50% chance to be on the left flank, 50% on the right flank
-    const isLeft = Math.random() > 0.5
-    obs.x = isLeft 
-      ? Math.random() * (w * 0.15) + (w * 0.05) 
-      : Math.random() * (w * 0.15) + (w * 0.8)
-    obs.y = Math.random() * (h * 0.6) + (h * 0.3)
+    let isValid = false
+    let attempts = 0
+    
+    while (!isValid && attempts < 50) {
+      // 50% chance to be on the left flank, 50% on the right flank
+      const isLeft = Math.random() > 0.5
+      const testX = isLeft 
+        ? Math.random() * (w * 0.15) + (w * 0.05) 
+        : Math.random() * (w * 0.15) + (w * 0.8)
+      const testY = Math.random() * (h * 0.6) + (h * 0.3)
+      
+      // Check distance against already placed servers
+      let overlaps = false
+      for (const placed of placedServers) {
+        const dx = placed.x - testX
+        const dy = placed.y - testY
+        const dist = Math.sqrt(dx * dx + dy * dy)
+        if (dist < minDistance) {
+          overlaps = true
+          break
+        }
+      }
+      
+      if (!overlaps) {
+        obs.x = testX
+        obs.y = testY
+        placedServers.push(obs)
+        isValid = true
+      }
+      attempts++
+    }
+    
+    // Fallback just in case screen is too small to fit them safely
+    if (!isValid) {
+      obs.x = -1000
+      obs.y = -1000
+    }
   })
+  
   player.x = w / 2
   player.y = h / 2
   player.targetX = w / 2
