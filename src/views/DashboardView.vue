@@ -7,7 +7,7 @@
         <h1 v-else-if="auth.isEducator" class="text-4xl font-black font-display tracking-tight text-pixel-plum uppercase">Educator Portal</h1>
         <h1 v-else class="text-4xl font-black font-display tracking-tight text-pixel-plum uppercase">System Root</h1>
         <p class="text-[10px] text-pixel-plum/60 uppercase font-black tracking-[0.25em] mt-2 flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-pixel-moss animate-pulse"></span>
+          <span class="w-2 h-2 rounded-full bg-pixel-violet animate-pulse"></span>
           Active Session: {{ auth.username }}
         </p>
       </div>
@@ -35,14 +35,14 @@
           </div>
         </div>
 
-        <div class="pixel-card group border-l-4 border-l-pixel-moss">
+        <div class="pixel-card group border-l-4 border-l-pixel-sky">
           <p class="stat-label-pixel">Map Progress</p>
           <div class="flex items-end gap-2">
-            <span class="text-4xl font-black text-pixel-plum group-hover:text-pixel-moss transition-colors">{{ auth.progress }}/4</span>
+            <span class="text-4xl font-black text-pixel-plum group-hover:text-pixel-sky transition-colors">{{ auth.progress }}/4</span>
             <span class="text-[11px] text-pixel-plum/50 font-black mb-2 uppercase tracking-widest">Unlocked</span>
           </div>
           <div class="mt-4 h-2 w-full bg-pixel-plum/10 rounded-full overflow-hidden border border-pixel-plum/5">
-            <div class="h-full bg-pixel-moss transition-all duration-1000 shadow-[0_0_8px_rgba(143,221,138,0.4)]" :style="{ width: (auth.progress / 4 * 100) + '%' }"></div>
+            <div class="h-full bg-pixel-sky transition-all duration-1000 shadow-[0_0_8px_rgba(158,220,247,0.4)]" :style="{ width: (auth.progress / 4 * 100) + '%' }"></div>
           </div>
         </div>
 

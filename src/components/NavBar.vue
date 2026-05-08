@@ -31,7 +31,7 @@
       <div v-if="auth.isPlayer" class="hidden lg:flex items-center gap-4">
         <div class="flex flex-col items-end">
           <span class="text-[10px] text-pixel-violet uppercase tracking-widest">Security Credits</span>
-          <span class="text-sm font-mono text-pixel-plum">{{ auth.credits }} <span class="text-pixel-moss text-[10px]">CR</span></span>
+          <span class="text-sm font-mono text-pixel-plum">{{ auth.credits }} <span class="text-pixel-violet text-[10px]">CR</span></span>
         </div>
         <div class="h-8 w-px bg-pixel-plum/10"></div>
         <div class="flex flex-col items-end">
@@ -44,7 +44,7 @@
       <div class="flex items-center gap-3 pl-4 border-l border-pixel-plum/10">
         <div class="text-right">
           <p class="text-xs font-bold text-pixel-plum leading-none mb-1">{{ auth.username }}</p>
-          <p class="text-[10px] text-pixel-moss uppercase tracking-tighter leading-none">{{ auth.user?.role }}</p>
+          <p class="text-[10px] text-pixel-violet uppercase tracking-tighter font-black leading-none">{{ auth.user?.role }}</p>
         </div>
         <button @click="handleLogout" class="p-2 text-pixel-plum/40 hover:text-red-500 transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
