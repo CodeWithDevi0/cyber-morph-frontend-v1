@@ -11,7 +11,7 @@
     >
       <div
         v-if="showWelcomeToast"
-        class="fixed bottom-8 right-8 z-[100] flex items-center gap-4 bg-pixel-violet p-4 rounded-lg shadow-pixel-purple border border-white/20"
+        class="fixed bottom-8 right-8 z-100 flex items-center gap-4 bg-pixel-violet p-4 rounded-lg shadow-pixel-purple border border-white/20"
       >
         <div class="w-10 h-10 bg-white/20 rounded flex items-center justify-center">
           <svg
@@ -238,7 +238,7 @@
               <tr
                 v-for="session in mockSessions.slice(0, 3)"
                 :key="session.session_id"
-                class="group hover:bg-pixel-violet/[0.03] transition-colors"
+                class="group hover:bg-pixel-violet/0.03 transition-colors"
               >
                 <td class="py-5 px-2">
                   <div class="flex items-center gap-3">
@@ -361,20 +361,29 @@
 import { ref, onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { mockSessions } from '@/api/mock'
+import { useRoute, useRouter } from 'vue-router'
 
 const auth = useAuthStore()
+const route = useRoute()
+const router = useRouter()
 const showWelcomeToast = ref(false)
 
 onMounted(() => {
-  // Delay the toast to let dashboard animations settle
-  setTimeout(() => {
-    showWelcomeToast.value = true
+  // Only show toast if specifically redirected from login
+  if (route.query.login === 'success') {
+    // Clear the URL immediately
+    router.replace({ query: {} })
 
-    // Hide after 5 seconds of visibility
+    // Delay the toast to let dashboard animations settle
     setTimeout(() => {
-      showWelcomeToast.value = false
-    }, 3000)
-  }, 500)
+      showWelcomeToast.value = true
+      
+      // Hide after 3 seconds of visibility
+      setTimeout(() => {
+        showWelcomeToast.value = false
+      }, 3000)
+    }, 500)
+  }
 })
 
 const getNextMapName = () => {

@@ -86,7 +86,7 @@
             </button>
             <button 
               @click="confirmLogout"
-              class="py-3 px-4 bg-byte-coral text-white font-black text-[10px] uppercase tracking-widest rounded shadow-[0_8px_20px_rgba(255,111,97,0.3)] hover:brightness-110 transition-all"
+              class="py-3 px-4 bg-byte-coral text-white font-black text-[10px] uppercase tracking-widest rounded shadow-pixel-alert hover:brightness-110 transition-all"
             >
               Confirm
             </button>

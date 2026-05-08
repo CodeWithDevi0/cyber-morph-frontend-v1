@@ -97,16 +97,17 @@ const isLogoutSuccess = computed(() => route.query.logout === 'success');
 onMounted(() => {
   if (isLogoutSuccess.value) {
     showLogoutToast.value = true;
+    // Clear the URL immediately so refresh doesn't trigger it again
+    router.replace({ query: {} });
+    
     setTimeout(() => {
       showLogoutToast.value = false;
-      // Optionally clean up the query param without refreshing
-      router.replace({ query: {} });
     }, 5000);
   }
 });
 
 const handleLogin = async () => {
   const success = await auth.login(email.value, password.value);
-  if (success) router.push('/dashboard');
+  if (success) router.push('/dashboard?login=success');
 };
 </script>

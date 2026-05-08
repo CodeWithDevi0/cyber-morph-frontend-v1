@@ -83,7 +83,7 @@ const formatDuration = (seconds) => {
             </tr>
           </thead>
           <tbody class="divide-y divide-pixel-plum/5">
-            <tr v-for="session in sortedSessions" :key="session.session_id" class="group hover:bg-pixel-violet/[0.03] transition-colors">
+            <tr v-for="session in sortedSessions" :key="session.session_id" class="group hover:bg-pixel-violet/5 transition-colors">
               <td class="py-5 px-4">
                 <div class="flex items-center gap-3">
                   <div class="w-3 h-3 rounded-sm shadow-sm" :class="session.result === 'win' ? 'bg-pixel-moss' : 'bg-byte-coral'"></div>

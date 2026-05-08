@@ -323,7 +323,7 @@ const navItems = [
 }
 
 .brand-glyph {
-  @apply grid h-10 w-10 place-items-center rounded-md border border-pixel-violet/25 bg-pixel-lavender/45 text-xs text-pixel-plum shadow-[0_10px_28px_rgba(125,92,255,0.18)];
+  @apply grid h-10 w-10 place-items-center rounded-md border border-pixel-violet/25 bg-pixel-lavender/45 text-xs text-pixel-plum shadow-pixel-purple;
 }
 
 .nav-anchor,
@@ -341,19 +341,19 @@ const navItems = [
 }
 
 .btn-hero {
-  @apply inline-flex min-h-12 items-center justify-center rounded-md px-6 text-sm font-black transition-all duration-200 active:scale-[0.98];
+  @apply inline-flex min-h-12 items-center justify-center rounded-md px-6 text-sm font-black transition-all duration-200 active:scale-95;
 }
 
 .btn-hero-primary {
-  @apply border border-pixel-violet bg-pixel-violet text-white shadow-[0_14px_34px_rgba(125,92,255,0.24)] hover:brightness-110;
+  @apply border border-pixel-violet bg-pixel-violet text-white shadow-pixel-hero hover:brightness-110;
 }
 
 .btn-hero-secondary {
-  @apply border border-pixel-plum/15 bg-white/55 text-pixel-plum shadow-[0_10px_28px_rgba(61,40,95,0.08)] hover:border-pixel-violet/45 hover:bg-pixel-lavender/35 hover:text-pixel-violet;
+  @apply border border-pixel-plum/15 bg-white/55 text-pixel-plum shadow-pixel-soft hover:border-pixel-violet/45 hover:bg-pixel-lavender/35 hover:text-pixel-violet;
 }
 
 .metric-tile {
-  @apply rounded-md border border-pixel-violet/15 bg-white/55 p-4 shadow-[0_12px_30px_rgba(61,40,95,0.08)];
+  @apply rounded-md border border-pixel-violet/15 bg-white/55 p-4 shadow-pixel-soft;
 }
 
 .metric-tile dt {
@@ -385,7 +385,7 @@ const navItems = [
 }
 
 .feature-card {
-  @apply rounded-lg border border-pixel-violet/15 bg-white/58 p-5 shadow-[0_14px_36px_rgba(61,40,95,0.08)] transition-all duration-200 hover:-translate-y-1 hover:border-pixel-violet/35 hover:bg-white/75;
+  @apply rounded-lg border border-pixel-violet/15 bg-white/58 p-5 shadow-pixel-card transition-all duration-200 hover:-translate-y-1 hover:border-pixel-violet/35 hover:bg-white/75;
 }
 
 .feature-code {
@@ -417,11 +417,11 @@ const navItems = [
 }
 
 .showcase-panel {
-  @apply rounded-lg border border-pixel-violet/15 bg-white/58 p-4 shadow-[0_14px_36px_rgba(61,40,95,0.08)] transition-all duration-200 hover:-translate-y-1 hover:border-pixel-violet/35;
+  @apply rounded-lg border border-pixel-violet/15 bg-white/58 p-4 shadow-pixel-card transition-all duration-200 hover:-translate-y-1 hover:border-pixel-violet/35;
 }
 
 .showcase-art {
-  @apply relative flex aspect-[4/3] items-center justify-center rounded-md border border-pixel-violet/15 bg-pixel-lavender/25 overflow-hidden;
+  @apply relative flex aspect-retro items-center justify-center rounded-md border border-pixel-violet/15 bg-pixel-lavender/25 overflow-hidden;
 }
 
 .showcase-img {
@@ -433,7 +433,7 @@ const navItems = [
 }
 
 .showcase-cell {
-  @apply rounded-[4px] border border-white/60 bg-white/50;
+  @apply rounded border border-white/60 bg-white/50;
 }
 
 .cell-safe {
@@ -461,7 +461,7 @@ const navItems = [
 }
 
 .update-row {
-  @apply grid gap-4 rounded-lg border border-pixel-violet/15 bg-white/58 p-5 shadow-[0_14px_36px_rgba(61,40,95,0.08)] md:grid-cols-[9rem_1fr];
+  @apply grid gap-4 rounded-lg border border-pixel-violet/15 bg-white/58 p-5 shadow-pixel-card md:grid-cols-[9rem_1fr];
 }
 
 .update-row p {
