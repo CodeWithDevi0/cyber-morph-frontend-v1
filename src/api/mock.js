@@ -38,6 +38,29 @@ export const mockAdmin = {
 
 export const mockToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.mock_payload";
 
+export const mockSessions = [
+  {
+    session_id: "s-uuid-001",
+    profile_id: "p-uuid-001",
+    map_name: "Home",
+    duration_seconds: 450,
+    credits_earned: 300,
+    credits_lost: 50,
+    result: "win",
+    played_at: new Date().toISOString()
+  },
+  {
+    session_id: "s-uuid-002",
+    profile_id: "p-uuid-001",
+    map_name: "School",
+    duration_seconds: 600,
+    credits_earned: 0,
+    credits_lost: 200,
+    result: "loss",
+    played_at: new Date(Date.now() - 86400000).toISOString()
+  }
+];
+
 export const mockApi = {
   login: async (email, password) => {
     console.log(`[Mock API] Authenticating ${email}...`);

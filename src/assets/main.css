@@ -1,15 +1,64 @@
 @import "tailwindcss";
 
-/* Cyber-Morph Custom Theme Variables (v4 style) */
+/* Cyber-Morph Design System (v4 style) */
 @theme {
+  /* Core Colors */
   --color-neon-blue: #00f2ff;
   --color-neon-green: #39ff14;
+  --color-neon-pink: #ff00ff;
   --color-cyber-dark: #0a0a0c;
-  --color-cyber-gray: #1a1a2e;
+  --color-cyber-gray: #16161a;
+  --color-cyber-border: rgba(0, 242, 255, 0.2);
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Spacing & Effects */
+  --shadow-neon-blue: 0 0 15px rgba(0, 242, 255, 0.4);
+  --shadow-neon-green: 0 0 15px rgba(57, 255, 20, 0.4);
 }
 
-:root {
-  background-color: var(--color-cyber-dark);
-  color: white;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+@layer base {
+  body {
+    @apply bg-cyber-dark text-white antialiased overflow-x-hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tight font-bold;
+  }
+}
+
+@layer components {
+  /* Generic Cyber Card */
+  .cyber-card {
+    @apply bg-cyber-gray border border-cyber-border p-6 relative overflow-hidden;
+  }
+
+  .cyber-card::before {
+    content: '';
+    @apply absolute top-0 left-0 w-1 h-full bg-neon-blue opacity-50;
+  }
+
+  /* Cyber Button - Primary */
+  .btn-primary {
+    @apply bg-neon-blue text-cyber-dark font-black px-6 py-2 tracking-widest uppercase text-xs 
+           hover:brightness-125 hover:shadow-neon-blue transition-all active:scale-95;
+  }
+
+  /* Cyber Button - Outline */
+  .btn-outline {
+    @apply border border-neon-blue text-neon-blue font-bold px-6 py-2 tracking-widest uppercase text-xs
+           hover:bg-neon-blue hover:text-cyber-dark transition-all;
+  }
+
+  /* Stat Label */
+  .stat-label {
+    @apply text-[10px] uppercase tracking-widest text-white/40 mb-1;
+  }
+
+  /* Stat Value */
+  .stat-value {
+    @apply text-2xl font-mono font-bold text-white;
+  }
 }
