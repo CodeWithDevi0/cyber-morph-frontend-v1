@@ -9,6 +9,11 @@
         <p class="text-[10px] text-pixel-plum/60 uppercase font-black tracking-[0.25em] mt-2 flex items-center gap-2">
           <span class="w-2 h-2 rounded-full bg-pixel-violet animate-pulse"></span>
           Active Session: {{ auth.username }}
+          <span class="mx-2 text-pixel-plum/20">|</span>
+          <span class="flex items-center gap-1.5">
+            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-pixel-plum/40"><path d="M17.5 19a5.5 5.5 0 0 0 2-10.36A7.5 7.5 0 0 0 5 9c0 3 3 3 3 3"/><path d="M12 11v9"/><path d="m9 17 3 3 3-3"/></svg>
+            Cloud Sync: {{ auth.user?.last_synced_at ? formatDate(auth.user.last_synced_at) : 'Local Only' }}
+          </span>
         </p>
       </div>
       
@@ -71,7 +76,7 @@
               </tr>
             </thead>
             <tbody class="divide-y divide-pixel-plum/5">
-              <tr v-for="session in mockSessions" :key="session.session_id" class="group hover:bg-pixel-violet/[0.03] transition-colors">
+              <tr v-for="session in mockSessions.slice(0, 3)" :key="session.session_id" class="group hover:bg-pixel-violet/[0.03] transition-colors">
                 <td class="py-5 px-2">
                   <div class="flex items-center gap-3">
                     <div class="w-2.5 h-2.5 rounded-sm shadow-sm" :class="session.result === 'win' ? 'bg-pixel-moss' : 'bg-byte-coral'"></div>

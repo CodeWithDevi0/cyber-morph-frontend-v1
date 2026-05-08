@@ -94,18 +94,17 @@ const navItems = [
 </script>
 
 <template>
-  <main class="landing-page min-h-screen bg-pixel-sun text-pixel-plum">
-    <!-- Hero: original CyberMorph positioning with chunky CTAs and layered product visuals. -->
-    <section class="relative isolate overflow-hidden px-5 py-5 sm:px-6 lg:px-10">
-      <div class="landing-grid" aria-hidden="true"></div>
-      <div class="mx-auto max-w-7xl">
-        <nav class="flex items-center justify-between gap-4 py-2" aria-label="Public navigation">
+  <main class="landing-page min-h-screen bg-pixel-lilac text-pixel-plum">
+    <!-- Fixed Header Navigation -->
+    <header class="sticky top-0 z-50 border-b border-pixel-plum/5 bg-white/70 backdrop-blur-md">
+      <div class="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10">
+        <nav class="flex items-center justify-between gap-4 py-4" aria-label="Public navigation">
           <router-link to="/" class="brand-mark" aria-label="CyberMorph home">
             <span class="brand-glyph">CM</span>
             <span>CyberMorph</span>
           </router-link>
 
-          <div class="hidden items-center gap-7 md:flex">
+          <div class="hidden items-center gap-8 md:flex">
             <a v-for="item in navItems" :key="item.href" :href="item.href" class="nav-anchor">
               {{ item.label }}
             </a>
@@ -113,6 +112,13 @@ const navItems = [
 
           <router-link to="/login" class="nav-login">Login</router-link>
         </nav>
+      </div>
+    </header>
+
+    <!-- Hero: original CyberMorph positioning with chunky CTAs and layered product visuals. -->
+    <section class="relative isolate overflow-hidden px-5 py-10 sm:px-6 lg:px-10">
+      <div class="landing-grid" aria-hidden="true"></div>
+      <div class="mx-auto max-w-7xl">
 
         <div class="flex min-h-[calc(100vh-5.5rem)] items-center justify-center py-14 lg:py-20">
           <div class="mx-auto max-w-4xl text-center">
@@ -165,7 +171,7 @@ const navItems = [
     </section>
 
     <!-- Feature cards: data-driven panels for reusable product categories. -->
-    <section id="features" class="section-band px-5 py-20 sm:px-6 lg:px-10">
+    <section id="features" class="section-band scroll-mt-20 px-5 py-20 sm:px-6 lg:px-10">
       <div class="mx-auto max-w-7xl">
         <div class="section-heading">
           <p class="eyebrow">Core modules</p>
@@ -191,7 +197,7 @@ const navItems = [
     </section>
 
     <!-- Gallery/showcase: original abstract product visuals instead of copied artwork. -->
-    <section id="showcase" class="px-5 py-20 sm:px-6 lg:px-10">
+    <section id="showcase" class="scroll-mt-20 px-5 py-20 sm:px-6 lg:px-10">
       <div class="mx-auto max-w-7xl">
         <div class="section-heading">
           <p class="eyebrow">Simulation gallery</p>
@@ -234,7 +240,7 @@ const navItems = [
     </section>
 
     <!-- Updates: optional news area with concise product-facing cards. -->
-    <section id="updates" class="section-band px-5 py-20 sm:px-6 lg:px-10">
+    <section id="updates" class="section-band scroll-mt-20 px-5 py-20 sm:px-6 lg:px-10">
       <div class="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.75fr_1.25fr]">
         <div class="section-heading section-heading-left">
           <p class="eyebrow">Latest updates</p>
