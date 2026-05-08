@@ -10,7 +10,6 @@
       <div class="hidden md:flex items-center gap-6">
         <template v-if="auth.isPlayer">
           <router-link to="/dashboard" class="nav-link">DASHBOARD</router-link>
-          <router-link to="/game" class="nav-link">SIMULATION</router-link>
           <router-link to="/history" class="nav-link">HISTORY</router-link>
           <router-link to="/leaderboard" class="nav-link">LEADERBOARD</router-link>
         </template>

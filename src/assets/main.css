@@ -38,6 +38,7 @@
 @layer base {
   body {
     @apply bg-pixel-lilac text-pixel-plum antialiased overflow-x-hidden;
+    image-rendering: pixelated;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -53,34 +54,34 @@
 
   /* Generic Cyber Card (Legacy/Hybrid) */
   .cyber-card {
-    @apply bg-white/40 border border-pixel-violet/10 p-6 relative overflow-hidden rounded-md shadow-pixel-purple;
+    @apply bg-white/60 border border-pixel-violet/10 p-6 relative overflow-hidden rounded-md shadow-pixel-purple;
   }
 
   .cyber-card::before {
     content: '';
-    @apply absolute top-0 left-0 w-1 h-full bg-neon-blue opacity-50;
+    @apply absolute top-0 left-0 w-1 h-full bg-pixel-violet opacity-50;
   }
 
   /* Cyber Button - Primary */
   .btn-primary {
-    @apply bg-neon-blue text-cyber-dark font-black px-6 py-2 tracking-widest uppercase text-xs 
-           hover:brightness-125 hover:shadow-neon-blue transition-all active:scale-95;
+    @apply bg-pixel-violet text-white font-black px-6 py-2 tracking-widest uppercase text-xs 
+           hover:brightness-110 shadow-pixel-purple transition-all active:scale-95;
   }
 
   /* Cyber Button - Outline */
   .btn-outline {
-    @apply border border-neon-blue text-neon-blue font-bold px-6 py-2 tracking-widest uppercase text-xs
-           hover:bg-neon-blue hover:text-cyber-dark transition-all;
+    @apply border-2 border-pixel-violet text-pixel-violet font-black px-6 py-2 tracking-widest uppercase text-xs
+           hover:bg-pixel-violet hover:text-white transition-all;
   }
 
   /* Stat Label */
   .stat-label {
-    @apply text-[10px] uppercase tracking-widest text-white/40 mb-1;
+    @apply text-[10px] uppercase tracking-widest text-pixel-plum/40 mb-1 font-bold;
   }
 
   /* Stat Value */
   .stat-value {
-    @apply text-2xl font-mono font-bold text-white;
+    @apply text-2xl font-display font-black text-pixel-plum;
   }
 
   /* Scanline CRT Effect */

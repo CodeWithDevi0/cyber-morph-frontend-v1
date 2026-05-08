@@ -18,9 +18,6 @@
         </router-view>
       </div>
     </main>
-
-    <!-- Scanline Overlay Effect -->
-    <div class="scanline-overlay"></div>
   </div>
 </template>
 

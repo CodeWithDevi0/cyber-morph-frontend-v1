@@ -1,76 +1,96 @@
 <script setup>
+// Batch import all map images from the assets folder
+const mapImages = import.meta.glob('@/assets/maps/*.png', { eager: true, import: 'default' })
+const getMap = (name) => mapImages[`/src/assets/maps/${name}.png`] || ''
+
 // Section data keeps the landing page modular and easy to extend as CyberMorph grows.
 const features = [
   {
     code: '01',
-    title: 'Adaptive Threat Labs',
-    description: 'Practice phishing, network, and device-defense scenarios that react to learner choices.',
+    title: 'Adaptive Attacker AI',
+    description:
+      'Practice phishing, network, and device-defense scenarios that react to learner choices.',
     accent: 'mint',
   },
   {
     code: '02',
-    title: 'Skill Progression',
-    description: 'Turn each mission into measurable growth with credits, map unlocks, and clear next steps.',
+    title: 'Maps Progression',
+    description:
+      'Turn each mission into measurable growth with credits, map unlocks, and clear next steps.',
     accent: 'gold',
   },
   {
     code: '03',
     title: 'Educator Control',
-    description: 'Give instructors a focused portal for classrooms, cohort progress, and guided remediation.',
+    description:
+      'Give instructors a focused portal for classrooms, cohort progress, and guided remediation.',
     accent: 'blue',
   },
   {
     code: '04',
     title: 'Operational Insights',
-    description: 'Surface patterns from sessions so teams can see where cyber habits are improving.',
+    description:
+      'Surface patterns from sessions so teams can see where cyber habits are improving.',
     accent: 'coral',
   },
-];
+]
 
 const showcases = [
   {
-    title: 'Home Network Defense',
-    eyebrow: 'Player Map',
-    description: 'A guided scenario for passwords, routers, shared devices, and everyday security hygiene.',
-    cells: ['safe', 'safe', 'alert', 'safe', 'focus', 'safe', 'safe', 'alert', 'safe'],
+    title: 'Home',
+    eyebrow: 'First Map',
+    description:
+      'Defend your personal space. Master password hygiene, router security, and IoT protection for your home network.',
+    image: getMap('home'),
   },
   {
-    title: 'School Device Lab',
-    eyebrow: 'Classroom Mode',
-    description: 'Practice identifying risky links, removable media, and account-sharing decisions.',
-    cells: ['safe', 'focus', 'safe', 'alert', 'safe', 'safe', 'safe', 'safe', 'alert'],
+    title: 'Internet Cafe',
+    eyebrow: 'Second Map',
+    description:
+      'Stay safe on the go. Learn the dangers of public Wi-Fi, shared terminals, and protecting your data in open environments.',
+    image: getMap('internet-cafe'),
   },
   {
-    title: 'Public Wi-Fi Challenge',
-    eyebrow: 'Scenario Replay',
-    description: 'Review choices from a network threat run and compare safer routes through the mission.',
-    cells: ['alert', 'safe', 'safe', 'safe', 'focus', 'alert', 'safe', 'safe', 'safe'],
+    title: 'Office',
+    eyebrow: 'Third Map',
+    description:
+      'Protect the organization. Identify phishing attempts, secure your workstation, and follow data privacy protocols in a professional setting.',
+    image: getMap('office'),
   },
-];
+  {
+    title: 'Public Park',
+    eyebrow: 'Fourth Map',
+    description:
+      'Security in the wild. Master physical awareness, secure charging habits, and device privacy in crowded public spaces.',
+    image: getMap('public-park'),
+  },
+]
 
 const updates = [
   {
     label: 'Design System',
     title: 'Pixel-modern landing kit',
-    description: 'New CTA, panel, and showcase styles are ready for reuse across future marketing pages.',
+    description:
+      'New CTA, panel, and showcase styles are ready for reuse across future marketing pages.',
   },
   {
     label: 'Learning Flow',
     title: 'Clearer mission hierarchy',
-    description: 'Hero, categories, and gallery sections now explain the product faster on desktop and mobile.',
+    description:
+      'Hero, categories, and gallery sections now explain the product faster on desktop and mobile.',
   },
   {
     label: 'Access',
     title: 'Auth routes preserved',
     description: 'Existing login and register paths remain the primary conversion actions.',
   },
-];
+]
 
 const navItems = [
   { label: 'Features', href: '#features' },
   { label: 'Showcase', href: '#showcase' },
   { label: 'Updates', href: '#updates' },
-];
+]
 </script>
 
 <template>
@@ -97,20 +117,21 @@ const navItems = [
         <div class="flex min-h-[calc(100vh-5.5rem)] items-center justify-center py-14 lg:py-20">
           <div class="mx-auto max-w-4xl text-center">
             <p class="eyebrow">Cybersecurity simulation platform</p>
-            <h1 class="mx-auto mt-5 max-w-4xl text-5xl font-black leading-[0.98] text-pixel-plum sm:text-6xl lg:text-7xl">
+            <h1
+              class="mx-auto mt-5 max-w-4xl text-5xl font-black leading-[0.98] text-pixel-plum sm:text-6xl lg:text-7xl"
+            >
               Train defenders inside living cyber worlds.
             </h1>
             <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-pixel-plum/75">
-              CyberMorph turns digital safety lessons into playable missions, clear progress, and instructor-ready insights for modern learning teams.
+              CyberMorph turns digital safety lessons into playable missions, clear progress, and
+              instructor-ready insights for modern learning teams.
             </p>
 
             <div class="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
               <router-link to="/register" class="btn-hero btn-hero-primary">
                 Start Training
               </router-link>
-              <a href="#showcase" class="btn-hero btn-hero-secondary">
-                View Showcase
-              </a>
+              <a href="#showcase" class="btn-hero btn-hero-secondary"> View Showcase </a>
             </div>
 
             <dl class="mx-auto mt-12 grid max-w-2xl grid-cols-3 gap-3">
@@ -128,6 +149,17 @@ const navItems = [
               </div>
             </dl>
           </div>
+
+          <!-- Game Asset Decoration: This is where you can put your Aseprite characters/items -->
+          <div class="hero-decor" aria-hidden="true">
+            <div class="decor-character decor-1">
+              <!-- Replace with your imported game asset -->
+              <div class="pixel-asset-placeholder"></div>
+            </div>
+            <div class="decor-character decor-2">
+              <div class="pixel-asset-placeholder"></div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -139,12 +171,17 @@ const navItems = [
           <p class="eyebrow">Core modules</p>
           <h2>Built for learners, educators, and cyber teams.</h2>
           <p>
-            The homepage now leads with product value, then breaks the platform into reusable capability panels.
+            The homepage now leads with product value, then breaks the platform into reusable
+            capability panels.
           </p>
         </div>
 
         <div class="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <article v-for="feature in features" :key="feature.title" :class="['feature-card', `accent-${feature.accent}`]">
+          <article
+            v-for="feature in features"
+            :key="feature.title"
+            :class="['feature-card', `accent-${feature.accent}`]"
+          >
             <span class="feature-code">{{ feature.code }}</span>
             <h3>{{ feature.title }}</h3>
             <p>{{ feature.description }}</p>
@@ -160,14 +197,33 @@ const navItems = [
           <p class="eyebrow">Simulation gallery</p>
           <h2>Readable previews for every mission type.</h2>
           <p>
-            Each card uses a simple tile map motif to suggest gameplay without relying on third-party art.
+            Each card uses a simple tile map motif to suggest gameplay without relying on
+            third-party art.
           </p>
         </div>
 
-        <div class="mt-10 grid gap-5 lg:grid-cols-3">
+        <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           <article v-for="item in showcases" :key="item.title" class="showcase-panel">
             <div class="showcase-art" aria-hidden="true">
-              <span v-for="(cell, index) in item.cells" :key="`${item.title}-${index}`" :class="['showcase-cell', `cell-${cell}`]"></span>
+              <img v-if="item.image" :src="item.image" :alt="item.title" class="showcase-img" />
+              <div v-else class="showcase-placeholder">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+                  <circle cx="9" cy="9" r="2" />
+                  <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+                </svg>
+                <span class="mt-2 text-[10px] font-bold uppercase tracking-wider">Map Preview</span>
+              </div>
             </div>
             <p>{{ item.eyebrow }}</p>
             <h3>{{ item.title }}</h3>
@@ -184,7 +240,8 @@ const navItems = [
           <p class="eyebrow">Latest updates</p>
           <h2>Small releases, visible momentum.</h2>
           <p>
-            Keep visitors oriented with short, scan-friendly announcements that support the product story.
+            Keep visitors oriented with short, scan-friendly announcements that support the product
+            story.
           </p>
         </div>
 
@@ -202,7 +259,9 @@ const navItems = [
 
     <!-- Footer: public navigation, social placeholders, and contact information. -->
     <footer class="px-5 py-10 sm:px-6 lg:px-10">
-      <div class="mx-auto flex max-w-7xl flex-col gap-8 border-t border-pixel-plum/10 pt-8 md:flex-row md:items-center md:justify-between">
+      <div
+        class="mx-auto flex max-w-7xl flex-col gap-8 border-t border-pixel-plum/10 pt-8 md:flex-row md:items-center md:justify-between"
+      >
         <div>
           <router-link to="/" class="brand-mark">
             <span class="brand-glyph">CM</span>
@@ -229,7 +288,7 @@ const navItems = [
 
 .landing-page {
   letter-spacing: 0;
-  background: #f7eaff;
+  background: var(--color-pixel-lilac);
 }
 
 .landing-page h1,
@@ -245,12 +304,12 @@ const navItems = [
   position: absolute;
   inset: 0;
   z-index: -1;
-  opacity: 0.32;
+  opacity: 0.45;
   background-image:
-    linear-gradient(rgba(61, 40, 95, 0.09) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(61, 40, 95, 0.09) 1px, transparent 1px);
-  background-size: 36px 36px;
-  mask-image: linear-gradient(to bottom, black, transparent 84%);
+    linear-gradient(rgba(125, 92, 255, 0.15) 1.5px, transparent 1.5px),
+    linear-gradient(90deg, rgba(125, 92, 255, 0.15) 1.5px, transparent 1.5px);
+  background-size: 40px 40px;
+  mask-image: linear-gradient(to bottom, black, transparent 90%);
 }
 
 .brand-mark {
@@ -356,7 +415,15 @@ const navItems = [
 }
 
 .showcase-art {
-  @apply grid aspect-[4/3] grid-cols-3 gap-2 rounded-md border border-pixel-violet/15 bg-pixel-lavender/25 p-3;
+  @apply relative flex aspect-[4/3] items-center justify-center rounded-md border border-pixel-violet/15 bg-pixel-lavender/25 overflow-hidden;
+}
+
+.showcase-img {
+  @apply h-full w-full object-cover;
+}
+
+.showcase-placeholder {
+  @apply flex flex-col items-center justify-center text-pixel-violet/40;
 }
 
 .showcase-cell {
@@ -410,6 +477,40 @@ const navItems = [
 .footer-links a {
   @apply transition-colors hover:text-pixel-violet;
 }
+
+/* Game Asset & Pixel Art Styles */
+.hero-decor {
+  @apply pointer-events-none absolute inset-0 -z-10 overflow-hidden;
+}
+
+.decor-character {
+  @apply absolute hidden lg:block;
+  animation: float 6s ease-in-out infinite;
+}
+
+.decor-1 {
+  @apply top-[20%] left-[10%];
+}
+
+.decor-2 {
+  @apply bottom-[15%] right-[8%];
+  animation-delay: -3s;
+}
+
+.pixel-asset-placeholder {
+  @apply h-16 w-16 rounded-sm border-2 border-dashed border-pixel-violet/30 bg-pixel-lavender/10;
+}
+
+.pixel-asset {
+  image-rendering: pixelated;
+  @apply h-auto w-auto max-w-[64px];
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
 @media (max-width: 640px) {
   .metric-tile {
     @apply p-3;
