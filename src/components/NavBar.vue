@@ -81,6 +81,6 @@ const handleLogout = () => {
 
 .nav-link.router-link-active::after {
   content: '';
-  @apply absolute bottom-0 left-0 w-full h-0.5 bg-neon-blue shadow-[0_0_8px_rgba(0,242,255,0.8)];
+  @apply absolute bottom-0 left-0 w-full h-0.5 bg-neon-blue shadow-neon-blue;
 }
 </style>

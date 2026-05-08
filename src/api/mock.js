@@ -63,7 +63,7 @@ export const mockSessions = [
 
 export const mockApi = {
   login: async (email, password) => {
-    console.log(`[Mock API] Authenticating ${email}...`);
+    console.log(`[Mock API] Authenticating ${email} (Password: ${password ? '********' : 'NONE'})...`);
     return new Promise((resolve) => {
       setTimeout(() => {
         let userData;
