@@ -1,9 +1,9 @@
 <template>
-  <nav class="bg-cyber-gray border-b border-neon-blue/30 px-6 py-3 flex items-center justify-between shadow-[0_0_15px_rgba(0,242,255,0.1)]">
+  <nav class="bg-white/70 backdrop-blur-md border-b border-pixel-violet/15 px-6 py-3 flex items-center justify-between shadow-pixel-purple">
     <!-- Brand -->
     <div class="flex items-center gap-8">
-      <router-link to="/dashboard" class="text-xl font-black tracking-tighter text-white hover:text-neon-blue transition-colors">
-        CYBER<span class="text-neon-blue">MORPH</span>
+      <router-link to="/dashboard" class="text-xl font-black tracking-tighter text-pixel-plum hover:text-pixel-violet transition-colors">
+        CYBER<span class="text-pixel-violet">MORPH</span>
       </router-link>
 
       <!-- Navigation Links (Role Based) -->
@@ -31,23 +31,23 @@
       <!-- Player Stats Badge -->
       <div v-if="auth.isPlayer" class="hidden lg:flex items-center gap-4">
         <div class="flex flex-col items-end">
-          <span class="text-[10px] text-neon-blue uppercase tracking-widest">Security Credits</span>
-          <span class="text-sm font-mono text-white">{{ auth.credits }} <span class="text-neon-green text-[10px]">CR</span></span>
+          <span class="text-[10px] text-pixel-violet uppercase tracking-widest">Security Credits</span>
+          <span class="text-sm font-mono text-pixel-plum">{{ auth.credits }} <span class="text-pixel-moss text-[10px]">CR</span></span>
         </div>
-        <div class="h-8 w-px bg-white/10"></div>
+        <div class="h-8 w-px bg-pixel-plum/10"></div>
         <div class="flex flex-col items-end">
-          <span class="text-[10px] text-neon-blue uppercase tracking-widest">Progress</span>
-          <span class="text-sm font-mono text-white">{{ auth.progress }}/4</span>
+          <span class="text-[10px] text-pixel-violet uppercase tracking-widest">Progress</span>
+          <span class="text-sm font-mono text-pixel-plum">{{ auth.progress }}/4</span>
         </div>
       </div>
 
       <!-- Profile Dropdown Placeholder -->
-      <div class="flex items-center gap-3 pl-4 border-l border-white/10">
+      <div class="flex items-center gap-3 pl-4 border-l border-pixel-plum/10">
         <div class="text-right">
-          <p class="text-xs font-bold text-white leading-none mb-1">{{ auth.username }}</p>
-          <p class="text-[10px] text-neon-green uppercase tracking-tighter leading-none">{{ auth.user?.role }}</p>
+          <p class="text-xs font-bold text-pixel-plum leading-none mb-1">{{ auth.username }}</p>
+          <p class="text-[10px] text-pixel-moss uppercase tracking-tighter leading-none">{{ auth.user?.role }}</p>
         </div>
-        <button @click="handleLogout" class="p-2 text-white/50 hover:text-red-500 transition-colors">
+        <button @click="handleLogout" class="p-2 text-pixel-plum/40 hover:text-red-500 transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
         </button>
       </div>
@@ -72,15 +72,15 @@ const handleLogout = () => {
 @reference "@/assets/main.css";
 
 .nav-link {
-  @apply text-xs font-bold tracking-widest text-white/60 hover:text-neon-blue transition-colors relative py-2;
+  @apply text-xs font-bold tracking-widest text-pixel-plum/60 hover:text-pixel-violet transition-colors relative py-2;
 }
 
 .nav-link.router-link-active {
-  @apply text-neon-blue;
+  @apply text-pixel-violet;
 }
 
 .nav-link.router-link-active::after {
   content: '';
-  @apply absolute bottom-0 left-0 w-full h-0.5 bg-neon-blue shadow-neon-blue;
+  @apply absolute bottom-0 left-0 w-full h-0.5 bg-pixel-violet shadow-pixel-purple;
 }
 </style>

@@ -9,30 +9,51 @@
   --color-cyber-dark: #0a0a0c;
   --color-cyber-gray: #16161a;
   --color-cyber-border: rgba(0, 242, 255, 0.2);
+  --color-signal-mint: #6fffc7;
+  --color-signal-gold: #ffc64d;
+  --color-byte-coral: #ff6f61;
+  --color-panel-ink: #111817;
+  --color-pixel-night: #171128;
+  --color-pixel-lavender: #b9a7ff;
+  --color-pixel-violet: #7d5cff;
+  --color-pixel-cream: #fff3d6;
+  --color-pixel-moss: #8fdd8a;
+  --color-pixel-sun: #fff7df;
+  --color-pixel-peach: #ffd39d;
+  --color-pixel-plum: #3d285f;
+  --color-pixel-lilac: #f7eaff;
+  --color-pixel-sky: #9edcf7;
 
   /* Typography */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Pixelify Sans', 'Trebuchet MS', 'Arial Rounded MT Bold', 'Segoe UI', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
   /* Spacing & Effects */
   --shadow-neon-blue: 0 0 15px rgba(0, 242, 255, 0.4);
   --shadow-neon-green: 0 0 15px rgba(57, 255, 20, 0.4);
+  --shadow-pixel-purple: 0 10px 28px rgba(125, 92, 255, 0.18);
 }
 
 @layer base {
   body {
-    @apply bg-cyber-dark text-white antialiased overflow-x-hidden;
+    @apply bg-pixel-lilac text-pixel-plum antialiased overflow-x-hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply tracking-tight font-bold;
+    @apply tracking-tight font-bold font-display;
   }
 }
 
 @layer components {
-  /* Generic Cyber Card */
+  /* Pixel Modern Card */
+  .pixel-card {
+    @apply bg-white/55 border border-pixel-violet/15 p-6 rounded-lg shadow-pixel-purple backdrop-blur-sm transition-all hover:bg-white/75;
+  }
+
+  /* Generic Cyber Card (Legacy/Hybrid) */
   .cyber-card {
-    @apply bg-cyber-gray border border-cyber-border p-6 relative overflow-hidden;
+    @apply bg-white/40 border border-pixel-violet/10 p-6 relative overflow-hidden rounded-md shadow-pixel-purple;
   }
 
   .cyber-card::before {

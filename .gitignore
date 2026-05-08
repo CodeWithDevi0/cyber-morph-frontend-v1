@@ -25,6 +25,8 @@ GEMINI.md
 task.md
 walkthrough.md
 plan.md
+AGENTS.md
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

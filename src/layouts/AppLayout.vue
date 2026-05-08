@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-cyber-dark text-white font-sans selection:bg-neon-blue/30 selection:text-white">
+  <div class="min-h-screen bg-pixel-lilac text-pixel-plum font-sans selection:bg-pixel-violet/30 selection:text-pixel-plum">
     <!-- Navigation -->
     <NavBar class="fixed top-0 left-0 w-full z-50" />
 
@@ -52,10 +52,10 @@ import NavBar from '@/components/NavBar.vue';
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-cyber-dark;
+  @apply bg-pixel-lilac;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-neon-blue/20 border-2 border-cyber-dark rounded-full hover:bg-neon-blue/40 transition-colors;
+  @apply bg-pixel-violet/20 border-2 border-pixel-lilac rounded-full hover:bg-pixel-violet/40 transition-colors;
 }
 </style>
