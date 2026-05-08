@@ -1,6 +1,6 @@
 <script setup>
-import { ref, computed } from 'vue';
-import { mockPlayer, mockEducator, mockAdmin } from '@/api/mock';
+import { ref } from 'vue';
+import { mockAdmin } from '@/api/mock';
 
 // Simulation data for Admin view
 const systemStats = ref({
