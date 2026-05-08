@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-pixel-lilac text-pixel-plum font-sans selection:bg-pixel-violet/30 selection:text-pixel-plum">
     <!-- Navigation -->
-    <NavBar class="fixed top-0 left-0 w-full z-50" />
+    <NavBar class="fixed top-0 left-0 w-full z-[1000]" />
 
     <!-- Main Content Area -->
     <main class="pt-16 min-h-screen">

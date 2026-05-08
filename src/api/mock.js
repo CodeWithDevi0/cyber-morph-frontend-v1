@@ -16,16 +16,6 @@ export const mockPlayer = {
   created_at: new Date().toISOString()
 };
 
-// Table 5: web_user_profiles (Educator)
-export const mockEducator = {
-  web_profile_id: "w-uuid-001",
-  user_id: "u-uuid-002",
-  display_name: "Professor Morph",
-  role: "educator",
-  portal_access: true,
-  last_login_at: new Date().toISOString()
-};
-
 // Table 5: web_user_profiles (Admin)
 export const mockAdmin = {
   web_profile_id: "w-uuid-002",
@@ -36,29 +26,81 @@ export const mockAdmin = {
   last_login_at: new Date().toISOString()
 };
 
-export const mockToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.mock_payload";
+export const mockToken = "mock_jwt_token_cybermorph_v1";
 
 export const mockSessions = [
-  {
-    session_id: "s-uuid-001",
-    profile_id: "p-uuid-001",
+  { 
+    session_id: "sess-001", 
     map_name: "Home",
-    duration_seconds: 450,
-    credits_earned: 300,
-    credits_lost: 50,
-    result: "win",
-    played_at: new Date().toISOString()
+    duration_seconds: 320, 
+    credits_earned: 450,
+    credits_lost: 25, 
+    false_positives: 0,
+    result: "win", 
+    is_synced: true,
+    played_at: "2026-05-07T10:30:00Z" 
   },
-  {
-    session_id: "s-uuid-002",
-    profile_id: "p-uuid-001",
-    map_name: "School",
-    duration_seconds: 600,
-    credits_earned: 0,
-    credits_lost: 200,
-    result: "loss",
-    played_at: new Date(Date.now() - 86400000).toISOString()
+  { 
+    session_id: "sess-002", 
+    map_name: "Internet Cafe",
+    duration_seconds: 410, 
+    credits_earned: 600,
+    credits_lost: 120, 
+    false_positives: 2,
+    result: "win", 
+    is_synced: true,
+    played_at: "2026-05-07T14:20:00Z" 
+  },
+  { 
+    session_id: "sess-003", 
+    map_name: "Office",
+    duration_seconds: 150, 
+    credits_earned: 50,
+    credits_lost: 300, 
+    false_positives: 4,
+    result: "lose", 
+    is_synced: false,
+    played_at: "2026-05-08T09:15:00Z" 
   }
+];
+
+export const mockLeaderboard = [
+  { score_id: "s1", username: "NeoViper", total_score: 2850, map_name: "Home", recorded_at: "2026-05-01T12:00:00Z" },
+  { score_id: "s2", username: "ByteGhost", total_score: 2720, map_name: "Home", recorded_at: "2026-05-02T15:30:00Z" },
+  { score_id: "s3", username: "CyberMorphDemo", total_score: 2450, map_name: "Home", recorded_at: "2026-05-07T10:30:00Z" },
+  { score_id: "s4", username: "GlitchHunter", total_score: 2100, map_name: "Home", recorded_at: "2026-04-28T09:00:00Z" },
+  { score_id: "s5", username: "LogicBomb", total_score: 3100, map_name: "Internet Cafe", recorded_at: "2026-05-03T11:00:00Z" },
+  { score_id: "s6", username: "NeoViper", total_score: 2900, map_name: "Internet Cafe", recorded_at: "2026-05-04T16:00:00Z" },
+  { score_id: "s7", username: "PixelPioneer", total_score: 1800, map_name: "Office", recorded_at: "2026-05-05T10:00:00Z" },
+];
+
+export const mockEducator = {
+  web_profile_id: "edu-001",
+  display_name: "Dr. Aris Thorne",
+  role: "educator",
+  portal_access: true,
+  last_login_at: "2026-05-08T08:00:00Z",
+  assigned_students: [
+    { username: "PlayerOne", map_progress: 2, security_credits: 1540, last_synced_at: "2026-05-07T12:00:00Z" },
+    { username: "CyberGhost", map_progress: 1, security_credits: 1100, last_synced_at: "2026-05-06T15:00:00Z" },
+    { username: "NeonViper", map_progress: 3, security_credits: 2200, last_synced_at: "2026-05-08T09:00:00Z" },
+  ]
+};
+
+export const mockClassroomCodes = [
+  { code_id: "c1", code_value: "MORPH9", is_active: true, students_count: 2, created_at: "2026-05-01T10:00:00Z" },
+  { code_id: "c2", code_value: "CYBER2", is_active: false, students_count: 1, created_at: "2024-12-15T10:00:00Z" },
+];
+
+export const mockThreats = [
+  { id: 1, name: "Rogue Software", description: "Malicious applications disguised as legitimate tools.", icon: "box", unlocked: true },
+  { id: 2, name: "Password Attacks", description: "Brute force and credential stuffing attempts.", icon: "key", unlocked: true },
+  { id: 3, name: "Phishing", description: "Deceptive messages designed to steal sensitive data.", icon: "mail", unlocked: true },
+  { id: 4, name: "Malvertising", description: "Malicious code injected into online advertisements.", icon: "layout", unlocked: false },
+  { id: 5, name: "Malware", description: "Broad category of intrusive and harmful software.", icon: "shield-alert", unlocked: false },
+  { id: 6, name: "Man-in-the-Middle", description: "Interception of communication between two parties.", icon: "users", unlocked: false },
+  { id: 7, name: "DDoS", description: "Overwhelming a target with a flood of internet traffic.", icon: "zap", unlocked: false },
+  { id: 8, name: "Drive-By Download", description: "Unintentional download of malicious code.", icon: "download", unlocked: false },
 ];
 
 export const mockMaps = [

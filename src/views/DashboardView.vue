@@ -110,7 +110,7 @@
 
       <div v-if="auth.isPlayer" class="flex gap-4">
         <router-link
-          to="/game"
+          to="/portal/mission-hub"
           class="btn-pixel group px-6 py-2.5 bg-pixel-violet text-white font-black font-display text-sm flex items-center gap-2 rounded-md shadow-pixel-purple hover:brightness-105 transition-all active:scale-95"
         >
           <svg
@@ -202,7 +202,7 @@
             Mission Logs
           </h3>
           <router-link
-            to="/history"
+            to="/portal/history"
             class="text-[10px] font-black text-pixel-violet hover:underline tracking-[0.15em] uppercase"
             >Full History</router-link
           >
@@ -313,11 +313,12 @@
         Access student performance data, generate classroom codes, and monitor simulation progress
         across your groups.
       </p>
-      <button
-        class="px-10 py-3.5 bg-pixel-moss text-white font-black font-display rounded-md shadow-pixel-purple hover:brightness-105 transition-all uppercase tracking-widest text-sm"
+      <router-link
+        to="/portal/educator"
+        class="inline-block px-10 py-3.5 bg-pixel-moss text-white font-black font-display rounded-md shadow-pixel-purple hover:brightness-105 transition-all uppercase tracking-widest text-sm"
       >
         Initialize Portal
-      </button>
+      </router-link>
     </div>
 
     <!-- 3. Admin View -->
@@ -348,11 +349,12 @@
         System-wide audit logs, user role management, and global simulation parameters are available
         through this terminal.
       </p>
-      <button
-        class="px-10 py-3.5 bg-byte-coral text-white font-black font-display rounded-md shadow-pixel-purple hover:brightness-105 transition-all uppercase tracking-widest text-sm"
+      <router-link
+        to="/portal/admin"
+        class="inline-block px-10 py-3.5 bg-byte-coral text-white font-black font-display rounded-md shadow-pixel-purple hover:brightness-105 transition-all uppercase tracking-widest text-sm"
       >
         Open System Logs
-      </button>
+      </router-link>
     </div>
   </div>
 </template>
