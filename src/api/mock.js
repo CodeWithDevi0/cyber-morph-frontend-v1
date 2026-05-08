@@ -98,9 +98,14 @@ export const mockMaps = [
 
 export const mockApi = {
   login: async (email, password) => {
-    console.log(`[Mock API] Authenticating ${email} (Password: ${password ? '********' : 'NONE'})...`);
-    return new Promise((resolve) => {
+    console.log(`[Mock API] Authenticating ${email}...`);
+    return new Promise((resolve, reject) => {
       setTimeout(() => {
+        // Simulate a failure for testing feedback mechanisms
+        if (password === 'fail' || password === 'error') {
+          return reject(new Error('Invalid access credentials. Terminal access denied.'));
+        }
+
         let userData;
         const e = email.toLowerCase();
         

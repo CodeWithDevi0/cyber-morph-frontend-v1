@@ -18,6 +18,24 @@
         </p>
       </div>
 
+      <!-- System Alert for Errors -->
+      <transition 
+        enter-active-class="transition duration-300 ease-out"
+        enter-from-class="transform -translate-y-2 opacity-0"
+        enter-to-class="transform translate-y-0 opacity-100"
+        leave-active-class="transition duration-200 ease-in"
+        leave-from-class="opacity-100"
+        leave-to-class="opacity-0"
+      >
+        <div v-if="auth.error" class="bg-byte-coral/10 border-l-4 border-byte-coral p-4 mb-6 rounded flex items-start gap-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-byte-coral shrink-0 mt-0.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <div>
+            <p class="text-[10px] font-black text-byte-coral uppercase tracking-widest leading-none mb-1">Enlistment Error</p>
+            <p class="text-xs font-bold text-pixel-plum/80">{{ auth.error }}</p>
+          </div>
+        </div>
+      </transition>
+
       <form @submit.prevent="handleRegister" class="space-y-5">
         <div>
           <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-pixel-violet mb-1.5 ml-1">Username</label>
