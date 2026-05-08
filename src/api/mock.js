@@ -61,6 +61,41 @@ export const mockSessions = [
   }
 ];
 
+export const mockMaps = [
+  { 
+    id: 0, 
+    name: 'Home', 
+    slug: 'home',
+    description: 'Defend your personal space. Master password hygiene, router security, and IoT protection.', 
+    difficulty: 'Entry Level',
+    credits_reward: 500
+  },
+  { 
+    id: 1, 
+    name: 'Internet Cafe', 
+    slug: 'internet-cafe',
+    description: 'Learn the dangers of shared terminals, public Wi-Fi safety, and session hijacking prevention.', 
+    difficulty: 'Intermediate',
+    credits_reward: 750
+  },
+  { 
+    id: 2, 
+    name: 'Office', 
+    slug: 'office',
+    description: 'Identify phishing attempts, secure your workstation, and protect organizational data privacy.', 
+    difficulty: 'Advanced',
+    credits_reward: 1200
+  },
+  { 
+    id: 3, 
+    name: 'Public Park', 
+    slug: 'public-park',
+    description: 'Master physical awareness, secure charging habits, and device privacy in crowded public spaces.', 
+    difficulty: 'Specialist',
+    credits_reward: 2000
+  }
+];
+
 export const mockApi = {
   login: async (email, password) => {
     console.log(`[Mock API] Authenticating ${email} (Password: ${password ? '********' : 'NONE'})...`);

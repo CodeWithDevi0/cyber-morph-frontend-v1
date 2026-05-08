@@ -29,9 +29,21 @@ const router = createRouter({
           name: 'dashboard',
           component: () => import('../views/DashboardView.vue'),
         },
-        { path: 'game', name: 'game', component: () => import('../views/DashboardView.vue') },
-        { path: 'history', name: 'history', component: () => import('../views/DashboardView.vue') },
-        { path: 'leaderboard', name: 'leaderboard', component: () => import('../views/DashboardView.vue') },
+        { 
+          path: 'game', 
+          name: 'game', 
+          component: () => import('../views/MissionHubView.vue') 
+        },
+        { 
+          path: 'history', 
+          name: 'history', 
+          component: () => import('../views/SessionHistoryView.vue') 
+        },
+        { 
+          path: 'leaderboard', 
+          name: 'leaderboard', 
+          component: () => import('../views/DashboardView.vue') 
+        },
       ]
     },
     // Catch-all redirect

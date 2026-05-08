@@ -18,10 +18,10 @@
       </div>
       
       <div v-if="auth.isPlayer" class="flex gap-4">
-        <button class="btn-pixel group px-6 py-2.5 bg-pixel-violet text-white font-black font-display text-sm flex items-center gap-2 rounded-md shadow-pixel-purple hover:brightness-105 transition-all active:scale-95">
+        <router-link to="/game" class="btn-pixel group px-6 py-2.5 bg-pixel-violet text-white font-black font-display text-sm flex items-center gap-2 rounded-md shadow-pixel-purple hover:brightness-105 transition-all active:scale-95">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           Quick Launch
-        </button>
+        </router-link>
       </div>
     </div>
 
