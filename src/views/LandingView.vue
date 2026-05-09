@@ -162,12 +162,176 @@ const handleMouseLeave = () => {
   mouseY = -100
 }
 
+const placeServers = (w, h) => {
+  const placedServers = []
+  const minDistance = 110 // Minimum spacing between server units
+  
+  // Define a bounding box for the central text to avoid overlapping
+  // The max-w-4xl is 896px. Subtracting padding gives actual text area width.
+  const textWidth = Math.min(896, w - 40)
+  const textLeft = (w - textWidth) / 2
+  const textRight = textLeft + textWidth
+  
+  // The text content block (title, paragraph, buttons, metrics) is roughly 500px tall
+  const textHeight = 500
+  const textTop = (h - textHeight) / 2
+  const textBottom = textTop + textHeight
+  
+  servers.forEach(obs => {
+    let isValid = false
+    let attempts = 0
+    
+    while (!isValid && attempts < 100) {
+      const isLeft = Math.random() > 0.5
+      let testX, testY
+      
+      if (w > 1024) {
+        // Desktop: Plenty of space on the sides
+        testX = isLeft 
+          ? Math.random() * (w * 0.15) + 20 
+          : Math.random() * (w * 0.15) + (w * 0.8)
+        testY = Math.random() * (h * 0.7) + (h * 0.15)
+      } else {
+        // Mobile/Tablet: Keep firmly on the edges
+        testX = isLeft ? Math.random() * 10 - 10 : w - 50 - Math.random() * 10
+        
+        // Explicitly target safe Y zones (above or below text)
+        const safeTopSpace = Math.max(0, textTop - 20)
+        const safeBottomSpace = Math.max(0, h - textBottom - 20)
+        
+        // Pick top or bottom based on availability and randomness
+        if (safeTopSpace > 100 && (Math.random() > 0.5 || safeBottomSpace < 100)) {
+          testY = Math.random() * (safeTopSpace - 90) + 90
+        } else if (safeBottomSpace > 100) {
+          testY = Math.random() * (safeBottomSpace - 90) + textBottom + 90
+        } else {
+          testY = Math.random() * (h * 0.8) + (h * 0.1)
+        }
+      }
+      
+      // Calculate server bounding box (adjusted for width=60, height=90, drawn upwards)
+      const serverLeft = testX
+      const serverRight = testX + obs.width
+      const serverTop = testY - obs.height
+      const serverBottom = testY
+      
+      // Strict check: Does this server overlap the central text block?
+      const overlapsText = !(serverRight < textLeft || 
+                             serverLeft > textRight || 
+                             serverBottom < textTop || 
+                             serverTop > textBottom)
+                             
+      // Check distance against already placed servers to prevent them from stacking
+      let overlapsServers = false
+      for (const placed of placedServers) {
+        const dx = placed.x - testX
+        const dy = placed.y - testY
+        const dist = Math.sqrt(dx * dx + dy * dy)
+        if (dist < minDistance) {
+          overlapsServers = true
+          break
+        }
+      }
+      
+      if (!overlapsText && !overlapsServers) {
+        obs.x = testX
+        obs.y = testY
+        placedServers.push(obs)
+        isValid = true
+      }
+      attempts++
+    }
+    
+    // Fallback if no safe spot found (prevents identical stacking)
+    if (!isValid) {
+      const isLeft = Math.random() > 0.5
+      obs.x = isLeft ? -10 : w - 50 
+      
+      // Calculate how many servers are already in this general corner
+      let cornerCount = 0
+      const isTop = Math.random() > 0.5
+      for (const placed of placedServers) {
+        if ((isLeft && placed.x < w/2) || (!isLeft && placed.x > w/2)) {
+          if ((isTop && placed.y < h/2) || (!isTop && placed.y > h/2)) {
+            cornerCount++
+          }
+        }
+      }
+      
+      // Offset vertically by 100px for each server already in this corner
+      obs.y = isTop ? Math.max(90, h * 0.15) + (cornerCount * 100) : Math.min(h - 20, h * 0.85) - (cornerCount * 100)
+      placedServers.push(obs)
+    }
+    // Save the proportional ratio for non-random resizing adaptations
+    obs.baseXRatio = obs.x / w
+    obs.baseYRatio = obs.y / h
+  })
+}
+
+let serversPlaced = false
+
+const adaptServers = (w, h) => {
+  const textWidth = Math.min(896, w - 40)
+  const textLeft = (w - textWidth) / 2
+  const textRight = textLeft + textWidth
+  const textHeight = 500
+  const textTop = (h - textHeight) / 2
+  const textBottom = textTop + textHeight
+
+  servers.forEach(obs => {
+    // 1. Pure proportional scaling based on their original assigned spots
+    let targetX = obs.baseXRatio * w
+    let targetY = obs.baseYRatio * h
+    
+    // 2. Prevent overlapping the central text block on smaller screens
+    const serverLeft = targetX
+    const serverRight = targetX + obs.width
+    const serverTop = targetY - obs.height
+    const serverBottom = targetY
+    
+    const overlapsText = !(serverRight < textLeft || 
+                           serverLeft > textRight || 
+                           serverBottom < textTop || 
+                           serverTop > textBottom)
+                           
+    if (overlapsText) {
+      // Slide them to the closest safe edge smoothly, without jumping
+      const toLeft = serverRight - textLeft
+      const toRight = textRight - serverLeft
+      const toTop = serverBottom - textTop
+      const toBottom = textBottom - serverTop
+      
+      const minPush = Math.min(toLeft, toRight, toTop, toBottom)
+      
+      if (minPush === toTop) {
+        targetY = textTop - 5
+      } else if (minPush === toBottom) {
+        targetY = textBottom + obs.height + 5
+      } else if (minPush === toLeft) {
+        targetX = textLeft - obs.width - 5
+      } else {
+        targetX = textRight + 5
+      }
+    }
+    
+    obs.x = targetX
+    obs.y = targetY
+  })
+}
+
 const resizeCanvas = () => {
   const canvas = heroCanvas.value
   if (canvas) {
     const parent = canvas.parentElement
     canvas.width = parent.clientWidth
     canvas.height = parent.clientHeight
+    
+    if (!serversPlaced) {
+      placeServers(canvas.width, canvas.height)
+      serversPlaced = true
+    } else {
+      adaptServers(canvas.width, canvas.height)
+    }
   }
 }
 
@@ -348,51 +512,9 @@ const draw = () => {
 
 onMounted(() => {
   window.addEventListener('resize', resizeCanvas)
-  // Distribute servers safely away from the center text and each other
+  
   const w = window.innerWidth
   const h = window.innerHeight
-  const placedServers = []
-  const minDistance = 110 // Minimum spacing between server units
-  
-  servers.forEach(obs => {
-    let isValid = false
-    let attempts = 0
-    
-    while (!isValid && attempts < 50) {
-      // 50% chance to be on the left flank, 50% on the right flank
-      const isLeft = Math.random() > 0.5
-      const testX = isLeft 
-        ? Math.random() * (w * 0.15) + (w * 0.05) 
-        : Math.random() * (w * 0.15) + (w * 0.8)
-      const testY = Math.random() * (h * 0.6) + (h * 0.3)
-      
-      // Check distance against already placed servers
-      let overlaps = false
-      for (const placed of placedServers) {
-        const dx = placed.x - testX
-        const dy = placed.y - testY
-        const dist = Math.sqrt(dx * dx + dy * dy)
-        if (dist < minDistance) {
-          overlaps = true
-          break
-        }
-      }
-      
-      if (!overlaps) {
-        obs.x = testX
-        obs.y = testY
-        placedServers.push(obs)
-        isValid = true
-      }
-      attempts++
-    }
-    
-    // Fallback just in case screen is too small to fit them safely
-    if (!isValid) {
-      obs.x = -1000
-      obs.y = -1000
-    }
-  })
   
   player.x = w / 2
   player.y = h / 2
