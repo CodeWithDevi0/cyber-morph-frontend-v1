@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import phishBaitGif from '@/assets/attacks_types/GIFs/Phish_Bait.gif'
-import mitmAttackGif from '@/assets/attacks_types/GIFs/MitM-Attack.gif'
+import phishBaitGif from '@/assets/attacks_types/GIFs/phish-bait.gif'
+import mitmAttackGif from '@/assets/attacks_types/GIFs/mitm-attack.gif'
 import { computed } from 'vue'
 
 // Batch import all map images from the assets folder
