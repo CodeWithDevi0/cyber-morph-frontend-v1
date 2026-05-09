@@ -2,6 +2,8 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import phishBaitGif from '@/assets/attacks_types/GIFs/phish-bait.gif'
 import mitmAttackGif from '@/assets/attacks_types/GIFs/mitm-attack.gif'
+import phishBaitImg from '@/assets/attacks_types/images/phishing.png'
+import mitmAttackImg from '@/assets/attacks_types/images/mitm.png'
 import { computed } from 'vue'
 
 // Batch import all map images from the assets folder
@@ -15,8 +17,10 @@ const attacks = [
     subtitle: 'Deceitful Charmer',
     description: 'Deceptive communications engineered to trick targets into revealing credentials or installing malware.',
     image: phishBaitGif,
+    thumbnail: phishBaitImg,
     locked: false,
-    color: '#38e8d5'
+    color: '#38e8d5',
+    watermark: 'PHISH'
   },
   { 
     id: '02', 
@@ -24,8 +28,10 @@ const attacks = [
     subtitle: 'Silent Interceptor',
     description: 'An attacker secretly relays and possibly alters the communications between two parties.', 
     image: mitmAttackGif,
+    thumbnail: mitmAttackImg,
     locked: false,
-    color: '#ff4444'
+    color: '#ff4444',
+    watermark: 'MITM'
   },
   { id: '03', title: 'Classified', description: 'New threat vector analysis pending. Training module currently locked.', locked: true },
   { id: '04', title: 'Classified', description: 'New threat vector analysis pending. Training module currently locked.', locked: true },
@@ -658,7 +664,7 @@ onUnmounted(() => {
 
       <!-- Giant Watermark -->
       <div class="absolute top-1/2 left-[-2%] -translate-y-1/2 z-0 select-none pointer-events-none opacity-[0.03] transform -skew-x-12">
-        <h2 class="text-[14rem] md:text-[18rem] lg:text-[22rem] font-black text-white tracking-widest leading-none">PHISH</h2>
+        <h2 class="text-[14rem] md:text-[18rem] lg:text-[22rem] font-black text-white tracking-widest leading-none">{{ activeAttack.watermark || 'LOCKED' }}</h2>
       </div>
 
       <!-- Main Content Container -->
@@ -669,7 +675,7 @@ onUnmounted(() => {
           <div class="flex flex-col lg:flex-row items-center gap-6">
             <!-- Thumbnail -->
             <div class="w-32 h-20 border border-[#4a3076] overflow-hidden bg-black shadow-lg flex-shrink-0">
-              <img :src="activeAttack.image" class="w-full h-full object-cover opacity-80" alt="Thumbnail" style="image-rendering: pixelated;" />
+              <img :src="activeAttack.thumbnail || activeAttack.image" class="w-full h-full object-cover opacity-80" alt="Thumbnail" style="image-rendering: pixelated;" />
             </div>
             <div class="flex flex-col items-center lg:items-start">
               <p class="text-xs font-bold text-[#a589e6] tracking-widest uppercase mb-1">{{ activeAttack.subtitle }}</p>
@@ -713,7 +719,7 @@ onUnmounted(() => {
                 :class="activeAttackId === '01' ? 'border-[#38e8d5] shadow-[0_0_15px_#38e8d5] scale-110 z-10' : 'border-[#4a3076]/50 hover:border-white/60 hover:scale-105'"
               >
                 <div class="absolute inset-0 bg-black/40 z-10 transition-opacity" :class="activeAttackId === '01' ? 'opacity-0' : 'opacity-100'"></div>
-                <img :src="attacks[0].image" class="w-full h-full object-cover bg-black" />
+                <img :src="attacks[0].thumbnail || attacks[0].image" class="w-full h-full object-cover bg-black" />
               </button>
 
               <button 
@@ -722,7 +728,7 @@ onUnmounted(() => {
                 :class="activeAttackId === '02' ? 'border-[#ff4444] shadow-[0_0_15px_#ff4444] scale-110 z-10' : 'border-[#4a3076]/50 hover:border-white/60 hover:scale-105'"
               >
                 <div class="absolute inset-0 bg-black/40 z-10 transition-opacity" :class="activeAttackId === '02' ? 'opacity-0' : 'opacity-100'"></div>
-                <img :src="attacks[1].image" class="w-full h-full object-cover bg-black" />
+                <img :src="attacks[1].thumbnail || attacks[1].image" class="w-full h-full object-cover bg-black" />
               </button>
             </div>
           </div>
