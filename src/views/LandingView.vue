@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import phishBaitGif from '@/assets/attacks_types/GIFs/Phish_Bait.gif'
+import mitmAttackGif from '@/assets/attacks_types/GIFs/MitM-Attack.gif'
+import { computed } from 'vue'
 
 // Batch import all map images from the assets folder
 const mapImages = import.meta.glob('@/assets/maps/*.png', { eager: true, import: 'default' })
@@ -9,12 +11,22 @@ const getMap = (name) => mapImages[`/src/assets/maps/${name}.png`] || ''
 const attacks = [
   {
     id: '01',
-    title: 'Phishing Bait',
+    title: 'Phish-Bait',
+    subtitle: 'Deceitful Charmer',
     description: 'Deceptive communications engineered to trick targets into revealing credentials or installing malware.',
     image: phishBaitGif,
     locked: false,
+    color: '#38e8d5'
   },
-  { id: '02', title: 'Classified', description: 'New threat vector analysis pending. Training module currently locked.', locked: true },
+  { 
+    id: '02', 
+    title: 'Man in the Middle', 
+    subtitle: 'Silent Interceptor',
+    description: 'An attacker secretly relays and possibly alters the communications between two parties.', 
+    image: mitmAttackGif,
+    locked: false,
+    color: '#ff4444'
+  },
   { id: '03', title: 'Classified', description: 'New threat vector analysis pending. Training module currently locked.', locked: true },
   { id: '04', title: 'Classified', description: 'New threat vector analysis pending. Training module currently locked.', locked: true },
   { id: '05', title: 'Classified', description: 'New threat vector analysis pending. Training module currently locked.', locked: true },
@@ -22,6 +34,9 @@ const attacks = [
   { id: '07', title: 'Classified', description: 'New threat vector analysis pending. Training module currently locked.', locked: true },
   { id: '08', title: 'Classified', description: 'New threat vector analysis pending. Training module currently locked.', locked: true },
 ]
+
+const activeAttackId = ref('01')
+const activeAttack = computed(() => attacks.find(a => a.id === activeAttackId.value) || attacks[0])
 
 // Section data keeps the landing page modular and easy to extend as CyberMorph grows.
 const features = [
@@ -654,38 +669,62 @@ onUnmounted(() => {
           <div class="flex flex-col lg:flex-row items-center gap-6">
             <!-- Thumbnail -->
             <div class="w-32 h-20 border border-[#4a3076] overflow-hidden bg-black shadow-lg flex-shrink-0">
-              <img src="@/assets/attacks_types/GIFs/Phish_Bait.gif" class="w-full h-full object-cover opacity-80" alt="Thumbnail" style="image-rendering: pixelated;" />
+              <img :src="activeAttack.image" class="w-full h-full object-cover opacity-80" alt="Thumbnail" style="image-rendering: pixelated;" />
             </div>
             <div class="flex flex-col items-center lg:items-start">
-              <p class="text-xs font-bold text-[#a589e6] tracking-widest uppercase mb-1">Deceitful Charmer</p>
+              <p class="text-xs font-bold text-[#a589e6] tracking-widest uppercase mb-1">{{ activeAttack.subtitle }}</p>
               <div class="flex items-center gap-4">
-                <h3 class="text-5xl lg:text-6xl font-black text-white italic tracking-wide drop-shadow-md" style="font-family: var(--font-display);">Phish-Bait</h3>
-                <span class="bg-[#ffcc00] text-black text-[11px] font-black px-2 py-1 rounded-sm uppercase tracking-widest leading-none shadow-[2px_2px_0px_rgba(0,0,0,0.5)] transform -translate-y-2">New</span>
+                <h3 class="text-5xl lg:text-6xl font-black text-white italic tracking-wide drop-shadow-md" style="font-family: var(--font-display);">{{ activeAttack.title }}</h3>
+                <span v-if="activeAttackId === '01'" class="bg-[#ffcc00] text-black text-[11px] font-black px-2 py-1 rounded-sm uppercase tracking-widest leading-none shadow-[2px_2px_0px_rgba(0,0,0,0.5)] transform -translate-y-2">New</span>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Right Side: The GIF showcase -->
-        <div class="relative flex flex-col items-end w-full max-w-[500px] lg:max-w-none lg:w-[600px] lg:mr-10 xl:mr-20">
+        <div class="relative flex flex-col items-end w-full max-w-[500px] lg:max-w-none lg:w-[600px] lg:mr-10 xl:mr-32">
           
           <!-- The Image itself -->
-          <img src="@/assets/attacks_types/GIFs/Phish_Bait.gif" alt="Phish-Bait GIF" class="relative z-10 w-full h-auto object-contain drop-shadow-[0_0_25px_rgba(0,0,0,0.6)]" style="image-rendering: pixelated;" />
+          <img :src="activeAttack.image" :alt="activeAttack.title" class="relative z-10 w-full h-auto object-contain drop-shadow-[0_0_25px_rgba(0,0,0,0.6)] transition-all duration-300" style="image-rendering: pixelated;" />
 
           <!-- Action Bar (Below Image) -->
           <div class="mt-4 flex justify-end w-full pr-2">
-            <button class="bg-black border border-white/60 rounded-full px-5 py-1.5 text-xs font-bold text-white hover:bg-white hover:text-black transition-colors duration-200 flex items-center gap-1 shadow-[0_4px_10px_rgba(0,0,0,0.4)]">
+            <button class="bg-black border border-white/60 rounded-full px-5 py-1.5 text-xs font-bold text-white hover:bg-white hover:text-black transition-colors duration-200 flex items-center gap-1 shadow-[0_4px_10px_rgba(0,0,0,0.4)] z-20 relative">
               More <span class="text-[10px]">▶</span>
             </button>
           </div>
           
-          <!-- Pagination dots on the far right -->
-          <div class="hidden xl:flex absolute -right-16 top-1/2 -translate-y-1/2 flex-col gap-3">
-            <div class="w-2 h-2 bg-white/20 rounded-sm"></div>
-            <div class="w-2 h-2 bg-white/20 rounded-sm"></div>
-            <div class="w-2 h-10 bg-[#ff5e5e] rounded-sm shadow-[0_0_10px_#ff5e5e]"></div>
-            <div class="w-2 h-2 bg-white/20 rounded-sm"></div>
-            <div class="w-2 h-2 bg-white/20 rounded-sm"></div>
+          <!-- Right Side Navigation (Dotted Line + Avatars) -->
+          <div class="hidden xl:flex absolute -right-28 top-1/2 -translate-y-1/2 items-center gap-5 z-20">
+            <!-- Pagination dots -->
+            <div class="flex flex-col gap-3 items-center">
+              <div class="w-2 h-2 bg-white/20 rounded-sm"></div>
+              <div class="w-2 h-2 bg-white/20 rounded-sm"></div>
+              <div class="w-2 h-10 rounded-sm transition-all duration-300" :style="{ backgroundColor: activeAttack.color, boxShadow: `0 0 10px ${activeAttack.color}` }"></div>
+              <div class="w-2 h-2 bg-white/20 rounded-sm"></div>
+              <div class="w-2 h-2 bg-white/20 rounded-sm"></div>
+            </div>
+
+            <!-- Avatar Cards (after the dotted lines) -->
+            <div class="flex flex-col gap-3">
+              <button 
+                @click="activeAttackId = '01'"
+                class="w-[4.5rem] h-[4.5rem] rounded-[14px] overflow-hidden border-[3px] transition-all duration-300 relative"
+                :class="activeAttackId === '01' ? 'border-[#38e8d5] shadow-[0_0_15px_#38e8d5] scale-110 z-10' : 'border-[#4a3076]/50 hover:border-white/60 hover:scale-105'"
+              >
+                <div class="absolute inset-0 bg-black/40 z-10 transition-opacity" :class="activeAttackId === '01' ? 'opacity-0' : 'opacity-100'"></div>
+                <img :src="attacks[0].image" class="w-full h-full object-cover bg-black" />
+              </button>
+
+              <button 
+                @click="activeAttackId = '02'"
+                class="w-[4.5rem] h-[4.5rem] rounded-[14px] overflow-hidden border-[3px] transition-all duration-300 relative"
+                :class="activeAttackId === '02' ? 'border-[#ff4444] shadow-[0_0_15px_#ff4444] scale-110 z-10' : 'border-[#4a3076]/50 hover:border-white/60 hover:scale-105'"
+              >
+                <div class="absolute inset-0 bg-black/40 z-10 transition-opacity" :class="activeAttackId === '02' ? 'opacity-0' : 'opacity-100'"></div>
+                <img :src="attacks[1].image" class="w-full h-full object-cover bg-black" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
