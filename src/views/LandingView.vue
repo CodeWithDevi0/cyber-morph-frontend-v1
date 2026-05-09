@@ -1,9 +1,27 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import phishBaitGif from '@/assets/attacks_types/GIFs/Phish_Bait.gif'
 
 // Batch import all map images from the assets folder
 const mapImages = import.meta.glob('@/assets/maps/*.png', { eager: true, import: 'default' })
 const getMap = (name) => mapImages[`/src/assets/maps/${name}.png`] || ''
+
+const attacks = [
+  {
+    id: '01',
+    title: 'Phishing Bait',
+    description: 'Deceptive communications engineered to trick targets into revealing credentials or installing malware.',
+    image: phishBaitGif,
+    locked: false,
+  },
+  { id: '02', title: 'Classified', description: 'New threat vector analysis pending. Training module currently locked.', locked: true },
+  { id: '03', title: 'Classified', description: 'New threat vector analysis pending. Training module currently locked.', locked: true },
+  { id: '04', title: 'Classified', description: 'New threat vector analysis pending. Training module currently locked.', locked: true },
+  { id: '05', title: 'Classified', description: 'New threat vector analysis pending. Training module currently locked.', locked: true },
+  { id: '06', title: 'Classified', description: 'New threat vector analysis pending. Training module currently locked.', locked: true },
+  { id: '07', title: 'Classified', description: 'New threat vector analysis pending. Training module currently locked.', locked: true },
+  { id: '08', title: 'Classified', description: 'New threat vector analysis pending. Training module currently locked.', locked: true },
+]
 
 // Section data keeps the landing page modular and easy to extend as CyberMorph grows.
 const features = [
@@ -90,6 +108,7 @@ const updates = [
 
 const navItems = [
   { label: 'Features', href: '#features' },
+  { label: 'Threats', href: '#attacks' },
   { label: 'Showcase', href: '#showcase' },
   { label: 'Updates', href: '#updates' },
 ]
@@ -494,8 +513,93 @@ onUnmounted(() => {
       </div>
     </section>
 
+    <!-- Cyber Attacks Section (Hero Banner Style) -->
+    <section id="attacks" class="scroll-mt-20 w-full bg-[#180a29] relative overflow-hidden font-mono selection:bg-pixel-violet selection:text-white mt-10 border-t-4 border-[#1b0a2f]">
+      
+      <!-- Angled background on the left -->
+      <div class="absolute inset-y-0 left-0 w-[55%] lg:w-[60%] bg-[#2a1b49] z-0" style="clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);"></div>
+
+      <!-- Giant Watermark -->
+      <div class="absolute top-1/2 left-[-2%] -translate-y-1/2 z-0 select-none pointer-events-none opacity-[0.03] transform -skew-x-12">
+        <h2 class="text-[14rem] md:text-[18rem] lg:text-[22rem] font-black text-white tracking-widest leading-none">PHISH</h2>
+      </div>
+
+      <!-- Main Content Container -->
+      <div class="relative z-10 mx-auto max-w-[1400px] px-5 py-12 md:py-20 sm:px-6 lg:px-10 flex flex-col lg:flex-row items-center justify-between min-h-[500px] lg:min-h-[600px] gap-10">
+        
+        <!-- Left Side: Title & Info -->
+        <div class="flex flex-col items-center lg:items-start text-center lg:text-left lg:ml-10 xl:ml-20 w-full lg:w-1/2">
+          <div class="flex flex-col lg:flex-row items-center gap-6">
+            <!-- Thumbnail -->
+            <div class="w-32 h-20 border border-[#4a3076] overflow-hidden bg-black shadow-lg flex-shrink-0">
+              <img src="@/assets/attacks_types/GIFs/Phish_Bait.gif" class="w-full h-full object-cover opacity-80" alt="Thumbnail" style="image-rendering: pixelated;" />
+            </div>
+            <div class="flex flex-col items-center lg:items-start">
+              <p class="text-xs font-bold text-[#a589e6] tracking-widest uppercase mb-1">Deceitful Charmer</p>
+              <div class="flex items-center gap-4">
+                <h3 class="text-5xl lg:text-6xl font-black text-white italic tracking-wide drop-shadow-md" style="font-family: var(--font-display);">Phish-Bait</h3>
+                <span class="bg-[#ffcc00] text-black text-[11px] font-black px-2 py-1 rounded-sm uppercase tracking-widest leading-none shadow-[2px_2px_0px_rgba(0,0,0,0.5)] transform -translate-y-2">New</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side: The GIF showcase -->
+        <div class="relative flex flex-col items-end w-full max-w-[500px] lg:max-w-none lg:w-[600px] lg:mr-10 xl:mr-20">
+          
+          <!-- The Image itself -->
+          <img src="@/assets/attacks_types/GIFs/Phish_Bait.gif" alt="Phish-Bait GIF" class="relative z-10 w-full h-auto object-contain drop-shadow-[0_0_25px_rgba(0,0,0,0.6)]" style="image-rendering: pixelated;" />
+
+          <!-- Action Bar (Below Image) -->
+          <div class="mt-4 flex justify-end w-full pr-2">
+            <button class="bg-black border border-white/60 rounded-full px-5 py-1.5 text-xs font-bold text-white hover:bg-white hover:text-black transition-colors duration-200 flex items-center gap-1 shadow-[0_4px_10px_rgba(0,0,0,0.4)]">
+              More <span class="text-[10px]">▶</span>
+            </button>
+          </div>
+          
+          <!-- Pagination dots on the far right -->
+          <div class="hidden xl:flex absolute -right-16 top-1/2 -translate-y-1/2 flex-col gap-3">
+            <div class="w-2 h-2 bg-white/20 rounded-sm"></div>
+            <div class="w-2 h-2 bg-white/20 rounded-sm"></div>
+            <div class="w-2 h-10 bg-[#ff5e5e] rounded-sm shadow-[0_0_10px_#ff5e5e]"></div>
+            <div class="w-2 h-2 bg-white/20 rounded-sm"></div>
+            <div class="w-2 h-2 bg-white/20 rounded-sm"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Action Bar -->
+      <div class="w-full h-auto sm:h-[88px] bg-[#503399] border-t-[3px] border-[#ff7b59] flex relative">
+        <!-- Left slanted part -->
+        <div class="absolute left-0 top-0 bottom-0 w-[55%] md:w-[45%] bg-[#7050c9] z-0" style="clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%);"></div>
+        
+        <div class="relative z-10 mx-auto w-full max-w-[1400px] px-5 sm:px-6 lg:px-10 flex flex-col sm:flex-row items-center justify-between h-full py-4 sm:py-0">
+          <!-- Left side content -->
+          <div class="flex flex-col justify-center h-full w-full sm:w-auto">
+            <p class="text-[10px] font-black text-[#321c59] uppercase tracking-widest mb-0.5">First Encounter</p>
+            <div class="flex items-center gap-4">
+              <h4 class="text-xl md:text-2xl lg:text-[28px] font-black text-white italic tracking-wide uppercase" style="font-family: var(--font-display);">AVAILABLE IN MAP 1</h4>
+              <div class="flex gap-1.5 hidden sm:flex">
+                <span class="bg-white/20 text-white/90 text-[10px] px-2 py-0.5 font-bold rounded-sm border border-white/10">PC</span>
+                <span class="bg-white/20 text-white/90 text-[10px] px-2 py-0.5 font-bold rounded-sm border border-white/10">MAC</span>
+                <span class="bg-white/20 text-white/90 text-[10px] px-2 py-0.5 font-bold rounded-sm border border-white/10">LIN</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right side content (Engage Button) -->
+          <div class="relative h-full flex items-center mt-4 sm:mt-0 lg:pr-4 group cursor-pointer">
+            <span class="absolute -top-3 right-[10%] text-[10px] text-[#ff4444] font-black not-italic opacity-0 group-hover:opacity-100 transition-opacity z-20">CLICK!</span>
+            <button class="bg-white text-black font-black italic text-xl px-10 py-3 transform -skew-x-12 group-hover:bg-[#f0f0f0] transition-colors shadow-[4px_4px_0px_rgba(0,0,0,0.8)] flex items-center justify-center relative pointer-events-none">
+              <span class="transform skew-x-12 inline-block uppercase">Engage</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Gallery/showcase: original abstract product visuals instead of copied artwork. -->
-    <section id="showcase" class="scroll-mt-20 px-5 py-20 sm:px-6 lg:px-10">
+    <section id="showcase" class="section-band scroll-mt-20 px-5 py-20 sm:px-6 lg:px-10">
       <div class="mx-auto max-w-7xl">
         <div class="section-heading">
           <p class="eyebrow">Simulation gallery</p>
@@ -538,7 +642,7 @@ onUnmounted(() => {
     </section>
 
     <!-- Updates: optional news area with concise product-facing cards. -->
-    <section id="updates" class="section-band scroll-mt-20 px-5 py-20 sm:px-6 lg:px-10">
+    <section id="updates" class="scroll-mt-20 px-5 py-20 sm:px-6 lg:px-10">
       <div class="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.75fr_1.25fr]">
         <div class="section-heading section-heading-left">
           <p class="eyebrow">Latest updates</p>
