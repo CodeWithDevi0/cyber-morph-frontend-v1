@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import { sessionsApi } from '@/api/sessions'
 import { mockMaps } from '@/api/mock'
 
 const auth = useAuthStore()
@@ -10,6 +11,8 @@ const mapImages = import.meta.glob('@/assets/maps/*.png', { eager: true, import:
 const getMap = (slug) => mapImages[`/src/assets/maps/${slug}.png`] || ''
 
 const selectedMapId = ref(0)
+const isLaunching = ref(false)
+const launchError = ref(null)
 
 const selectedMap = computed(() => {
   return mockMaps.find((m) => m.id === selectedMapId.value) || mockMaps[0]
@@ -25,10 +28,23 @@ const selectMap = (id) => {
   }
 }
 
-const launchSimulation = () => {
-  alert(
-    `INITIALIZING SIMULATION: ${selectedMap.value.name}\n\nNote: This would launch the external Godot simulation engine.`,
-  )
+const launchSimulation = async () => {
+  isLaunching.value = true
+  launchError.value = null
+  
+  try {
+    const session = await sessionsApi.startSession(selectedMap.value.name)
+    console.log('[MissionHub] Session started:', session)
+    
+    alert(
+      `SESSION INITIALIZED: ${session.session_id}\n\nTARGET: ${selectedMap.value.name}\n\nNote: In a live environment, the Godot Engine would now launch using this session ID.`,
+    )
+  } catch (err) {
+    launchError.value = err.response?.data?.detail || 'Failed to initialize session. Connection lost.'
+    console.error('[MissionHub] Launch error:', err)
+  } finally {
+    isLaunching.value = false
+  }
 }
 </script>
 
@@ -252,24 +268,39 @@ const launchSimulation = () => {
               </div>
             </div>
 
+            <!-- Error Message -->
+            <div v-if="launchError" class="p-3 bg-byte-coral/10 border border-byte-coral/20 rounded text-[10px] font-black text-byte-coral uppercase animate-bounce">
+              {{ launchError }}
+            </div>
+
             <button
               @click="launchSimulation"
-              class="w-full py-4 bg-pixel-violet text-white font-black font-display rounded-md shadow-pixel-hero hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3"
+              :disabled="isLaunching"
+              class="w-full py-4 bg-pixel-violet text-white font-black font-display rounded-md shadow-pixel-hero hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="3"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <polygon points="5 3 19 12 5 21 5 3" />
-              </svg>
-              INITIALIZE MISSION
+              <template v-if="isLaunching">
+                <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                INITIALIZING...
+              </template>
+              <template v-else>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polygon points="5 3 19 12 5 21 5 3" />
+                </svg>
+                INITIALIZE MISSION
+              </template>
             </button>
             <p
               class="text-[9px] text-center text-pixel-plum/40 uppercase font-bold tracking-widest"

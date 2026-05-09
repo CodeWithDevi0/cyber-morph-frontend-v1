@@ -1,19 +1,37 @@
 <script setup>
-import { computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useAuthStore } from '@/stores/auth';
-import { mockSessions } from '@/api/mock';
+import { sessionsApi } from '@/api/sessions';
 
 const auth = useAuthStore();
+const sessions = ref([]);
+const isLoading = ref(true);
+
+const fetchHistory = async () => {
+  isLoading.value = true;
+  try {
+    const data = await sessionsApi.getHistory();
+    sessions.value = data;
+  } catch (err) {
+    console.error('[History] Failed to load mission logs:', err);
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+onMounted(() => {
+  fetchHistory();
+});
 
 // Sort sessions by date (most recent first)
 const sortedSessions = computed(() => {
-  return [...mockSessions].sort((a, b) => new Date(b.played_at) - new Date(a.played_at));
+  return [...sessions.value].sort((a, b) => new Date(b.played_at) - new Date(a.played_at));
 });
 
 const stats = computed(() => {
-  const cleared = mockSessions.filter(s => s.result === 'win').length;
-  const failed = mockSessions.length - cleared;
-  const totalCredits = mockSessions.reduce((acc, s) => acc + (s.credits_earned - s.credits_lost), 0);
+  const cleared = sessions.value.filter(s => s.result === 'win').length;
+  const failed = sessions.value.length - cleared;
+  const totalCredits = sessions.value.reduce((acc, s) => acc + (s.credits_earned - s.credits_lost), 0);
   
   return { cleared, failed, totalCredits };
 });
@@ -71,8 +89,17 @@ const formatDuration = (seconds) => {
 
     <!-- History Table -->
     <div class="pixel-card">
-      <div class="overflow-x-auto">
-        <table class="w-full text-left">
+      <!-- Loading State -->
+      <div v-if="isLoading" class="py-20 text-center flex flex-col items-center gap-4">
+        <svg class="animate-spin h-10 w-10 text-pixel-violet" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <p class="text-[10px] text-pixel-plum/40 font-black uppercase tracking-widest animate-pulse">Syncing Personnel Records...</p>
+      </div>
+
+      <div v-else class="overflow-x-auto">
+        <table class="w-full text-left" v-if="sortedSessions.length > 0">
           <thead>
             <tr class="border-b border-pixel-plum/10">
               <th class="pb-4 text-[10px] uppercase text-pixel-plum/50 font-black tracking-widest px-4">Mission Target</th>
@@ -118,11 +145,11 @@ const formatDuration = (seconds) => {
             </tr>
           </tbody>
         </table>
-      </div>
-      
-      <!-- Empty State -->
-      <div v-if="sortedSessions.length === 0" class="py-20 text-center">
-        <p class="text-pixel-plum/40 font-black uppercase tracking-widest">No mission logs found in system database</p>
+
+        <!-- Empty State -->
+        <div v-if="sortedSessions.length === 0" class="py-20 text-center">
+          <p class="text-pixel-plum/40 font-black uppercase tracking-widest">No mission logs found in system database</p>
+        </div>
       </div>
     </div>
   </div>

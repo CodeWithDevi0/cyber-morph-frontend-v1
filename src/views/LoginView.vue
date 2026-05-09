@@ -74,8 +74,15 @@
       </form>
 
       <p class="mt-8 text-center text-sm font-bold text-pixel-plum/60">
-        New investigator? <router-link to="/register" class="text-pixel-violet hover:underline">Register here</router-link>
+        New Educator? <router-link to="/register" class="text-pixel-violet hover:underline">Register here</router-link>
       </p>
+      
+      <div class="mt-6 pt-6 border-t border-pixel-plum/5">
+        <p class="text-[10px] text-center font-black text-pixel-plum/30 uppercase tracking-widest leading-relaxed">
+          Players: Access your dashboard here.<br />
+          New players must register via the Godot game client.
+        </p>
+      </div>
     </div>
   </div>
 </template>

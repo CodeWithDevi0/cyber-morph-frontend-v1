@@ -11,7 +11,7 @@ export const mockPlayer = {
   username: "NeonSpecter",
   role: "player",
   map_progress: 0,
-  security_credits: 1000,
+  security_credits: 100,
   last_synced_at: null,
   created_at: new Date().toISOString()
 };
@@ -114,19 +114,19 @@ export const mockMaps = [
   },
   { 
     id: 1, 
+    name: 'Office', 
+    slug: 'office',
+    description: 'Identify phishing attempts, secure your workstation, and protect organizational data privacy.', 
+    difficulty: 'Novice',
+    credits_reward: 600
+  },
+  { 
+    id: 2, 
     name: 'Internet Cafe', 
     slug: 'internet-cafe',
     description: 'Learn the dangers of shared terminals, public Wi-Fi safety, and session hijacking prevention.', 
     difficulty: 'Intermediate',
     credits_reward: 750
-  },
-  { 
-    id: 2, 
-    name: 'Office', 
-    slug: 'office',
-    description: 'Identify phishing attempts, secure your workstation, and protect organizational data privacy.', 
-    difficulty: 'Advanced',
-    credits_reward: 1200
   },
   { 
     id: 3, 
