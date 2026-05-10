@@ -108,7 +108,7 @@ onMounted(() => {
     router.replace({ query: {} });
     
     setTimeout(() => {
-      showLogoutToast = false;
+      showLogoutToast.value = false;
     }, 5000);
   }
 });
