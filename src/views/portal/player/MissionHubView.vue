@@ -57,7 +57,7 @@ const launchSimulation = async () => {
           Mission Hub
         </h1>
         <p
-          class="text-10 text-pixel-plum/60 uppercase font-black tracking-[0.25em] mt-2 flex items-center gap-2"
+          class="text-pixel-10 text-pixel-plum/60 uppercase font-black tracking-[0.25em] mt-2 flex items-center gap-2"
         >
           <span class="w-2 h-2 rounded-full bg-pixel-violet animate-pulse"></span>
           Select Deployment Target
@@ -100,11 +100,11 @@ const launchSimulation = async () => {
                 class="absolute inset-0 bg-pixel-plum/60 backdrop-blur-[1px] flex flex-col items-center justify-center text-white"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="mb-2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
-                <span class="text-10 font-black uppercase tracking-widest">Locked</span>
+                <span class="text-pixel-10 font-black uppercase tracking-widest">Locked</span>
               </div>
 
               <!-- Map Index Badge -->
-              <div class="absolute top-3 left-3 px-2 py-1 bg-white/90 backdrop-blur-sm rounded text-10 font-black text-pixel-plum shadow-sm">
+              <div class="absolute top-3 left-3 px-2 py-1 bg-white/90 backdrop-blur-sm rounded text-pixel-10 font-black text-pixel-plum shadow-sm">
                 TARGET {{ map.id + 1 }}
               </div>
             </div>
@@ -113,7 +113,7 @@ const launchSimulation = async () => {
             <div class="p-4 bg-white/50 backdrop-blur-sm">
               <div class="flex justify-between items-center mb-1">
                 <h3 class="font-black text-pixel-plum font-display text-lg">{{ map.name }}</h3>
-                <span v-if="isMapUnlocked(map.id)" class="text-9 font-black px-2 py-0.5 rounded-full bg-pixel-moss/10 text-pixel-moss border border-pixel-moss/20">READY</span>
+                <span v-if="isMapUnlocked(map.id)" class="text-pixel-9 font-black px-2 py-0.5 rounded-full bg-pixel-moss/10 text-pixel-moss border border-pixel-moss/20">READY</span>
               </div>
               <p class="text-xs text-pixel-plum/60 font-bold line-clamp-1">{{ map.difficulty }}</p>
             </div>
@@ -148,7 +148,7 @@ const launchSimulation = async () => {
           <div class="p-6 space-y-6">
             <div>
               <div class="flex items-center gap-2 mb-2">
-                <span class="text-10 font-black px-2 py-0.5 bg-pixel-violet/10 text-pixel-violet rounded uppercase tracking-widest">{{ selectedMap.difficulty }}</span>
+                <span class="text-pixel-10 font-black px-2 py-0.5 bg-pixel-violet/10 text-pixel-violet rounded uppercase tracking-widest">{{ selectedMap.difficulty }}</span>
               </div>
               <h2 class="text-2xl font-black text-pixel-plum font-display uppercase tracking-tight">{{ selectedMap.name }}</h2>
               <p class="mt-3 text-sm font-bold text-pixel-plum/70 leading-relaxed">{{ selectedMap.description }}</p>
@@ -161,7 +161,7 @@ const launchSimulation = async () => {
               </div>
             </div>
 
-            <div v-if="launchError" class="p-3 bg-byte-coral/10 border border-byte-coral/20 rounded text-10 font-black text-byte-coral uppercase animate-bounce">{{ launchError }}</div>
+            <div v-if="launchError" class="p-3 bg-byte-coral/10 border border-byte-coral/20 rounded text-pixel-10 font-black text-byte-coral uppercase animate-bounce">{{ launchError }}</div>
 
             <button @click="launchSimulation" :disabled="isLaunching" class="w-full py-4 bg-pixel-violet text-white font-black font-display rounded-md shadow-pixel-hero hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed">
               <template v-if="isLaunching">

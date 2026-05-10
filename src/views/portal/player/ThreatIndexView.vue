@@ -12,7 +12,7 @@ const getIconColor = (unlocked) => {
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
       <div>
         <h1 class="text-4xl font-black font-display tracking-tight text-pixel-plum uppercase">Threat Index</h1>
-        <p class="text-10 text-pixel-plum/60 uppercase font-black tracking-[0.25em] mt-2 flex items-center gap-2">
+        <p class="text-pixel-10 text-pixel-plum/60 uppercase font-black tracking-[0.25em] mt-2 flex items-center gap-2">
           <span class="w-2 h-2 rounded-full bg-byte-coral animate-pulse"></span>
           Encyclopedia of Digital Adversaries
         </p>
@@ -32,7 +32,7 @@ const getIconColor = (unlocked) => {
           <div class="w-12 h-12 bg-pixel-plum/10 rounded-lg flex items-center justify-center mb-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-pixel-plum/40"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
           </div>
-          <span class="text-10 font-black uppercase tracking-widest text-pixel-plum/40">Encrypted</span>
+          <span class="text-pixel-10 font-black uppercase tracking-widest text-pixel-plum/40">Encrypted</span>
         </div>
 
         <div 
@@ -54,7 +54,7 @@ const getIconColor = (unlocked) => {
         <p class="text-xs font-bold text-pixel-plum/60 leading-relaxed">{{ threat.description }}</p>
         
         <div v-if="threat.unlocked" class="mt-6 pt-4 border-t border-pixel-plum/5 w-full">
-          <button class="text-9 font-black uppercase tracking-[0.2em] text-pixel-violet hover:brightness-75 transition-all">Analyze Intelligence</button>
+          <button class="text-pixel-9 font-black uppercase tracking-[0.2em] text-pixel-violet hover:brightness-75 transition-all">Analyze Intelligence</button>
         </div>
       </div>
     </div>

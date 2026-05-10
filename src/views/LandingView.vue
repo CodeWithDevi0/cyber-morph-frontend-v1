@@ -744,7 +744,7 @@ onUnmounted(() => {
                 </h3>
                 <span
                   v-if="activeAttackId === '01'"
-                  class="bg-[#ffcc00] text-black text-11 font-black px-2 py-1 rounded-sm uppercase tracking-widest leading-none shadow-[2px_2px_0px_rgba(0,0,0,0.5)] transform -translate-y-2"
+                  class="bg-[#ffcc00] text-black text-pixel-11 font-black px-2 py-1 rounded-sm uppercase tracking-widest leading-none shadow-[2px_2px_0px_rgba(0,0,0,0.5)] transform -translate-y-2"
                   >New</span
                 >
               </div>
@@ -769,7 +769,7 @@ onUnmounted(() => {
             <button
               class="bg-black border border-white/60 rounded-full px-5 py-1.5 text-xs font-bold text-white hover:bg-white hover:text-black transition-colors duration-200 flex items-center gap-1 shadow-[0_4px_10px_rgba(0,0,0,0.4)] z-20 relative"
             >
-              More <span class="text-10">▶</span>
+              More <span class="text-pixel-10">▶</span>
             </button>
           </div>
 
@@ -845,7 +845,7 @@ onUnmounted(() => {
         >
           <!-- Left side content -->
           <div class="flex flex-col justify-center h-full w-full sm:w-auto">
-            <p class="text-10 font-black text-[#321c59] uppercase tracking-widest mb-0.5">
+            <p class="text-pixel-10 font-black text-[#321c59] uppercase tracking-widest mb-0.5">
               First Encounter
             </p>
             <div class="flex items-center gap-4">
@@ -857,15 +857,15 @@ onUnmounted(() => {
               </h4>
               <div class="flex gap-1.5 hidden sm:flex">
                 <span
-                  class="bg-white/20 text-white/90 text-10 px-2 py-0.5 font-bold rounded-sm border border-white/10"
+                  class="bg-white/20 text-white/90 text-pixel-10 px-2 py-0.5 font-bold rounded-sm border border-white/10"
                   >PC</span
                 >
                 <span
-                  class="bg-white/20 text-white/90 text-10 px-2 py-0.5 font-bold rounded-sm border border-white/10"
+                  class="bg-white/20 text-white/90 text-pixel-10 px-2 py-0.5 font-bold rounded-sm border border-white/10"
                   >MAC</span
                 >
                 <span
-                  class="bg-white/20 text-white/90 text-10 px-2 py-0.5 font-bold rounded-sm border border-white/10"
+                  class="bg-white/20 text-white/90 text-pixel-10 px-2 py-0.5 font-bold rounded-sm border border-white/10"
                   >LIN</span
                 >
               </div>
@@ -875,7 +875,7 @@ onUnmounted(() => {
           <!-- Right side content (Engage Button) -->
           <div class="relative h-full flex items-center mt-4 sm:mt-0 lg:pr-4 group cursor-pointer">
             <span
-              class="absolute -top-3 right-[10%] text-10 text-[#ff4444] font-black not-italic opacity-0 group-hover:opacity-100 transition-opacity z-20"
+              class="absolute -top-3 right-[10%] text-pixel-10 text-[#ff4444] font-black not-italic opacity-0 group-hover:opacity-100 transition-opacity z-20"
               >CLICK!</span
             >
             <button
@@ -920,7 +920,7 @@ onUnmounted(() => {
                   <circle cx="9" cy="9" r="2" />
                   <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
                 </svg>
-                <span class="mt-2 text-10 font-bold uppercase tracking-wider">Map Preview</span>
+                <span class="mt-2 text-pixel-10 font-bold uppercase tracking-wider">Map Preview</span>
               </div>
             </div>
             <p>{{ item.eyebrow }}</p>

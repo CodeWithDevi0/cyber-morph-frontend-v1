@@ -34,12 +34,12 @@
         <!-- Player Stats Badge -->
         <div v-if="auth.isPlayer" class="hidden lg:flex items-center gap-4">
           <div class="flex flex-col items-end">
-            <span class="text-10 text-pixel-violet uppercase tracking-widest">Security Credits</span>
-            <span class="text-sm font-mono text-pixel-plum">{{ auth.credits }} <span class="text-pixel-violet text-10">CR</span></span>
+            <span class="text-pixel-10 text-pixel-violet uppercase tracking-widest">Security Credits</span>
+            <span class="text-sm font-mono text-pixel-plum">{{ auth.credits }} <span class="text-pixel-violet text-pixel-10">CR</span></span>
           </div>
           <div class="h-8 w-px bg-pixel-plum/10"></div>
           <div class="flex flex-col items-end">
-            <span class="text-10 text-pixel-violet uppercase tracking-widest">Progress</span>
+            <span class="text-pixel-10 text-pixel-violet uppercase tracking-widest">Progress</span>
             <span class="text-sm font-mono text-pixel-plum">{{ auth.progress }}/4</span>
           </div>
         </div>
@@ -48,7 +48,7 @@
         <div class="flex items-center gap-3 pl-4 border-l border-pixel-plum/10">
           <div class="text-right">
             <p class="text-xs font-bold text-pixel-plum leading-none mb-1">{{ auth.username }}</p>
-            <p class="text-10 text-pixel-violet uppercase tracking-tighter font-black leading-none">{{ auth.user?.role }}</p>
+            <p class="text-pixel-10 text-pixel-violet uppercase tracking-tighter font-black leading-none">{{ auth.user?.role }}</p>
           </div>
           <button @click="handleLogout" class="p-2 text-pixel-plum/40 hover:text-red-500 transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
@@ -84,13 +84,13 @@
             <div class="grid grid-cols-2 gap-3">
               <button 
                 @click="showLogoutModal = false"
-                class="py-3 px-4 border border-pixel-plum/10 text-pixel-plum font-black text-10 uppercase tracking-widest rounded hover:bg-pixel-plum/5 transition-all"
+                class="py-3 px-4 border border-pixel-plum/10 text-pixel-plum font-black text-pixel-10 uppercase tracking-widest rounded hover:bg-pixel-plum/5 transition-all"
               >
                 Abort
               </button>
               <button 
                 @click="confirmLogout"
-                class="py-3 px-4 bg-byte-coral text-white font-black text-10 uppercase tracking-widest rounded shadow-pixel-alert hover:brightness-110 transition-all"
+                class="py-3 px-4 bg-byte-coral text-white font-black text-pixel-10 uppercase tracking-widest rounded shadow-pixel-alert hover:brightness-110 transition-all"
               >
                 Confirm
               </button>

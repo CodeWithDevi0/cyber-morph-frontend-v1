@@ -77,7 +77,7 @@ const toggleClassFilter = (code) => {
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
         </div>
         <div>
-          <p class="text-10 font-black text-white/70 uppercase tracking-widest leading-none mb-1.5">Secure Link Established</p>
+          <p class="text-pixel-10 font-black text-white/70 uppercase tracking-widest leading-none mb-1.5">Secure Link Established</p>
           <p class="text-sm font-black text-white font-display uppercase tracking-tight">Educator Access Granted</p>
         </div>
       </div>
@@ -87,7 +87,7 @@ const toggleClassFilter = (code) => {
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
       <div>
         <h1 class="text-4xl font-black font-display tracking-tight text-pixel-plum uppercase">Educator Command</h1>
-        <p class="text-10 text-pixel-plum/60 uppercase font-black tracking-[0.25em] mt-2 flex items-center gap-2">
+        <p class="text-pixel-10 text-pixel-plum/60 uppercase font-black tracking-[0.25em] mt-2 flex items-center gap-2">
           <span class="w-2 h-2 rounded-full bg-pixel-moss animate-pulse"></span>
           Instructor: {{ auth.user?.display_name || mockEducator.display_name }}
         </p>
@@ -105,15 +105,15 @@ const toggleClassFilter = (code) => {
     <!-- Quick Stats -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="pixel-card border-l-4 border-l-pixel-moss">
-        <p class="text-10 uppercase font-black text-pixel-plum/40 tracking-widest mb-1">Total Students</p>
+        <p class="text-pixel-10 uppercase font-black text-pixel-plum/40 tracking-widest mb-1">Total Students</p>
         <p class="text-3xl font-black text-pixel-plum">{{ allStudents.length }}</p>
       </div>
       <div class="pixel-card border-l-4 border-l-pixel-violet">
-        <p class="text-10 uppercase font-black text-pixel-plum/40 tracking-widest mb-1">Active Classes</p>
+        <p class="text-pixel-10 uppercase font-black text-pixel-plum/40 tracking-widest mb-1">Active Classes</p>
         <p class="text-3xl font-black text-pixel-plum">{{ activeCodes.filter(c => c.is_active).length }}</p>
       </div>
       <div class="pixel-card border-l-4 border-l-signal-gold">
-        <p class="text-10 uppercase font-black text-pixel-plum/40 tracking-widest mb-1">Cohort Average Progress</p>
+        <p class="text-pixel-10 uppercase font-black text-pixel-plum/40 tracking-widest mb-1">Cohort Average Progress</p>
         <p class="text-3xl font-black text-pixel-plum">Map 2.3</p>
       </div>
     </div>
@@ -129,7 +129,7 @@ const toggleClassFilter = (code) => {
             <button 
               v-if="selectedClass"
               @click="selectedClass = null"
-              class="text-9 font-black uppercase text-pixel-violet hover:underline"
+              class="text-pixel-9 font-black uppercase text-pixel-violet hover:underline"
             >
               Clear Filter
             </button>
@@ -139,10 +139,10 @@ const toggleClassFilter = (code) => {
             <table class="w-full text-left">
               <thead>
                 <tr>
-                  <th class="pb-4 text-10 uppercase text-pixel-plum/50 font-black tracking-widest px-2">Student</th>
-                  <th class="pb-4 text-10 uppercase text-pixel-plum/50 font-black tracking-widest px-2">Status</th>
-                  <th class="pb-4 text-10 uppercase text-pixel-plum/50 font-black tracking-widest px-2 text-right">Credits</th>
-                  <th class="pb-4 text-10 uppercase text-pixel-plum/50 font-black tracking-widest px-2 text-right">Last Online</th>
+                  <th class="pb-4 text-pixel-10 uppercase text-pixel-plum/50 font-black tracking-widest px-2">Student</th>
+                  <th class="pb-4 text-pixel-10 uppercase text-pixel-plum/50 font-black tracking-widest px-2">Status</th>
+                  <th class="pb-4 text-pixel-10 uppercase text-pixel-plum/50 font-black tracking-widest px-2 text-right">Credits</th>
+                  <th class="pb-4 text-pixel-10 uppercase text-pixel-plum/50 font-black tracking-widest px-2 text-right">Last Online</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-pixel-plum/5">
@@ -155,13 +155,13 @@ const toggleClassFilter = (code) => {
                       <div class="flex gap-0.5">
                         <div v-for="i in 4" :key="i" class="w-2 h-2 rounded-full" :class="i <= student.map_progress ? 'bg-pixel-violet' : 'bg-pixel-plum/10'"></div>
                       </div>
-                      <span class="text-9 font-black text-pixel-plum/40 uppercase">Map {{ student.map_progress }}</span>
+                      <span class="text-pixel-9 font-black text-pixel-plum/40 uppercase">Map {{ student.map_progress }}</span>
                     </div>
                   </td>
                   <td class="py-4 px-2 text-right">
                     <span class="text-sm font-black font-mono text-pixel-violet">{{ student.security_credits }}</span>
                   </td>
-                  <td class="py-4 px-2 text-right text-10 font-bold text-pixel-plum/40 uppercase">
+                  <td class="py-4 px-2 text-right text-pixel-10 font-bold text-pixel-plum/40 uppercase">
                     {{ formatDate(student.last_synced_at) }}
                   </td>
                 </tr>
@@ -192,10 +192,10 @@ const toggleClassFilter = (code) => {
             >
               <div>
                 <p class="text-xl font-black font-display text-pixel-plum tracking-widest">{{ code.code_value }}</p>
-                <p class="text-9 font-black text-pixel-plum/40 uppercase mt-1">{{ code.students_count }} Students Enrolled</p>
+                <p class="text-pixel-9 font-black text-pixel-plum/40 uppercase mt-1">{{ code.students_count }} Students Enrolled</p>
               </div>
               <div v-if="code.is_active" class="w-2 h-2 rounded-full bg-pixel-moss" :class="selectedClass?.code_id === code.code_id ? 'animate-ping' : 'animate-pulse'"></div>
-              <div v-else class="text-9 font-black text-byte-coral uppercase tracking-tighter">Inactive</div>
+              <div v-else class="text-pixel-9 font-black text-byte-coral uppercase tracking-tighter">Inactive</div>
             </button>
           </div>
         </div>
@@ -225,8 +225,8 @@ const toggleClassFilter = (code) => {
             </p>
             
             <div class="grid grid-cols-2 gap-3">
-              <button @click="showConfirmModal = false" class="py-3 px-4 border border-pixel-plum/10 text-pixel-plum font-black text-10 uppercase tracking-widest rounded hover:bg-pixel-plum/5 transition-all">Cancel</button>
-              <button @click="confirmGenerateCode" class="py-3 px-4 bg-pixel-moss text-white font-black text-10 uppercase tracking-widest rounded shadow-pixel-soft hover:brightness-110 transition-all">Confirm</button>
+              <button @click="showConfirmModal = false" class="py-3 px-4 border border-pixel-plum/10 text-pixel-plum font-black text-pixel-10 uppercase tracking-widest rounded hover:bg-pixel-plum/5 transition-all">Cancel</button>
+              <button @click="confirmGenerateCode" class="py-3 px-4 bg-pixel-moss text-white font-black text-pixel-10 uppercase tracking-widest rounded shadow-pixel-soft hover:brightness-110 transition-all">Confirm</button>
             </div>
           </div>
         </div>
