@@ -32,8 +32,8 @@ export const useAuthStore = defineStore('auth', {
         this.token = response.access_token;
         localStorage.setItem('token', this.token);
         
-        // After getting token, fetch the actual profile
-        await this.fetchProfile();
+        // After getting token, fetch the actual profile using the returned role
+        await this.fetchProfile(response.role);
         return true;
       } catch (err) {
         this.error = err.response?.data?.detail || "Login failed. Terminal access denied.";
@@ -46,16 +46,24 @@ export const useAuthStore = defineStore('auth', {
     /**
      * Fetch the user's profile based on their role
      */
-    async fetchProfile() {
+    async fetchProfile(role = null) {
       try {
-        // Try to fetch player profile first
-        try {
+        // If we know the role, go directly to the right endpoint
+        if (role === 'player') {
           const profile = await authApi.getPlayerProfile();
           this.user = profile;
-        } catch {
-          // If 403, try web profile
+        } else if (role === 'educator' || role === 'admin' || role) {
           const profile = await authApi.getWebProfile();
           this.user = profile;
+        } else {
+          // Fallback guessing logic (legacy)
+          try {
+            const profile = await authApi.getPlayerProfile();
+            this.user = profile;
+          } catch {
+            const profile = await authApi.getWebProfile();
+            this.user = profile;
+          }
         }
         
         localStorage.setItem('user', JSON.stringify(this.user));
@@ -116,7 +124,10 @@ export const useAuthStore = defineStore('auth', {
      * Check if session is valid on app start
      */
     async initializeAuth() {
-      if (this.token) {
+      if (this.token && this.user) {
+        // We already have a user in local storage, just refresh it
+        await this.fetchProfile(this.user.role || (this.user.username ? 'player' : 'admin'));
+      } else if (this.token) {
         await this.fetchProfile();
       }
     }
