@@ -3,7 +3,7 @@
     <nav class="bg-white/70 backdrop-blur-md border-b border-pixel-violet/15 px-6 py-3 flex items-center justify-between shadow-pixel-purple">
       <!-- Brand -->
       <div class="flex items-center gap-8">
-        <router-link to="/portal/dashboard" class="text-xl font-black tracking-tighter text-pixel-plum hover:text-pixel-violet transition-colors">
+        <router-link :to="auth.isAdmin ? '/portal/admin' : (auth.isEducator ? '/portal/educator' : '/portal/dashboard')" class="text-xl font-black tracking-tighter text-pixel-plum hover:text-pixel-violet transition-colors">
           CYBER<span class="text-pixel-violet">MORPH</span>
         </router-link>
 
@@ -22,7 +22,7 @@
             <router-link to="/portal/leaderboard" class="nav-link">GLOBAL RANKINGS</router-link>
           </template>
           <template v-else-if="auth.isAdmin">
-            <router-link to="/portal/dashboard" class="nav-link">ROOT</router-link>
+            <router-link to="/portal/admin" class="nav-link">ROOT</router-link>
             <router-link to="/portal/users" class="nav-link">USERS</router-link>
             <router-link to="/portal/audit" class="nav-link">AUDIT</router-link>
           </template>

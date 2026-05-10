@@ -115,6 +115,10 @@ onMounted(() => {
 
 const handleLogin = async () => {
   const success = await auth.login(email.value, password.value);
-  if (success) router.push('/portal/dashboard?login=success');
+  if (success) {
+    if (auth.isAdmin) router.push('/portal/admin?login=success');
+    else if (auth.isEducator) router.push('/portal/educator?login=success');
+    else router.push('/portal/dashboard?login=success');
+  }
 };
 </script>

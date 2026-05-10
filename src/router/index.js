@@ -82,14 +82,24 @@ router.beforeEach((to) => {
   if (to.meta.requiresAuth && !auth.isLoggedIn) {
     return '/'
   } 
+  
   // 2. If user IS logged in and tries to go to login/register or landing -> Redirect to their role dashboard
-  else if (auth.isLoggedIn && (to.path === '/login' || to.path === '/register' || to.path === '/')) {
+  if (auth.isLoggedIn && (to.path === '/login' || to.path === '/register' || to.path === '/')) {
     if (auth.isAdmin) return '/portal/admin'
     if (auth.isEducator) return '/portal/educator'
-    return '/portal/dashboard' // Default for players
+    return '/portal/dashboard'
+  }
+
+  // 3. Prevent cross-role access (Optional but recommended)
+  if (auth.isLoggedIn) {
+    if (to.path.startsWith('/portal/admin') && !auth.isAdmin) return '/portal/dashboard'
+    if (to.path.startsWith('/portal/educator') && !auth.isEducator) return '/portal/dashboard'
+    // If Admin/Educator tries to go to Player Dashboard, let them or redirect to their hub?
+    if (to.path === '/portal/dashboard' && auth.isAdmin) return '/portal/admin'
+    if (to.path === '/portal/dashboard' && auth.isEducator) return '/portal/educator'
   }
   
-  // 3. Otherwise, proceed
+  // 4. Otherwise, proceed
   return true
 })
 
