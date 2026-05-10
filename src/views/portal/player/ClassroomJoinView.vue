@@ -43,7 +43,7 @@ const handleInput = (e) => {
 
       <div class="pixel-card bg-white/70 p-10 space-y-8">
         <div class="space-y-4">
-          <label class="block text-[10px] font-black uppercase tracking-[0.3em] text-pixel-violet">Access Terminal Code</label>
+          <label class="block text-10 font-black uppercase tracking-[0.3em] text-pixel-violet">Access Terminal Code</label>
           <input 
             :value="accessCode"
             @input="handleInput"
@@ -62,7 +62,7 @@ const handleInput = (e) => {
           <div v-if="error" class="bg-byte-coral/10 border-l-4 border-byte-coral p-4 text-left flex gap-3">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-byte-coral shrink-0 mt-0.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             <div>
-              <p class="text-[10px] font-black text-byte-coral uppercase tracking-widest leading-none mb-1">Terminal Error</p>
+              <p class="text-10 font-black text-byte-coral uppercase tracking-widest leading-none mb-1">Terminal Error</p>
               <p class="text-xs font-bold text-pixel-plum/80">{{ error }}</p>
             </div>
           </div>

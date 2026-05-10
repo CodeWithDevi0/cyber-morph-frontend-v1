@@ -52,7 +52,7 @@ const getRankColor = (index) => {
         v-for="map in maps" 
         :key="map"
         @click="activeTab = map"
-        class="px-6 py-3 text-[10px] font-black uppercase tracking-widest transition-all border-b-2"
+        class="px-6 py-3 text-10 font-black uppercase tracking-widest transition-all border-b-2"
         :class="activeTab === map 
           ? 'border-pixel-violet text-pixel-violet' 
           : 'border-transparent text-pixel-plum/40 hover:text-pixel-plum/70'"
@@ -88,11 +88,11 @@ const getRankColor = (index) => {
         <table class="w-full text-left">
           <thead>
             <tr class="border-b border-pixel-plum/10">
-              <th class="pb-4 text-[10px] uppercase text-pixel-plum/50 font-black tracking-widest px-4">Rank</th>
-              <th class="pb-4 text-[10px] uppercase text-pixel-plum/50 font-black tracking-widest px-4">Operator Identity</th>
-              <th class="pb-4 text-[10px] uppercase text-pixel-plum/50 font-black tracking-widest px-4">Sector</th>
-              <th class="pb-4 text-[10px] uppercase text-pixel-plum/50 font-black tracking-widest px-4 text-right">Defense Score</th>
-              <th class="pb-4 text-[10px] uppercase text-pixel-plum/50 font-black tracking-widest px-4 text-right">Recorded At</th>
+              <th class="pb-4 text-10 uppercase text-pixel-plum/50 font-black tracking-widest px-4">Rank</th>
+              <th class="pb-4 text-10 uppercase text-pixel-plum/50 font-black tracking-widest px-4">Operator Identity</th>
+              <th class="pb-4 text-10 uppercase text-pixel-plum/50 font-black tracking-widest px-4">Sector</th>
+              <th class="pb-4 text-10 uppercase text-pixel-plum/50 font-black tracking-widest px-4 text-right">Defense Score</th>
+              <th class="pb-4 text-10 uppercase text-pixel-plum/50 font-black tracking-widest px-4 text-right">Recorded At</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-pixel-plum/5">
@@ -101,9 +101,9 @@ const getRankColor = (index) => {
                 #{{ topThree.length > 0 ? index + 4 : index + 1 }}
               </td>
               <td class="py-5 px-4"><span class="text-sm font-black text-pixel-plum">{{ player.username }}</span></td>
-              <td class="py-5 px-4"><span class="text-[9px] font-black px-2 py-1 bg-pixel-plum/5 text-pixel-plum/60 rounded uppercase tracking-widest">{{ player.map_name }}</span></td>
+              <td class="py-5 px-4"><span class="text-9 font-black px-2 py-1 bg-pixel-plum/5 text-pixel-plum/60 rounded uppercase tracking-widest">{{ player.map_name }}</span></td>
               <td class="py-5 px-4 text-right"><span class="text-sm font-black font-mono text-pixel-violet">{{ player.total_score }}</span></td>
-              <td class="py-5 px-4 text-right text-[10px] font-bold text-pixel-plum/40 uppercase">{{ formatDate(player.recorded_at) }}</td>
+              <td class="py-5 px-4 text-right text-10 font-bold text-pixel-plum/40 uppercase">{{ formatDate(player.recorded_at) }}</td>
             </tr>
           </tbody>
         </table>

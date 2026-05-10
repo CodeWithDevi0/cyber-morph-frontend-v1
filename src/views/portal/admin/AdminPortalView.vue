@@ -68,7 +68,7 @@ const getStatusColor = (status) => {
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
         </div>
         <div>
-          <p class="text-[10px] font-black text-white/70 uppercase tracking-widest leading-none mb-1.5">Secure Link Established</p>
+          <p class="text-10 font-black text-white/70 uppercase tracking-widest leading-none mb-1.5">Secure Link Established</p>
           <p class="text-sm font-black text-white font-display uppercase tracking-tight">Root Terminal Authorized</p>
         </div>
       </div>
@@ -78,10 +78,10 @@ const getStatusColor = (status) => {
     <div class="flex items-center justify-between border-b-4 border-pixel-plum pb-6">
       <div>
         <div class="flex items-center gap-3 mb-2">
-          <div class="px-2 py-1 bg-pixel-plum text-white text-[10px] font-black uppercase tracking-tighter rounded">Root Access</div>
+          <div class="px-2 py-1 bg-pixel-plum text-white text-10 font-black uppercase tracking-tighter rounded">Root Access</div>
           <h1 class="text-4xl font-black font-display tracking-tight text-pixel-plum uppercase">System Oversight</h1>
         </div>
-        <p class="text-[10px] text-pixel-plum/60 uppercase font-black tracking-[0.25em] flex items-center gap-2">
+        <p class="text-10 text-pixel-plum/60 uppercase font-black tracking-[0.25em] flex items-center gap-2">
           <span class="w-2 h-2 rounded-full bg-pixel-violet animate-pulse"></span>
           Terminal ID: CM-ROOT-01 // Master Admin: {{ auth.user?.display_name || mockAdmin.display_name }}
         </p>
@@ -89,12 +89,12 @@ const getStatusColor = (status) => {
 
       <div class="hidden md:flex items-center gap-6">
         <div class="text-right">
-          <p class="text-[10px] font-black text-pixel-plum/40 uppercase tracking-widest">DB Integrity</p>
+          <p class="text-10 font-black text-pixel-plum/40 uppercase tracking-widest">DB Integrity</p>
           <p class="text-xl font-black text-pixel-moss">{{ systemStats.databaseHealth }}</p>
         </div>
         <div class="h-10 w-1 bg-pixel-plum/10"></div>
         <div class="text-right">
-          <p class="text-[10px] font-black text-pixel-plum/40 uppercase tracking-widest">Global Credits</p>
+          <p class="text-10 font-black text-pixel-plum/40 uppercase tracking-widest">Global Credits</p>
           <p class="text-xl font-black text-pixel-violet">{{ systemStats.globalCredits }}</p>
         </div>
       </div>
@@ -103,19 +103,19 @@ const getStatusColor = (status) => {
     <!-- Quick Metrics -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       <div class="pixel-card bg-pixel-plum text-white shadow-pixel-hero">
-        <p class="text-[10px] uppercase font-black text-white/40 tracking-widest mb-1">Total Network Users</p>
+        <p class="text-10 uppercase font-black text-white/40 tracking-widest mb-1">Total Network Users</p>
         <p class="text-3xl font-black">{{ systemStats.totalUsers }}</p>
       </div>
       <div class="pixel-card border-2 border-pixel-plum/10">
-        <p class="text-[10px] uppercase font-black text-pixel-plum/40 tracking-widest mb-1">Active Game Sessions</p>
+        <p class="text-10 uppercase font-black text-pixel-plum/40 tracking-widest mb-1">Active Game Sessions</p>
         <p class="text-3xl font-black text-pixel-plum">{{ systemStats.activeSessions }}</p>
       </div>
       <div class="pixel-card border-2 border-pixel-plum/10">
-        <p class="text-[10px] uppercase font-black text-pixel-plum/40 tracking-widest mb-1">Security Breaches</p>
+        <p class="text-10 uppercase font-black text-pixel-plum/40 tracking-widest mb-1">Security Breaches</p>
         <p class="text-3xl font-black text-byte-coral">0</p>
       </div>
       <div class="pixel-card border-2 border-pixel-plum/10">
-        <p class="text-[10px] uppercase font-black text-pixel-plum/40 tracking-widest mb-1">Uptime</p>
+        <p class="text-10 uppercase font-black text-pixel-plum/40 tracking-widest mb-1">Uptime</p>
         <p class="text-3xl font-black text-pixel-moss">14d 2h</p>
       </div>
     </div>
@@ -138,10 +138,10 @@ const getStatusColor = (status) => {
             <table class="w-full text-left">
               <thead>
                 <tr class="border-b border-pixel-plum/10">
-                  <th class="pb-4 text-[10px] uppercase text-pixel-plum/50 font-black tracking-widest">Identity</th>
-                  <th class="pb-4 text-[10px] uppercase text-pixel-plum/50 font-black tracking-widest">Role</th>
-                  <th class="pb-4 text-[10px] uppercase text-pixel-plum/50 font-black tracking-widest">Status</th>
-                  <th class="pb-4 text-[10px] uppercase text-pixel-plum/50 font-black tracking-widest text-right">Actions</th>
+                  <th class="pb-4 text-10 uppercase text-pixel-plum/50 font-black tracking-widest">Identity</th>
+                  <th class="pb-4 text-10 uppercase text-pixel-plum/50 font-black tracking-widest">Role</th>
+                  <th class="pb-4 text-10 uppercase text-pixel-plum/50 font-black tracking-widest">Status</th>
+                  <th class="pb-4 text-10 uppercase text-pixel-plum/50 font-black tracking-widest text-right">Actions</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-pixel-plum/5">
@@ -149,11 +149,11 @@ const getStatusColor = (status) => {
                   <td class="py-4">
                     <div class="flex flex-col">
                       <span class="text-sm font-black text-pixel-plum uppercase tracking-tight">{{ user.username }}</span>
-                      <span class="text-[10px] font-bold text-pixel-plum/40">{{ user.email }}</span>
+                      <span class="text-10 font-bold text-pixel-plum/40">{{ user.email }}</span>
                     </div>
                   </td>
                   <td class="py-4">
-                    <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded" 
+                    <span class="text-10 font-black uppercase px-2 py-0.5 rounded" 
                       :class="{
                         'bg-pixel-violet/10 text-pixel-violet': user.role === 'player',
                         'bg-pixel-moss/10 text-pixel-moss': user.role === 'educator',
@@ -165,7 +165,7 @@ const getStatusColor = (status) => {
                   <td class="py-4">
                     <div class="flex items-center gap-2">
                       <span class="w-1.5 h-1.5 rounded-full" :class="user.status === 'active' ? 'bg-pixel-moss' : 'bg-byte-coral'"></span>
-                      <span class="text-[10px] font-black uppercase" :class="user.status === 'active' ? 'text-pixel-plum' : 'text-byte-coral'">{{ user.status }}</span>
+                      <span class="text-10 font-black uppercase" :class="user.status === 'active' ? 'text-pixel-plum' : 'text-byte-coral'">{{ user.status }}</span>
                     </div>
                   </td>
                   <td class="py-4 text-right">
@@ -194,13 +194,13 @@ const getStatusColor = (status) => {
               <div class="mt-1 w-1.5 h-1.5 rounded-full shrink-0" :class="getStatusColor(log.status)"></div>
               <div class="space-y-1">
                 <p class="text-[11px] font-black text-pixel-plum tracking-tight leading-none uppercase">{{ log.action }}</p>
-                <p class="text-[10px] font-bold text-pixel-plum/40 uppercase tracking-tighter">
+                <p class="text-10 font-bold text-pixel-plum/40 uppercase tracking-tighter">
                   User: <span class="text-pixel-violet">{{ log.user }}</span> • {{ log.timestamp }}
                 </p>
               </div>
             </div>
           </div>
-          <button class="w-full mt-6 py-2 border border-pixel-plum/10 rounded text-[9px] font-black uppercase text-pixel-plum/60 hover:bg-pixel-plum/5 transition-all tracking-widest">
+          <button class="w-full mt-6 py-2 border border-pixel-plum/10 rounded text-9 font-black uppercase text-pixel-plum/60 hover:bg-pixel-plum/5 transition-all tracking-widest">
             View Full System Logs
           </button>
         </div>

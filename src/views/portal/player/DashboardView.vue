@@ -30,7 +30,7 @@
         </div>
         <div>
           <p
-            class="text-[10px] font-black text-white/70 uppercase tracking-widest leading-none mb-1.5"
+            class="text-10 font-black text-white/70 uppercase tracking-widest leading-none mb-1.5"
           >
             Secure Link Established
           </p>
@@ -65,7 +65,7 @@
           Dashboard
         </h1>
         <p
-          class="text-[10px] text-pixel-plum/60 uppercase font-black tracking-[0.25em] mt-2 flex items-center gap-2"
+          class="text-10 text-pixel-plum/60 uppercase font-black tracking-[0.25em] mt-2 flex items-center gap-2"
         >
           <span class="w-2 h-2 rounded-full bg-pixel-violet animate-pulse"></span>
           Active Session: {{ auth.username }}
@@ -126,7 +126,7 @@
             class="text-4xl font-black text-pixel-plum group-hover:text-pixel-violet transition-colors"
             >{{ auth.credits }}</span
           >
-          <span class="text-[11px] text-pixel-plum/50 font-black mb-2 uppercase tracking-widest"
+          <span class="text-11 text-pixel-plum/50 font-black mb-2 uppercase tracking-widest"
             >Credits</span
           >
         </div>
@@ -147,7 +147,7 @@
             class="text-4xl font-black text-pixel-plum group-hover:text-pixel-sky transition-colors"
             >{{ auth.progress }}/4</span
           >
-          <span class="text-[11px] text-pixel-plum/50 font-black mb-2 uppercase tracking-widest"
+          <span class="text-11 text-pixel-plum/50 font-black mb-2 uppercase tracking-widest"
             >Unlocked</span
           >
         </div>
@@ -164,14 +164,14 @@
       <div
         class="pixel-card bg-pixel-violet/5 border-pixel-violet/20 flex flex-col justify-center text-center"
       >
-        <p class="text-[10px] uppercase font-black text-pixel-violet/70 mb-2 tracking-widest">
+        <p class="text-10 uppercase font-black text-pixel-violet/70 mb-2 tracking-widest">
           Current Target
         </p>
         <p class="text-xl font-black text-pixel-plum font-display uppercase tracking-tight">
           {{ getNextMapName() }}
         </p>
         <button
-          class="mt-4 text-[10px] font-black uppercase tracking-widest text-pixel-violet hover:brightness-75 transition-all"
+          class="mt-4 text-10 font-black uppercase tracking-widest text-pixel-violet hover:brightness-75 transition-all"
         >
           Mission Details
         </button>
@@ -186,7 +186,7 @@
         </h3>
         <router-link
           to="/portal/history"
-          class="text-[10px] font-black text-pixel-violet hover:underline tracking-[0.15em] uppercase"
+          class="text-10 font-black text-pixel-violet hover:underline tracking-[0.15em] uppercase"
           >Full History</router-link
         >
       </div>
@@ -196,22 +196,22 @@
           <thead>
             <tr>
               <th
-                class="pb-4 text-[10px] uppercase text-pixel-plum/50 font-black tracking-widest px-2"
+                class="pb-4 text-10 uppercase text-pixel-plum/50 font-black tracking-widest px-2"
               >
                 Map
               </th>
               <th
-                class="pb-4 text-[10px] uppercase text-pixel-plum/50 font-black tracking-widest px-2"
+                class="pb-4 text-10 uppercase text-pixel-plum/50 font-black tracking-widest px-2"
               >
                 Status
               </th>
               <th
-                class="pb-4 text-[10px] uppercase text-pixel-plum/50 font-black tracking-widest px-2 text-right"
+                class="pb-4 text-10 uppercase text-pixel-plum/50 font-black tracking-widest px-2 text-right"
               >
                 Yield
               </th>
               <th
-                class="pb-4 text-[10px] uppercase text-pixel-plum/50 font-black tracking-widest px-2 text-right"
+                class="pb-4 text-10 uppercase text-pixel-plum/50 font-black tracking-widest px-2 text-right"
               >
                 Timestamp
               </th>
@@ -236,7 +236,7 @@
               </td>
               <td class="py-5 px-2">
                 <span
-                  class="text-[9px] px-2.5 py-1 border-2 rounded font-black tracking-widest uppercase"
+                  class="text-9 px-2.5 py-1 border-2 rounded font-black tracking-widest uppercase"
                   :class="
                     session.result === 'win'
                       ? 'border-pixel-moss/40 text-pixel-moss bg-pixel-moss/10'
@@ -251,13 +251,13 @@
                   <span class="text-sm font-black text-pixel-moss"
                     >+{{ session.credits_earned }}</span
                   >
-                  <span class="text-[9px] text-byte-coral/80 font-bold font-mono"
+                  <span class="text-9 text-byte-coral/80 font-bold font-mono"
                     >-{{ session.credits_lost }}</span
                   >
                 </div>
               </td>
               <td
-                class="py-5 px-2 text-right text-[10px] text-pixel-plum/50 font-black font-mono"
+                class="py-5 px-2 text-right text-10 text-pixel-plum/50 font-black font-mono"
               >
                 {{ formatDate(session.played_at) }}
               </td>
