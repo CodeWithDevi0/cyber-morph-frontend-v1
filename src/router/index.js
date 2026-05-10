@@ -82,9 +82,11 @@ router.beforeEach((to) => {
   if (to.meta.requiresAuth && !auth.isLoggedIn) {
     return '/'
   } 
-  // 2. If user IS logged in and tries to go to login/register or landing -> /portal/dashboard
+  // 2. If user IS logged in and tries to go to login/register or landing -> Redirect to their role dashboard
   else if (auth.isLoggedIn && (to.path === '/login' || to.path === '/register' || to.path === '/')) {
-    return '/portal/dashboard'
+    if (auth.isAdmin) return '/portal/admin'
+    if (auth.isEducator) return '/portal/educator'
+    return '/portal/dashboard' // Default for players
   }
   
   // 3. Otherwise, proceed
