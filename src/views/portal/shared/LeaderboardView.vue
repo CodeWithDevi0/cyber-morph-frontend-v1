@@ -35,13 +35,21 @@ const getRankColor = (index) => {
 
 <template>
   <div class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 text-pixel-plum">
-    <!-- Header -->
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <!-- Hall of Fame Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b-2 border-pixel-plum/10 pb-6">
       <div>
-        <h1 class="text-4xl font-black font-display tracking-tight text-pixel-plum uppercase">Hall of Fame</h1>
-        <p class="text-[10px] text-pixel-plum/60 uppercase font-black tracking-[0.25em] mt-2 flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-pixel-violet animate-pulse"></span>
-          Top Defensive Operators
+        <div class="flex items-center gap-3 mb-1">
+          <div class="w-2 h-2 rounded-full bg-signal-gold animate-pulse"></div>
+          <h1 class="text-3xl font-black font-display tracking-tight text-pixel-plum uppercase">
+            Hall of Fame
+          </h1>
+        </div>
+        <p class="text-pixel-10 text-pixel-plum/50 uppercase font-black tracking-[0.2em] flex items-center gap-2">
+          Sector: <span class="text-pixel-violet">{{ activeTab }}</span> 
+          <span class="mx-1 opacity-30">|</span> 
+          Metric: <span class="text-signal-gold">Defense Score</span>
+          <span class="mx-1 opacity-30">|</span> 
+          Records: <span class="text-pixel-plum">{{ filteredScores.length }} Personnel</span>
         </p>
       </div>
     </div>

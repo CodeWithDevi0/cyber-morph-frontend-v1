@@ -50,17 +50,21 @@ const launchSimulation = async () => {
 
 <template>
   <div class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 text-pixel-plum">
-    <!-- Header -->
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <!-- Hub Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b-2 border-pixel-plum/10 pb-6">
       <div>
-        <h1 class="text-4xl font-black font-display tracking-tight text-pixel-plum uppercase">
-          Mission Hub
-        </h1>
-        <p
-          class="text-pixel-10 text-pixel-plum/60 uppercase font-black tracking-[0.25em] mt-2 flex items-center gap-2"
-        >
-          <span class="w-2 h-2 rounded-full bg-pixel-violet animate-pulse"></span>
-          Select Deployment Target
+        <div class="flex items-center gap-3 mb-1">
+          <div class="w-2 h-2 rounded-full bg-pixel-violet animate-pulse"></div>
+          <h1 class="text-3xl font-black font-display tracking-tight text-pixel-plum uppercase">
+            Mission Hub
+          </h1>
+        </div>
+        <p class="text-pixel-10 text-pixel-plum/50 uppercase font-black tracking-[0.2em] flex items-center gap-2">
+          Identity: <span class="text-pixel-violet">{{ auth.username }}</span> 
+          <span class="mx-1 opacity-30">|</span> 
+          Operation: <span class="text-signal-gold">Tactical Deployment</span>
+          <span class="mx-1 opacity-30">|</span> 
+          Status: <span class="text-pixel-moss">Ready for Launch</span>
         </p>
       </div>
     </div>

@@ -74,25 +74,29 @@ const getStatusColor = (status) => {
       </div>
     </transition>
 
-    <!-- Admin Header -->
-    <div class="flex items-center justify-between border-b-4 border-pixel-plum pb-6">
+    <!-- System Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b-2 border-pixel-plum/10 pb-6">
       <div>
-        <div class="flex items-center gap-3 mb-2">
-          <div class="px-2 py-1 bg-pixel-plum text-white text-pixel-10 font-black uppercase tracking-tighter rounded">Root Access</div>
-          <h1 class="text-4xl font-black font-display tracking-tight text-pixel-plum uppercase">System Oversight</h1>
+        <div class="flex items-center gap-3 mb-1">
+          <div class="w-2 h-2 rounded-full bg-pixel-violet animate-pulse"></div>
+          <h1 class="text-3xl font-black font-display tracking-tight text-pixel-plum uppercase">
+            System Oversight
+          </h1>
         </div>
-        <p class="text-pixel-10 text-pixel-plum/60 uppercase font-black tracking-[0.25em] flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-pixel-violet animate-pulse"></span>
-          Terminal ID: CM-ROOT-01 // Master Admin: {{ auth.user?.display_name || mockAdmin.display_name }}
+        <p class="text-pixel-10 text-pixel-plum/50 uppercase font-black tracking-[0.2em] flex items-center gap-2">
+          Identity: <span class="text-pixel-violet">{{ auth.user?.display_name || mockAdmin.display_name }}</span> 
+          <span class="mx-1 opacity-30">|</span> 
+          Access Level: <span class="text-byte-coral">Root Terminal</span>
+          <span class="mx-1 opacity-30">|</span> 
+          Node: CM-ROOT-01
         </p>
       </div>
 
-      <div class="hidden md:flex items-center gap-6">
-        <div class="text-right">
+      <div class="flex items-center gap-6 bg-pixel-plum/5 p-4 rounded-lg border border-pixel-plum/5">
+        <div class="text-right border-r border-pixel-plum/10 pr-6">
           <p class="text-pixel-10 font-black text-pixel-plum/40 uppercase tracking-widest">DB Integrity</p>
           <p class="text-xl font-black text-pixel-moss">{{ systemStats.databaseHealth }}</p>
         </div>
-        <div class="h-10 w-1 bg-pixel-plum/10"></div>
         <div class="text-right">
           <p class="text-pixel-10 font-black text-pixel-plum/40 uppercase tracking-widest">Global Credits</p>
           <p class="text-xl font-black text-pixel-violet">{{ systemStats.globalCredits }}</p>
@@ -100,22 +104,22 @@ const getStatusColor = (status) => {
       </div>
     </div>
 
-    <!-- Quick Metrics -->
+    <!-- Operational Metrics -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="pixel-card bg-pixel-plum text-white shadow-pixel-hero">
-        <p class="text-pixel-10 uppercase font-black text-white/40 tracking-widest mb-1">Total Network Users</p>
+      <div class="pixel-card bg-pixel-plum text-white shadow-pixel-hero border-none">
+        <p class="text-pixel-10 uppercase font-black text-white/40 tracking-widest mb-2 ml-1">Network Identity Count</p>
         <p class="text-3xl font-black">{{ systemStats.totalUsers }}</p>
       </div>
-      <div class="pixel-card border-2 border-pixel-plum/10">
-        <p class="text-pixel-10 uppercase font-black text-pixel-plum/40 tracking-widest mb-1">Active Game Sessions</p>
+      <div class="pixel-card border-l-4 border-l-pixel-violet">
+        <p class="stat-label-pixel">Active Game Sessions</p>
         <p class="text-3xl font-black text-pixel-plum">{{ systemStats.activeSessions }}</p>
       </div>
-      <div class="pixel-card border-2 border-pixel-plum/10">
-        <p class="text-pixel-10 uppercase font-black text-pixel-plum/40 tracking-widest mb-1">Security Breaches</p>
+      <div class="pixel-card border-l-4 border-l-byte-coral">
+        <p class="stat-label-pixel">Security Breaches</p>
         <p class="text-3xl font-black text-byte-coral">0</p>
       </div>
-      <div class="pixel-card border-2 border-pixel-plum/10">
-        <p class="text-pixel-10 uppercase font-black text-pixel-plum/40 tracking-widest mb-1">Uptime</p>
+      <div class="pixel-card border-l-4 border-l-pixel-moss">
+        <p class="stat-label-pixel">System Uptime</p>
         <p class="text-3xl font-black text-pixel-moss">14d 2h</p>
       </div>
     </div>
@@ -211,4 +215,7 @@ const getStatusColor = (status) => {
 
 <style scoped>
 @reference "@/assets/main.css";
+.stat-label-pixel {
+  @apply text-pixel-10 uppercase font-black tracking-[0.2em] text-pixel-plum/40 mb-2 ml-1;
+}
 </style>

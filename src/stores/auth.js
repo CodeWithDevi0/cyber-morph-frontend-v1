@@ -36,6 +36,7 @@ export const useAuthStore = defineStore('auth', {
         await this.fetchProfile(response.role);
         return true;
       } catch (err) {
+        console.error('[AuthStore] Login error:', err);
         this.error = err.response?.data?.detail || "Login failed. Terminal access denied.";
         return false;
       } finally {
@@ -60,7 +61,8 @@ export const useAuthStore = defineStore('auth', {
           try {
             const profile = await authApi.getPlayerProfile();
             this.user = profile;
-          } catch {
+          } catch (err) {
+            console.debug('[AuthStore] Player profile fetch failed, trying Web profile...', err);
             const profile = await authApi.getWebProfile();
             this.user = profile;
           }
@@ -85,6 +87,7 @@ export const useAuthStore = defineStore('auth', {
         // pending Admin approval. We return true so the UI can show a success message.
         return true;
       } catch (err) {
+        console.error('[AuthStore] Educator Registration error:', err);
         this.error = err.response?.data?.detail || "Registration failed.";
         return false;
       } finally {
@@ -103,6 +106,7 @@ export const useAuthStore = defineStore('auth', {
         // After registration, log them in automatically
         return await this.login(data.email, data.password);
       } catch (err) {
+        console.error('[AuthStore] Player Registration error:', err);
         this.error = err.response?.data?.detail || "Registration failed.";
         return false;
       } finally {
