@@ -308,7 +308,7 @@ const formatDate = (dateStr) => {
 </script>
 
 <style scoped>
-@reference "@/assets/main.css";
+@reference "../../../assets/main.css";
 
 .stat-label-pixel {
   @apply text-[10px] uppercase font-black tracking-[0.2em] text-pixel-plum/60 mb-2 ml-1;

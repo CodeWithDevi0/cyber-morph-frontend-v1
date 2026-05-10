@@ -982,7 +982,7 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-@reference "@/assets/main.css";
+@reference "../assets/main.css";
 
 .landing-page {
   letter-spacing: 0;
