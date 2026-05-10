@@ -1,24 +1,35 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import { useAuthStore } from '@/stores/auth';
+import { useRoute, useRouter } from 'vue-router';
 import { mockEducator, mockClassroomCodes } from '@/api/mock';
+
+const auth = useAuthStore();
+const route = useRoute();
+const router = useRouter();
+const showWelcomeToast = ref(false);
 
 const activeCodes = ref([...mockClassroomCodes]);
 const allStudents = ref([...mockEducator.assigned_students]);
-const selectedClass = ref(null); // null means "All Students"
+const selectedClass = ref(null);
 const showConfirmModal = ref(false);
+
+onMounted(() => {
+  if (route.query.login === 'success') {
+    router.replace({ query: {} });
+    setTimeout(() => {
+      showWelcomeToast.value = true;
+      setTimeout(() => {
+        showWelcomeToast.value = false;
+      }, 3000);
+    }, 500);
+  }
+});
 
 const students = computed(() => {
   if (!selectedClass.value) return allStudents.value;
-  
-  // Simulation: MORPH9 has 2 students, CYBER2 has 1, new codes have 0
-  if (selectedClass.value.code_value === 'MORPH9') {
-    return allStudents.value.slice(0, 2);
-  }
-  if (selectedClass.value.code_value === 'CYBER2') {
-    return allStudents.value.slice(2, 3);
-  }
-  
-  // Any other (newly generated) code has 0 students in this mock
+  if (selectedClass.value.code_value === 'MORPH9') return allStudents.value.slice(0, 2);
+  if (selectedClass.value.code_value === 'CYBER2') return allStudents.value.slice(2, 3);
   return [];
 });
 
@@ -29,48 +40,56 @@ const handleGenerateClick = () => {
 const confirmGenerateCode = () => {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let result = '';
-  for (let i = 0; i < 6; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
+  for (let i = 0; i < 6; i++) result += chars.charAt(Math.floor(Math.random() * chars.length));
   
-  const newCode = {
+  activeCodes.value.unshift({
     code_id: `c${activeCodes.value.length + 1}`,
     code_value: result,
     is_active: true,
     students_count: 0,
     created_at: new Date().toISOString()
-  };
-  
-  activeCodes.value.unshift(newCode);
+  });
   showConfirmModal.value = false;
 };
 
 const formatDate = (dateStr) => {
-  return new Date(dateStr).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric'
-  });
+  return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 };
 
 const toggleClassFilter = (code) => {
-  if (selectedClass.value?.code_id === code.code_id) {
-    selectedClass.value = null;
-  } else {
-    selectedClass.value = code;
-  }
+  selectedClass.value = selectedClass.value?.code_id === code.code_id ? null : code;
 };
 </script>
 
 <template>
   <div class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 text-pixel-plum">
+    <!-- Success Toast Notification -->
+    <transition
+      enter-active-class="transition duration-500 ease-out"
+      enter-from-class="transform translate-y-20 opacity-0"
+      enter-to-class="transform translate-y-0 opacity-100"
+      leave-active-class="transition duration-300 ease-in"
+      leave-from-class="opacity-100"
+      leave-to-class="opacity-0"
+    >
+      <div v-if="showWelcomeToast" class="fixed bottom-8 right-8 z-100 flex items-center gap-4 bg-pixel-moss p-4 rounded-lg shadow-pixel-purple border border-white/20">
+        <div class="w-10 h-10 bg-white/20 rounded flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
+        </div>
+        <div>
+          <p class="text-[10px] font-black text-white/70 uppercase tracking-widest leading-none mb-1.5">Secure Link Established</p>
+          <p class="text-sm font-black text-white font-display uppercase tracking-tight">Educator Access Granted</p>
+        </div>
+      </div>
+    </transition>
+
     <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
       <div>
         <h1 class="text-4xl font-black font-display tracking-tight text-pixel-plum uppercase">Educator Command</h1>
         <p class="text-[10px] text-pixel-plum/60 uppercase font-black tracking-[0.25em] mt-2 flex items-center gap-2">
           <span class="w-2 h-2 rounded-full bg-pixel-moss animate-pulse"></span>
-          Instructor: {{ mockEducator.display_name }}
+          Instructor: {{ auth.user?.display_name || mockEducator.display_name }}
         </p>
       </div>
 
@@ -206,18 +225,8 @@ const toggleClassFilter = (code) => {
             </p>
             
             <div class="grid grid-cols-2 gap-3">
-              <button 
-                @click="showConfirmModal = false"
-                class="py-3 px-4 border border-pixel-plum/10 text-pixel-plum font-black text-[10px] uppercase tracking-widest rounded hover:bg-pixel-plum/5 transition-all"
-              >
-                Cancel
-              </button>
-              <button 
-                @click="confirmGenerateCode"
-                class="py-3 px-4 bg-pixel-moss text-white font-black text-[10px] uppercase tracking-widest rounded shadow-pixel-soft hover:brightness-110 transition-all"
-              >
-                Confirm
-              </button>
+              <button @click="showConfirmModal = false" class="py-3 px-4 border border-pixel-plum/10 text-pixel-plum font-black text-[10px] uppercase tracking-widest rounded hover:bg-pixel-plum/5 transition-all">Cancel</button>
+              <button @click="confirmGenerateCode" class="py-3 px-4 bg-pixel-moss text-white font-black text-[10px] uppercase tracking-widest rounded shadow-pixel-soft hover:brightness-110 transition-all">Confirm</button>
             </div>
           </div>
         </div>
@@ -225,11 +234,6 @@ const toggleClassFilter = (code) => {
     </Teleport>
   </div>
 </template>
-
-<style scoped>
-@reference "@/assets/main.css";
-</style>
-
 
 <style scoped>
 @reference "@/assets/main.css";

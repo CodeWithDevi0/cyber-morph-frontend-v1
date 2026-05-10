@@ -108,13 +108,13 @@ onMounted(() => {
     router.replace({ query: {} });
     
     setTimeout(() => {
-      showLogoutToast.value = false;
+      showLogoutToast = false;
     }, 5000);
   }
 });
 
 const handleLogin = async () => {
   const success = await auth.login(email.value, password.value);
-  if (success) router.push('/dashboard?login=success');
+  if (success) router.push('/portal/dashboard?login=success');
 };
 </script>

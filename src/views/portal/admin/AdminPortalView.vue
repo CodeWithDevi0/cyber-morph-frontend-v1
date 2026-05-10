@@ -1,8 +1,14 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { useAuthStore } from '@/stores/auth';
+import { useRoute, useRouter } from 'vue-router';
 import { mockAdmin } from '@/api/mock';
 
-// Simulation data for Admin view
+const auth = useAuthStore();
+const route = useRoute();
+const router = useRouter();
+const showWelcomeToast = ref(false);
+
 const systemStats = ref({
   totalUsers: 1542,
   activeSessions: 86,
@@ -15,7 +21,6 @@ const recentUsers = ref([
   { id: 'u2', username: 'Aris Thorne', email: 'teacher@test.com', role: 'educator', status: 'active', joined: '2026-04-15' },
   { id: 'u3', username: 'System Root', email: 'admin@test.com', role: 'admin', status: 'active', joined: '2026-01-01' },
   { id: 'u4', username: 'GhostByte', email: 'ghost@test.com', role: 'player', status: 'suspended', joined: '2026-05-05' },
-  { id: 'u5', username: 'LogicBomb', email: 'bomb@test.com', role: 'player', status: 'active', joined: '2026-05-07' },
 ]);
 
 const auditLogs = ref([
@@ -23,8 +28,19 @@ const auditLogs = ref([
   { id: 2, action: 'ROLE_UPDATE', user: 'System Root', timestamp: '15 mins ago', status: 'warning' },
   { id: 3, action: 'REGISTRATION', user: 'LogicBomb', timestamp: '1 hour ago', status: 'success' },
   { id: 4, action: 'SESSION_TERMINATED', user: 'GhostByte', timestamp: '2 hours ago', status: 'alert' },
-  { id: 5, action: 'DATABASE_BACKUP', user: 'SYSTEM', timestamp: '4 hours ago', status: 'success' },
 ]);
+
+onMounted(() => {
+  if (route.query.login === 'success') {
+    router.replace({ query: {} });
+    setTimeout(() => {
+      showWelcomeToast.value = true;
+      setTimeout(() => {
+        showWelcomeToast.value = false;
+      }, 3000);
+    }, 500);
+  }
+});
 
 const getStatusColor = (status) => {
   switch (status) {
@@ -38,6 +54,26 @@ const getStatusColor = (status) => {
 
 <template>
   <div class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 text-pixel-plum">
+    <!-- Success Toast Notification -->
+    <transition
+      enter-active-class="transition duration-500 ease-out"
+      enter-from-class="transform translate-y-20 opacity-0"
+      enter-to-class="transform translate-y-0 opacity-100"
+      leave-active-class="transition duration-300 ease-in"
+      leave-from-class="opacity-100"
+      leave-to-class="opacity-0"
+    >
+      <div v-if="showWelcomeToast" class="fixed bottom-8 right-8 z-100 flex items-center gap-4 bg-pixel-plum p-4 rounded-lg shadow-pixel-hero border border-white/20">
+        <div class="w-10 h-10 bg-white/20 rounded flex items-center justify-center text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
+        </div>
+        <div>
+          <p class="text-[10px] font-black text-white/70 uppercase tracking-widest leading-none mb-1.5">Secure Link Established</p>
+          <p class="text-sm font-black text-white font-display uppercase tracking-tight">Root Terminal Authorized</p>
+        </div>
+      </div>
+    </transition>
+
     <!-- Admin Header -->
     <div class="flex items-center justify-between border-b-4 border-pixel-plum pb-6">
       <div>
@@ -47,7 +83,7 @@ const getStatusColor = (status) => {
         </div>
         <p class="text-[10px] text-pixel-plum/60 uppercase font-black tracking-[0.25em] flex items-center gap-2">
           <span class="w-2 h-2 rounded-full bg-pixel-violet animate-pulse"></span>
-          Terminal ID: CM-ROOT-01 // Master Admin: {{ mockAdmin.display_name }}
+          Terminal ID: CM-ROOT-01 // Master Admin: {{ auth.user?.display_name || mockAdmin.display_name }}
         </p>
       </div>
 
@@ -66,7 +102,7 @@ const getStatusColor = (status) => {
 
     <!-- Quick Metrics -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="pixel-card bg-pixel-plum text-white">
+      <div class="pixel-card bg-pixel-plum text-white shadow-pixel-hero">
         <p class="text-[10px] uppercase font-black text-white/40 tracking-widest mb-1">Total Network Users</p>
         <p class="text-3xl font-black">{{ systemStats.totalUsers }}</p>
       </div>
@@ -89,7 +125,7 @@ const getStatusColor = (status) => {
       <div class="space-y-6">
         <div class="pixel-card">
           <div class="flex items-center justify-between mb-8">
-            <h3 class="text-xs font-black tracking-widest text-pixel-plum/80 uppercase flex items-center gap-2">
+            <h3 class="text-xs font-black tracking-widest text-pixel-plum/80 uppercase flex items-center gap-2 font-display">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
               User Registry
             </h3>
@@ -137,9 +173,6 @@ const getStatusColor = (status) => {
                       <button class="p-1.5 hover:bg-pixel-violet/10 text-pixel-violet rounded transition-colors" title="Audit User">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
                       </button>
-                      <button class="p-1.5 hover:bg-byte-coral/10 text-byte-coral rounded transition-colors" title="Suspend User">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 9-6 6"/><path d="m9 9 6 6"/><circle cx="12" cy="12" r="10"/></svg>
-                      </button>
                     </div>
                   </td>
                 </tr>
@@ -152,7 +185,7 @@ const getStatusColor = (status) => {
       <!-- Audit Stream -->
       <div class="space-y-6">
         <div class="pixel-card bg-pixel-plum/5 border-pixel-plum/10 border-t-4 border-t-pixel-plum">
-          <h3 class="text-xs font-black tracking-widest text-pixel-plum/80 uppercase mb-6 flex items-center gap-2">
+          <h3 class="text-xs font-black tracking-widest text-pixel-plum/80 uppercase mb-6 flex items-center gap-2 font-display">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
             Audit Stream
           </h3>
@@ -170,22 +203,6 @@ const getStatusColor = (status) => {
           <button class="w-full mt-6 py-2 border border-pixel-plum/10 rounded text-[9px] font-black uppercase text-pixel-plum/60 hover:bg-pixel-plum/5 transition-all tracking-widest">
             View Full System Logs
           </button>
-        </div>
-
-        <!-- Security Status -->
-        <div class="pixel-card border-byte-coral/20 bg-byte-coral/5">
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-10 h-10 bg-byte-coral/10 rounded flex items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="text-byte-coral" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
-            </div>
-            <div>
-              <p class="text-xs font-black text-pixel-plum uppercase leading-tight">Security Shield</p>
-              <p class="text-[10px] font-bold text-pixel-moss uppercase leading-tight">Active & Protected</p>
-            </div>
-          </div>
-          <div class="w-full bg-pixel-plum/10 h-1 rounded-full overflow-hidden">
-            <div class="bg-pixel-moss h-full w-[95%]"></div>
-          </div>
         </div>
       </div>
     </div>

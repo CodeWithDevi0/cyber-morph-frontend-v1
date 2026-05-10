@@ -12,12 +12,12 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: () => import('../views/LoginView.vue'),
+      component: () => import('../views/auth/LoginView.vue'),
     },
     {
       path: '/register',
       name: 'register',
-      component: () => import('../views/RegisterView.vue'),
+      component: () => import('../views/auth/RegisterView.vue'),
     },
     {
       path: '/portal',
@@ -27,42 +27,42 @@ const router = createRouter({
         {
           path: 'dashboard',
           name: 'dashboard',
-          component: () => import('../views/DashboardView.vue'),
+          component: () => import('../views/portal/player/DashboardView.vue'),
         },
         { 
           path: 'mission-hub', 
           name: 'mission-hub', 
-          component: () => import('../views/MissionHubView.vue') 
+          component: () => import('../views/portal/player/MissionHubView.vue') 
         },
         { 
           path: 'history', 
           name: 'history', 
-          component: () => import('../views/SessionHistoryView.vue') 
+          component: () => import('../views/portal/player/SessionHistoryView.vue') 
         },
         { 
           path: 'leaderboard', 
           name: 'leaderboard', 
-          component: () => import('../views/LeaderboardView.vue') 
+          component: () => import('../views/portal/shared/LeaderboardView.vue') 
         },
         { 
           path: 'educator', 
           name: 'educator', 
-          component: () => import('../views/EducatorPortalView.vue') 
+          component: () => import('../views/portal/educator/EducatorPortalView.vue') 
         },
         { 
           path: 'admin', 
           name: 'admin', 
-          component: () => import('../views/AdminPortalView.vue') 
+          component: () => import('../views/portal/admin/AdminPortalView.vue') 
         },
         { 
           path: 'classroom/join', 
           name: 'classroom-join', 
-          component: () => import('../views/ClassroomJoinView.vue') 
+          component: () => import('../views/portal/player/ClassroomJoinView.vue') 
         },
         { 
           path: 'threats', 
           name: 'threats', 
-          component: () => import('../views/ThreatIndexView.vue') 
+          component: () => import('../views/portal/player/ThreatIndexView.vue') 
         },
       ]
     },
