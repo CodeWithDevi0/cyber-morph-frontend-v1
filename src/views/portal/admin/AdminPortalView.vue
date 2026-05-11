@@ -10,6 +10,20 @@ const router = useRouter();
 const showWelcomeToast = ref(false);
 const activeTab = ref('overview'); // overview, users, pending
 
+const notification = ref({
+  show: false,
+  title: '',
+  message: '',
+  type: 'success' // success, alert
+});
+
+const triggerNotification = (title, message, type = 'success') => {
+  notification.value = { show: true, title, message, type };
+  setTimeout(() => {
+    notification.value.show = false;
+  }, 3000);
+};
+
 const systemStats = ref({
   totalUsers: 1542,
   activeSessions: 86,
@@ -43,10 +57,7 @@ onMounted(() => {
   if (route.query.login === 'success') {
     router.replace({ query: {} });
     setTimeout(() => {
-      showWelcomeToast.value = true;
-      setTimeout(() => {
-        showWelcomeToast.value = false;
-      }, 3000);
+      triggerNotification('Secure Link Established', 'Root Terminal Authorized', 'success');
     }, 500);
   }
 });
@@ -61,21 +72,25 @@ const getStatusColor = (status) => {
 };
 
 const handleApprove = (id) => {
-  // Dummy approve action
-  pendingApprovals.value = pendingApprovals.value.filter(p => p.id !== id);
-  console.log(`Approved user ${id}`);
+  const user = pendingApprovals.value.find(p => p.id === id);
+  if (user) {
+    pendingApprovals.value = pendingApprovals.value.filter(p => p.id !== id);
+    triggerNotification('Protocol Authorized', `Educator ${user.displayName} has been activated.`, 'success');
+  }
 };
 
 const handleDeny = (id) => {
-  // Dummy deny action
-  pendingApprovals.value = pendingApprovals.value.filter(p => p.id !== id);
-  console.log(`Denied user ${id}`);
+  const user = pendingApprovals.value.find(p => p.id === id);
+  if (user) {
+    pendingApprovals.value = pendingApprovals.value.filter(p => p.id !== id);
+    triggerNotification('Access Revoked', `Registration for ${user.displayName} was denied.`, 'alert');
+  }
 };
 </script>
 
 <template>
   <div class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 text-pixel-plum pb-12">
-    <!-- Success Toast Notification -->
+    <!-- Operational Toast Notification -->
     <transition
       enter-active-class="transition duration-500 ease-out"
       enter-from-class="transform translate-y-20 opacity-0"
@@ -84,13 +99,16 @@ const handleDeny = (id) => {
       leave-from-class="opacity-100"
       leave-to-class="opacity-0"
     >
-      <div v-if="showWelcomeToast" class="fixed bottom-8 right-8 z-100 flex items-center gap-4 bg-pixel-plum p-4 rounded-lg shadow-pixel-hero border border-white/20">
+      <div v-if="notification.show" class="fixed bottom-8 right-8 z-100 flex items-center gap-4 p-4 rounded-lg shadow-pixel-hero border border-white/20"
+        :class="notification.type === 'success' ? 'bg-pixel-plum' : 'bg-byte-coral'"
+      >
         <div class="w-10 h-10 bg-white/20 rounded flex items-center justify-center text-white">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
+          <svg v-if="notification.type === 'success'" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
+          <svg v-else xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         </div>
         <div>
-          <p class="text-pixel-10 font-black text-white/70 uppercase tracking-widest leading-none mb-1.5">Secure Link Established</p>
-          <p class="text-sm font-black text-white font-display uppercase tracking-tight">Root Terminal Authorized</p>
+          <p class="text-pixel-10 font-black text-white/70 uppercase tracking-widest leading-none mb-1.5">{{ notification.title }}</p>
+          <p class="text-sm font-black text-white font-display uppercase tracking-tight">{{ notification.message }}</p>
         </div>
       </div>
     </transition>
