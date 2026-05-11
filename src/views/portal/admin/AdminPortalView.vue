@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { useRoute, useRouter } from 'vue-router';
 import { mockAdmin } from '@/api/mock';
@@ -7,7 +7,7 @@ import { mockAdmin } from '@/api/mock';
 const auth = useAuthStore();
 const route = useRoute();
 const router = useRouter();
-const activeTab = ref('overview'); // overview, users, pending
+const activeTab = ref('overview'); // overview, users, pending, audit
 
 const notification = ref({
   show: false,
@@ -50,14 +50,30 @@ const auditLogs = ref([
   { id: 2, action: 'ROLE_UPDATE', user: 'System Root', timestamp: '15 mins ago', status: 'warning' },
   { id: 3, action: 'REGISTRATION', user: 'LogicBomb', timestamp: '1 hour ago', status: 'success' },
   { id: 4, action: 'SESSION_TERMINATED', user: 'GhostByte', timestamp: '2 hours ago', status: 'alert' },
+  { id: 5, action: 'SYNC_COMPLETED', user: 'PixelPioneer', timestamp: '3 hours ago', status: 'success' },
+  { id: 6, action: 'CLASSROOM_CREATED', user: 'Aris Thorne', timestamp: '5 hours ago', status: 'success' },
+  { id: 7, action: 'DATA_DELETED', user: 'System Root', timestamp: 'Yesterday', status: 'alert' },
+  { id: 8, action: 'PASSWORD_RESET', user: 'EchoZero', timestamp: 'Yesterday', status: 'warning' },
 ]);
 
 onMounted(() => {
+  if (route.query.tab) {
+    activeTab.value = route.query.tab;
+  }
+  
   if (route.query.login === 'success') {
     router.replace({ query: {} });
     setTimeout(() => {
       triggerNotification('Secure Link Established', 'Root Terminal Authorized', 'success');
     }, 500);
+  }
+});
+
+watch(() => route.query.tab, (newTab) => {
+  if (newTab) {
+    activeTab.value = newTab;
+  } else if (route.path === '/portal/admin') {
+    activeTab.value = 'overview';
   }
 });
 
@@ -172,6 +188,15 @@ const handleDeny = (id) => {
         <span>Authorization Queue</span>
         <span v-if="pendingApprovals.length > 0" class="w-2 h-2 rounded-full bg-byte-coral animate-pulse"></span>
       </button>
+      <button 
+        @click="activeTab = 'audit'"
+        :class="[
+          'px-6 py-3 text-xs font-black uppercase tracking-[0.15em] transition-all relative',
+          activeTab === 'audit' ? 'text-pixel-plum border-b-2 border-pixel-plum' : 'text-pixel-plum/30 hover:text-pixel-plum/60'
+        ]"
+      >
+        System Logs
+      </button>
     </div>
 
     <!-- TAB: OVERVIEW -->
@@ -197,7 +222,6 @@ const handleDeny = (id) => {
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-8">
-        <!-- Dashboard Snapshot -->
         <div class="space-y-6">
           <div class="pixel-card">
             <h3 class="text-xs font-black tracking-widest text-pixel-plum/80 uppercase mb-8 flex items-center gap-2 font-display">
@@ -226,15 +250,15 @@ const handleDeny = (id) => {
           </div>
         </div>
 
-        <!-- Audit Stream -->
+        <!-- Audit Stream Snapshot -->
         <div class="space-y-6">
           <div class="pixel-card bg-pixel-plum/5 border-pixel-plum/10 border-t-4 border-t-pixel-plum">
             <h3 class="text-xs font-black tracking-widest text-pixel-plum/80 uppercase mb-6 flex items-center gap-2 font-display">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-              Audit Stream
+              Recent System Events
             </h3>
             <div class="space-y-4">
-              <div v-for="log in auditLogs" :key="log.id" class="p-3 border-b border-pixel-plum/5 last:border-0 flex items-start gap-4">
+              <div v-for="log in auditLogs.slice(0, 4)" :key="log.id" class="p-3 border-b border-pixel-plum/5 last:border-0 flex items-start gap-4">
                 <div class="mt-1 w-1.5 h-1.5 rounded-full shrink-0" :class="getStatusColor(log.status)"></div>
                 <div class="space-y-1">
                   <p class="text-[11px] font-black text-pixel-plum tracking-tight leading-none uppercase">{{ log.action }}</p>
@@ -244,7 +268,7 @@ const handleDeny = (id) => {
                 </div>
               </div>
             </div>
-            <button class="w-full mt-6 py-2 border border-pixel-plum/10 rounded text-pixel-9 font-black uppercase text-pixel-plum/60 hover:bg-pixel-plum/5 transition-all tracking-widest">
+            <button @click="activeTab = 'audit'" class="w-full mt-6 py-2 border border-pixel-plum/10 rounded text-pixel-9 font-black uppercase text-pixel-plum/60 hover:bg-pixel-plum/5 transition-all tracking-widest">
               View Full System Logs
             </button>
           </div>
@@ -378,6 +402,46 @@ const handleDeny = (id) => {
             >
               Deny
             </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- TAB: SYSTEM LOGS (AUDIT) -->
+    <div v-if="activeTab === 'audit'" class="animate-in fade-in slide-in-from-top-4 duration-500">
+      <div class="pixel-card min-h-[600px]">
+        <div class="flex items-center justify-between mb-10 border-b border-pixel-plum/5 pb-6">
+          <h3 class="text-sm font-black tracking-widest text-pixel-plum/80 uppercase flex items-center gap-2 font-display">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+            System Event Audit Log
+          </h3>
+          <div class="flex gap-4">
+            <select class="px-4 py-2 bg-pixel-plum/5 border border-pixel-plum/10 rounded text-xs font-bold focus:outline-none">
+              <option>All Events</option>
+              <option>Security Only</option>
+              <option>Auth Events</option>
+            </select>
+            <button class="px-4 py-2 bg-pixel-plum text-white text-[10px] font-black uppercase tracking-widest rounded">Export PDF</button>
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <div v-for="log in auditLogs" :key="log.id" class="flex items-center justify-between p-4 hover:bg-pixel-plum/[0.03] rounded-lg transition-all group">
+            <div class="flex items-center gap-6">
+              <div class="w-2 h-2 rounded-full" :class="getStatusColor(log.status)"></div>
+              <div class="flex flex-col">
+                <span class="text-xs font-black text-pixel-plum uppercase tracking-tight">{{ log.action }}</span>
+                <span class="text-[10px] font-bold text-pixel-plum/40 uppercase tracking-tighter">{{ log.timestamp }}</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-12">
+              <div class="text-right">
+                <p class="text-[10px] font-black text-pixel-plum/40 uppercase tracking-widest leading-none mb-1">Operator</p>
+                <p class="text-xs font-bold text-pixel-violet uppercase">{{ log.user }}</p>
+              </div>
+              <div class="opacity-0 group-hover:opacity-100 transition-all">
+                <button class="text-pixel-10 font-black text-pixel-plum/40 uppercase hover:text-pixel-plum">Details</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

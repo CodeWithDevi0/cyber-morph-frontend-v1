@@ -84,12 +84,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useAuthStore } from '@/stores/auth';
-import { useRouter } from 'vue-router';
 
 const auth = useAuthStore();
-const router = useRouter();
 const displayName = ref('');
 const email = ref('');
 const password = ref('');

@@ -1,12 +1,12 @@
 <template>
-  <div class="min-h-screen bg-pixel-lilac text-pixel-plum font-sans flex overflow-hidden">
+  <div class="h-screen bg-pixel-lilac text-pixel-plum font-sans flex overflow-hidden">
     <!-- Sidebar Navigation -->
     <SideNav 
       class="hidden md:flex shrink-0 z-100" 
       @logout="showLogoutModal = true"
     />
 
-    <div class="flex-1 flex flex-col min-h-screen overflow-hidden">
+    <div class="flex-1 flex flex-col h-screen overflow-hidden">
       <!-- Mobile Header (Visible only on small screens) -->
       <header class="md:hidden bg-white/70 backdrop-blur-md border-b border-pixel-violet/15 p-4 flex items-center justify-between z-50">
         <h1 class="text-xl font-black tracking-tighter">CYBER<span class="text-pixel-violet">MORPH</span></h1>

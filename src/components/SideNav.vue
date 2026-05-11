@@ -1,18 +1,16 @@
 <script setup>
 import { computed } from 'vue';
 import { useAuthStore } from '@/stores/auth';
-import { useRouter, useRoute } from 'vue-router';
+import { useRoute } from 'vue-router';
 
 const auth = useAuthStore();
-const router = useRouter();
 const route = useRoute();
 
 const navLinks = computed(() => {
   if (auth.isAdmin) {
     return [
-      { name: 'ROOT', path: '/portal/admin', icon: 'shield-check' },
-      { name: 'USERS', path: '/portal/users', icon: 'users' },
-      { name: 'AUDIT', path: '/portal/audit', icon: 'file-text' },
+      { name: 'SYSTEM HUB', path: '/portal/admin', icon: 'shield-check' },
+      { name: 'AUDIT', path: '/portal/admin?tab=audit', icon: 'file-text' },
       { name: 'RANKINGS', path: '/portal/leaderboard', icon: 'trophy' },
     ];
   }
