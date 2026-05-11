@@ -7,7 +7,6 @@ import { mockAdmin } from '@/api/mock';
 const auth = useAuthStore();
 const route = useRoute();
 const router = useRouter();
-const showWelcomeToast = ref(false);
 const activeTab = ref('overview'); // overview, users, pending
 
 const notification = ref({
@@ -387,12 +386,8 @@ const handleDeny = (id) => {
 </template>
 
 <style scoped>
-@reference "@/assets/main.css";
+@reference "../../../assets/main.css";
 .stat-label-pixel {
   @apply text-pixel-10 uppercase font-black tracking-[0.2em] text-pixel-plum/40 mb-2 ml-1;
-}
-
-.pixel-card {
-  @apply bg-white/60 backdrop-blur-md border border-pixel-violet/10 p-6 rounded-xl shadow-pixel-soft;
 }
 </style>
