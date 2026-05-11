@@ -7,13 +7,12 @@ import { mockAdmin } from '@/api/mock';
 // Modular Components
 import AdminOverview from './components/AdminOverview.vue';
 import UserRegistry from './components/UserRegistry.vue';
-import AuthorizationQueue from './components/AuthorizationQueue.vue';
 import SystemAuditLog from './components/SystemAuditLog.vue';
 
 const auth = useAuthStore();
 const route = useRoute();
 const router = useRouter();
-const activeTab = ref('overview'); // overview, users, pending, audit
+const activeTab = ref('overview'); // overview, users, audit
 
 const notification = ref({
   show: false,
@@ -30,7 +29,6 @@ const triggerNotification = (title, message, type = 'success') => {
 // Mock Data State
 const systemStats = ref({ ...mockAdmin.stats });
 const allUsers = ref([...mockAdmin.all_users]);
-const pendingApprovals = ref([...mockAdmin.pending_approvals]);
 const auditLogs = ref([
   { id: 1, action: 'LOGIN_SUCCESS', user: 'NeonSpecter', timestamp: '2 mins ago', status: 'success' },
   { id: 2, action: 'ROLE_UPDATE', user: 'System Root', timestamp: '15 mins ago', status: 'warning' },
@@ -70,16 +68,6 @@ const getStatusColor = (status) => {
     case 'alert': return 'text-byte-coral';
     default: return 'text-pixel-plum/40';
   }
-};
-
-const handleApprove = (id) => {
-  pendingApprovals.value = pendingApprovals.value.filter(a => a.id !== id);
-  triggerNotification('Protocol Authorized', 'Educator account active', 'success');
-};
-
-const handleDeny = (id) => {
-  pendingApprovals.value = pendingApprovals.value.filter(a => a.id !== id);
-  triggerNotification('Access Revoked', 'Identity purged from queue', 'alert');
 };
 </script>
 
@@ -149,16 +137,6 @@ const handleDeny = (id) => {
         User Registry
       </button>
       <button 
-        @click="activeTab = 'pending'"
-        :class="[
-          'px-6 py-3 text-xs font-black uppercase tracking-[0.15em] transition-all relative flex items-center gap-2',
-          activeTab === 'pending' ? 'text-pixel-plum border-b-2 border-pixel-plum' : 'text-pixel-plum/30 hover:text-pixel-plum/60'
-        ]"
-      >
-        <span>Authorization Queue</span>
-        <span v-if="pendingApprovals.length > 0" class="w-2 h-2 rounded-full bg-byte-coral animate-pulse"></span>
-      </button>
-      <button 
         @click="activeTab = 'audit'"
         :class="[
           'px-6 py-3 text-xs font-black uppercase tracking-[0.15em] transition-all relative',
@@ -183,13 +161,6 @@ const handleDeny = (id) => {
       <UserRegistry 
         v-if="activeTab === 'users'" 
         :all-users="allUsers"
-      />
-
-      <AuthorizationQueue 
-        v-if="activeTab === 'pending'" 
-        :pending-approvals="pendingApprovals"
-        @approve="handleApprove"
-        @deny="handleDeny"
       />
 
       <SystemAuditLog 

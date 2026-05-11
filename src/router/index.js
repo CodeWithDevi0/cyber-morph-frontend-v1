@@ -55,6 +55,11 @@ const router = createRouter({
           component: () => import('../views/portal/admin/AdminPortalView.vue') 
         },
         { 
+          path: 'admin/approvals', 
+          name: 'admin-approvals', 
+          component: () => import('../views/portal/admin/AuthorizationQueueView.vue') 
+        },
+        { 
           path: 'classroom/join', 
           name: 'classroom-join', 
           component: () => import('../views/portal/player/ClassroomJoinView.vue') 

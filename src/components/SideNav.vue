@@ -10,7 +10,7 @@ const navLinks = computed(() => {
   if (auth.isAdmin) {
     return [
       { name: 'SYSTEM HUB', path: '/portal/admin', icon: 'shield-check' },
-      { name: 'AUDIT', path: '/portal/admin?tab=audit', icon: 'file-text' },
+      { name: 'PROTOCOLS', path: '/portal/admin/approvals', icon: 'user-check' },
       { name: 'RANKINGS', path: '/portal/leaderboard', icon: 'trophy' },
     ];
   }

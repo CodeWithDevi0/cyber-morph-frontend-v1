@@ -23,7 +23,24 @@ export const mockAdmin = {
   display_name: "System Administrator",
   role: "admin",
   portal_access: true,
-  last_login_at: new Date().toISOString()
+  last_login_at: new Date().toISOString(),
+  stats: {
+    totalUsers: 1254,
+    activeSessions: 42,
+    threatsDetected: 8,
+    systemUptime: "99.9%"
+  },
+  all_users: [
+    { id: 'u1', username: 'NeonSpecter', email: 'neon@cyber.net', role: 'player', status: 'active', joined: '2026-05-01' },
+    { id: 'u2', username: 'ByteGhost', email: 'ghost@vault.io', role: 'player', status: 'active', joined: '2026-05-02' },
+    { id: 'u3', username: 'LogicBomb', email: 'bomb@dnsc.edu.ph', role: 'educator', status: 'active', joined: '2026-05-03' },
+    { id: 'u4', username: 'EchoZero', email: 'echo@void.com', role: 'player', status: 'inactive', joined: '2026-04-28' },
+    { id: 'u5', username: 'Aris Thorne', email: 'thorne@dnsc.edu.ph', role: 'educator', status: 'active', joined: '2026-05-05' },
+  ],
+  pending_approvals: [
+    { id: 'p1', displayName: 'Dr. Aris Thorne', email: 'thorne@dnsc.edu.ph', appliedAt: '2 hours ago' },
+    { id: 'p2', displayName: 'Sarah Connor', email: 'sarah@skynet.com', appliedAt: '5 hours ago' },
+  ]
 };
 
 export const mockToken = "mock_jwt_token_cybermorph_v1";
