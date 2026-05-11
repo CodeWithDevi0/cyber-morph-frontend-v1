@@ -180,8 +180,12 @@
       <!-- Last Mission Snippet -->
       <div class="pixel-card flex items-center justify-between p-4 px-6 bg-white/40">
         <div class="flex items-center gap-4">
-          <div class="w-10 h-10 rounded bg-pixel-moss/20 flex items-center justify-center">
+          <div :class="[
+            'w-10 h-10 rounded flex items-center justify-center',
+            latestSession ? (latestSession.result === 'win' ? 'bg-pixel-moss/20' : 'bg-byte-coral/20') : 'bg-pixel-plum/10'
+          ]">
             <svg
+              v-if="latestSession"
               xmlns="http://www.w3.org/2000/svg"
               width="20"
               height="20"
@@ -189,23 +193,46 @@
               fill="none"
               stroke="currentColor"
               stroke-width="3"
-              class="text-pixel-moss"
+              :class="latestSession.result === 'win' ? 'text-pixel-moss' : 'text-byte-coral'"
             >
-              <path d="M20 6 9 17l-5-5" />
+              <path v-if="latestSession.result === 'win'" d="M20 6 9 17l-5-5" />
+              <path v-else d="M18 6 6 18M6 6l12 12" />
+            </svg>
+            <svg
+              v-else
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3"
+              class="text-pixel-plum/20"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
             </svg>
           </div>
           <div>
             <p
               class="text-pixel-10 font-black text-pixel-plum/40 uppercase tracking-widest leading-none mb-1"
             >
-              Latest Mission: Success
+              Latest Mission: {{ latestSession ? (latestSession.result === 'win' ? 'Success' : 'Failed') : 'No History' }}
             </p>
-            <p class="text-sm font-black text-pixel-plum uppercase">Internet Cafe Sector Cleared</p>
+            <p class="text-sm font-black text-pixel-plum uppercase">
+              {{ latestSession ? `${latestSession.map_name} Sector` : 'Pending Deployment' }}
+            </p>
           </div>
         </div>
-        <div class="text-right">
-          <p class="text-sm font-black text-pixel-moss">+240 CR</p>
-          <p class="text-pixel-9 font-black text-pixel-plum/30 uppercase">2h ago</p>
+        <div class="text-right" v-if="latestSession">
+          <p :class="[
+            'text-sm font-black',
+            latestSession.credits_earned > latestSession.credits_lost ? 'text-pixel-moss' : 'text-byte-coral'
+          ]">
+            {{ latestSession.credits_earned > latestSession.credits_lost ? '+' : '' }}{{ latestSession.credits_earned - latestSession.credits_lost }} CR
+          </p>
+          <p class="text-pixel-9 font-black text-pixel-plum/30 uppercase">{{ formatRelativeTime(latestSession.played_at) }}</p>
         </div>
       </div>
 
@@ -246,9 +273,26 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import { sessionsApi } from '@/api/sessions'
 
 const auth = useAuthStore()
+const latestSession = ref(null)
+const isLoading = ref(true)
+
+onMounted(async () => {
+  try {
+    const history = await sessionsApi.getHistory()
+    if (history && history.length > 0) {
+      latestSession.value = history[0]
+    }
+  } catch (err) {
+    console.error('[Dashboard] Failed to fetch session history:', err)
+  } finally {
+    isLoading.value = false
+  }
+})
 
 const getNextMapName = () => {
   const maps = ['Home', 'Internet Cafe', 'Office', 'Public Park']
@@ -271,6 +315,21 @@ const formatDate = (dateStr) => {
     console.warn('[Dashboard] Date formatting error:', err)
     return 'N/A'
   }
+}
+
+const formatRelativeTime = (dateStr) => {
+  if (!dateStr) return ''
+  const date = new Date(dateStr)
+  const now = new Date()
+  const diffInMinutes = Math.floor((now - date) / (1000 * 60))
+  
+  if (diffInMinutes < 1) return 'Just now'
+  if (diffInMinutes < 60) return `${diffInMinutes}m ago`
+  
+  const diffInHours = Math.floor(diffInMinutes / 60)
+  if (diffInHours < 24) return `${diffInHours}h ago`
+  
+  return formatDate(dateStr)
 }
 </script>
 

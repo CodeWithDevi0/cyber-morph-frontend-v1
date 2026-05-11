@@ -55,15 +55,15 @@
       <form v-else @submit.prevent="handleRegister" class="space-y-5">
         <div>
           <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-pixel-violet mb-1.5 ml-1">Display Name</label>
-          <input v-model="displayName" type="text" class="w-full bg-white/50 border border-pixel-violet/15 p-3 text-pixel-plum rounded-md focus:border-pixel-violet/50 outline-none transition-all" placeholder="Dr. Aris Thorne" required />
+          <input v-model="displayName" @input="auth.error = null" type="text" class="w-full bg-white/50 border border-pixel-violet/15 p-3 text-pixel-plum rounded-md focus:border-pixel-violet/50 outline-none transition-all" placeholder="Dr. Aris Thorne" required />
         </div>
         <div>
           <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-pixel-violet mb-1.5 ml-1">Email</label>
-          <input v-model="email" type="email" class="w-full bg-white/50 border border-pixel-violet/15 p-3 text-pixel-plum rounded-md focus:border-pixel-violet/50 outline-none transition-all" placeholder="teacher@test.com" required />
+          <input v-model="email" @input="auth.error = null" type="email" class="w-full bg-white/50 border border-pixel-violet/15 p-3 text-pixel-plum rounded-md focus:border-pixel-violet/50 outline-none transition-all" placeholder="teacher@test.com" required />
         </div>
         <div>
           <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-pixel-violet mb-1.5 ml-1">Secret Key (Password)</label>
-          <input v-model="password" type="password" class="w-full bg-white/50 border border-pixel-violet/15 p-3 text-pixel-plum rounded-md focus:border-pixel-violet/50 outline-none transition-all" placeholder="••••••••" required />
+          <input v-model="password" @input="auth.error = null" type="password" class="w-full bg-white/50 border border-pixel-violet/15 p-3 text-pixel-plum rounded-md focus:border-pixel-violet/50 outline-none transition-all" placeholder="••••••••" required />
         </div>
         
         <button 
@@ -94,6 +94,10 @@ const displayName = ref('');
 const email = ref('');
 const password = ref('');
 const isSubmitted = ref(false);
+
+onMounted(() => {
+  auth.error = null; // Clear any previous errors
+});
 
 const handleRegister = async () => {
   const success = await auth.registerEducator({ 

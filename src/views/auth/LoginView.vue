@@ -56,11 +56,11 @@
       <form @submit.prevent="handleLogin" class="space-y-5">
         <div>
           <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-pixel-violet mb-1.5 ml-1">Identity (Email)</label>
-          <input v-model="email" type="email" class="w-full bg-white/50 border border-pixel-violet/15 p-3 text-pixel-plum rounded-md focus:border-pixel-violet/50 outline-none transition-all" placeholder="player@test.com" required />
+          <input v-model="email" @input="auth.error = null" type="email" class="w-full bg-white/50 border border-pixel-violet/15 p-3 text-pixel-plum rounded-md focus:border-pixel-violet/50 outline-none transition-all" placeholder="player@test.com" required />
         </div>
         <div>
           <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-pixel-violet mb-1.5 ml-1">Access Key (Password)</label>
-          <input v-model="password" type="password" class="w-full bg-white/50 border border-pixel-violet/15 p-3 text-pixel-plum rounded-md focus:border-pixel-violet/50 outline-none transition-all" placeholder="••••••••" required />
+          <input v-model="password" @input="auth.error = null" type="password" class="w-full bg-white/50 border border-pixel-violet/15 p-3 text-pixel-plum rounded-md focus:border-pixel-violet/50 outline-none transition-all" placeholder="••••••••" required />
         </div>
         
         <button 
@@ -102,6 +102,7 @@ const showLogoutToast = ref(false);
 const isLogoutSuccess = computed(() => route.query.logout === 'success');
 
 onMounted(() => {
+  auth.error = null; // Clear any previous errors
   if (isLogoutSuccess.value) {
     showLogoutToast.value = true;
     // Clear the URL immediately so refresh doesn't trigger it again
