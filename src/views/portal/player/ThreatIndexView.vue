@@ -16,13 +16,13 @@ const fetchThreats = async () => {
   isLoading.value = true
   try {
     const data = await playersApi.getThreatIndex()
-    // Map backend fields (threat_name, threat_icon) to component props (name, icon)
+    // Map backend fields to component props, using local helpers for visuals
     threats.value = data.map(t => ({
       id: t.index_id,
       name: t.threat_name,
-      icon: t.threat_icon,
+      icon: getThreatIcon(t.threat_name),
       unlocked: t.is_unlocked,
-      description: getThreatDescription(t.threat_name) // Keep descriptions local for now
+      description: getThreatDescription(t.threat_name)
     }))
   } catch (err) {
     console.error('[ThreatIndex] Failed to load intelligence records:', err)
@@ -30,7 +30,7 @@ const fetchThreats = async () => {
     // Artificial delay for premium feel
     setTimeout(() => {
       isLoading.value = false
-    }, 800)
+    }, 400)
   }
 }
 
@@ -38,7 +38,22 @@ onMounted(() => {
   fetchThreats()
 })
 
-// Local descriptions (not in DB yet to save space)
+// Visual Helper: Icons (Keep DB lean by hardcoding these in the UI)
+const getThreatIcon = (name) => {
+  const icons = {
+    'Rogue Software': 'box',
+    'Password Attacks': 'key',
+    'Phishing': 'mail',
+    'Malvertising': 'layout',
+    'Malware': 'shield-alert',
+    'Man-in-the-Middle': 'users',
+    'DDoS': 'zap',
+    'Drive-By Download': 'download'
+  }
+  return icons[name] || 'help-circle'
+}
+
+// Visual Helper: Descriptions
 const getThreatDescription = (name) => {
   const descriptions = {
     'Rogue Software': 'Unauthorized programs that perform malicious actions while appearing legitimate.',

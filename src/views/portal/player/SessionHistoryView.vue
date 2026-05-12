@@ -24,7 +24,7 @@ const fetchHistory = async () => {
     // Artificial delay for premium feel
     setTimeout(() => {
       isLoading.value = false
-    }, 800)
+    }, 400)
   }
 }
 
