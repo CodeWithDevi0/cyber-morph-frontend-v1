@@ -1,12 +1,57 @@
 <script setup>
+import { ref, onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
-import { mockThreats } from '@/api/mock'
+import { playersApi } from '@/api/players'
 
 // Components
 import PortalHeader from '@/components/PortalHeader.vue'
 import ThreatCard from './components/ThreatCard.vue'
+import LoadingSkeleton from '@/components/LoadingSkeleton.vue'
 
 const auth = useAuthStore()
+const threats = ref([])
+const isLoading = ref(true)
+
+const fetchThreats = async () => {
+  isLoading.value = true
+  try {
+    const data = await playersApi.getThreatIndex()
+    // Map backend fields (threat_name, threat_icon) to component props (name, icon)
+    threats.value = data.map(t => ({
+      id: t.index_id,
+      name: t.threat_name,
+      icon: t.threat_icon,
+      unlocked: t.is_unlocked,
+      description: getThreatDescription(t.threat_name) // Keep descriptions local for now
+    }))
+  } catch (err) {
+    console.error('[ThreatIndex] Failed to load intelligence records:', err)
+  } finally {
+    // Artificial delay for premium feel
+    setTimeout(() => {
+      isLoading.value = false
+    }, 800)
+  }
+}
+
+onMounted(() => {
+  fetchThreats()
+})
+
+// Local descriptions (not in DB yet to save space)
+const getThreatDescription = (name) => {
+  const descriptions = {
+    'Rogue Software': 'Unauthorized programs that perform malicious actions while appearing legitimate.',
+    'Password Attacks': 'Techniques used to crack or bypass authentication by targeting user credentials.',
+    'Phishing': 'Social engineering attacks designed to steal sensitive data via deceptive communications.',
+    'Malvertising': 'The use of online advertising to spread malware through legitimate ad networks.',
+    'Malware': 'Malicious software designed to infiltrate, damage, or gain unauthorized access to systems.',
+    'Man-in-the-Middle': 'Attacks where an adversary intercepts and potentially alters communication between two parties.',
+    'DDoS': 'Distributed Denial of Service attacks aimed at overwhelming system resources to cause downtime.',
+    'Drive-By Download': 'Unintentional downloads of malicious code that occur when visiting compromised websites.'
+  }
+  return descriptions[name] || 'Intelligence record pending analysis.'
+}
 </script>
 
 <template>
@@ -20,10 +65,15 @@ const auth = useAuthStore()
       statusColor="coral"
     />
 
+    <!-- Content -->
+    <div v-if="isLoading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <LoadingSkeleton height="h-64" v-for="i in 8" :key="i" />
+    </div>
+
     <!-- Threat Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       <ThreatCard 
-        v-for="threat in mockThreats" 
+        v-for="threat in threats" 
         :key="threat.id"
         :threat="threat"
       />
