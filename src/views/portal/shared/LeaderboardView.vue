@@ -14,14 +14,10 @@ watch([activeTab, searchQuery], () => {
 });
 
 const filteredScores = computed(() => {
-  let scores = [];
-  if (activeTab.value === 'Overall') {
-    scores = [...mockLeaderboard];
-  } else {
-    scores = mockLeaderboard.filter(s => s.map_name === activeTab.value);
-  }
+  const scores = activeTab.value === 'Overall' 
+    ? [...mockLeaderboard] 
+    : mockLeaderboard.filter(s => s.map_name === activeTab.value);
   
-  // Sort by score
   return scores.sort((a, b) => b.total_score - a.total_score);
 });
 
@@ -90,7 +86,7 @@ const getRankColor = (index) => {
           <span class="mx-3 opacity-30 hidden sm:inline">|</span> 
           <div class="flex items-center">
             <span class="mr-2">Records:</span>
-            <span class="text-pixel-plum">{{ filteredScores.length }} Personnel Identified</span>
+            <span class="text-pixel-plum">{{ searchedScores.length }} Personnel Identified</span>
           </div>
         </div>
       </div>
