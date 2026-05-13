@@ -86,9 +86,14 @@ export const mockLeaderboard = [
   { score_id: "s2", username: "ByteGhost", total_score: 2720, map_name: "Home", recorded_at: "2026-05-02T15:30:00Z" },
   { score_id: "s3", username: "CyberMorphDemo", total_score: 2450, map_name: "Home", recorded_at: "2026-05-07T10:30:00Z" },
   { score_id: "s4", username: "GlitchHunter", total_score: 2100, map_name: "Home", recorded_at: "2026-04-28T09:00:00Z" },
-  { score_id: "s5", username: "LogicBomb", total_score: 3100, map_name: "Internet Cafe", recorded_at: "2026-05-03T11:00:00Z" },
-  { score_id: "s6", username: "NeoViper", total_score: 2900, map_name: "Internet Cafe", recorded_at: "2026-05-04T16:00:00Z" },
-  { score_id: "s7", username: "PixelPioneer", total_score: 1800, map_name: "Office", recorded_at: "2026-05-05T10:00:00Z" },
+  { score_id: "s5", username: "LogicBomb", total_score: 3500, map_name: "Internet Cafe", recorded_at: "2026-05-03T11:00:00Z" },
+  { score_id: "s6", username: "SignalLost", total_score: 2900, map_name: "Internet Cafe", recorded_at: "2026-05-04T16:00:00Z" },
+  { score_id: "s7", username: "PixelPioneer", total_score: 4200, map_name: "Office", recorded_at: "2026-05-05T10:00:00Z" },
+  { score_id: "s8", username: "VoidWalker", total_score: 3800, map_name: "Office", recorded_at: "2026-05-06T11:00:00Z" },
+  { score_id: "s9", username: "RootUser", total_score: 5100, map_name: "Public Park", recorded_at: "2026-05-08T14:00:00Z" },
+  { score_id: "s10", username: "CyberGhost", total_score: 4800, map_name: "Public Park", recorded_at: "2026-05-09T09:00:00Z" },
+  { score_id: "s11", username: "DataSurge", total_score: 3100, map_name: "Office", recorded_at: "2026-05-09T15:00:00Z" },
+  { score_id: "s12", username: "EchoZero", total_score: 1500, map_name: "Home", recorded_at: "2026-05-10T10:00:00Z" },
 ];
 
 export const mockEducator = {
