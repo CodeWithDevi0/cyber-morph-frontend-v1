@@ -9,7 +9,13 @@ defineProps({
     <div class="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10">
       <nav class="flex items-center justify-between gap-4 py-4" aria-label="Public navigation">
         <router-link to="/" class="brand-mark" aria-label="CyberMorph home">
-          <span class="brand-glyph">CM</span>
+          <div class="brand-glyph overflow-hidden">
+            <img 
+              src="@/assets/logo.png" 
+              alt="CyberMorph Logo" 
+              class="h-full w-full object-contain p-1.5"
+            />
+          </div>
           <span>CyberMorph</span>
         </router-link>
 
