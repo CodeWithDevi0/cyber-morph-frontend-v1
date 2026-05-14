@@ -20,6 +20,7 @@ const navItems = [
   { label: 'Threats', href: '#attacks' },
   { label: 'Showcase', href: '#showcase' },
   { label: 'Updates', href: '#updates' },
+  { label: 'Download', href: '/download' },
 ]
 
 const attacks = [

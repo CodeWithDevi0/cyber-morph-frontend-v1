@@ -20,9 +20,14 @@ defineProps({
         </router-link>
 
         <div class="hidden items-center gap-8 md:flex">
-          <a v-for="item in navItems" :key="item.href" :href="item.href" class="nav-anchor">
-            {{ item.label }}
-          </a>
+          <template v-for="item in navItems" :key="item.href">
+            <router-link v-if="item.href.startsWith('/')" :to="item.href" class="nav-anchor">
+              {{ item.label }}
+            </router-link>
+            <a v-else :href="item.href" class="nav-anchor">
+              {{ item.label }}
+            </a>
+          </template>
         </div>
 
         <router-link to="/login" class="nav-login">Login</router-link>
