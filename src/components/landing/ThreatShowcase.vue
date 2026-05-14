@@ -51,6 +51,7 @@ const activeAttack = computed(
               class="w-full h-full object-cover opacity-80"
               alt="Thumbnail"
               style="image-rendering: pixelated"
+              loading="lazy"
             />
           </div>
           <div class="flex flex-col items-center lg:items-start">
@@ -83,6 +84,7 @@ const activeAttack = computed(
           :alt="activeAttack.title"
           class="relative z-10 w-full h-auto object-contain drop-shadow-[0_0_25px_rgba(0,0,0,0.6)] transition-all duration-300"
           style="image-rendering: pixelated"
+          loading="lazy"
         />
 
         <!-- Action Bar (Below Image) -->
@@ -131,7 +133,11 @@ const activeAttack = computed(
                 class="absolute inset-0 bg-black/40 z-10 transition-opacity"
                 :class="activeAttackId === attack.id ? 'opacity-0' : 'opacity-100'"
               ></div>
-              <img :src="attack.image" class="w-full h-full object-cover bg-black" />
+              <img 
+                :src="attack.image" 
+                class="w-full h-full object-cover bg-black" 
+                loading="lazy"
+              />
             </button>
           </div>
         </div>

@@ -18,7 +18,13 @@ defineProps({
       <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
         <article v-for="item in showcases" :key="item.title" class="showcase-panel">
           <div class="showcase-art" aria-hidden="true">
-            <img v-if="item.image" :src="item.image" :alt="item.title" class="showcase-img" />
+            <img 
+              v-if="item.image" 
+              :src="item.image" 
+              :alt="item.title" 
+              class="showcase-img" 
+              loading="lazy"
+            />
             <div v-else class="showcase-placeholder">
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />

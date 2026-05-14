@@ -314,12 +314,6 @@ const draw = () => {
   })
 
   ctx.clearRect(0, 0, canvas.width, canvas.height)
-  ctx.fillStyle = 'rgba(125, 92, 255, 0.05)'
-  for (let i = 0; i < canvas.width; i += 40) {
-    for (let j = 0; j < canvas.height; j += 40) {
-      ctx.fillRect(i, j, 2, 2)
-    }
-  }
 
   const renderables = [
     { type: 'player', y: player.y + player.height / 2, data: player },
