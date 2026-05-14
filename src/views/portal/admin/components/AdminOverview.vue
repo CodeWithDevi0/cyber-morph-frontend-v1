@@ -44,56 +44,93 @@ defineEmits(['changeTab']);
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-8">
-      <!-- Dashboard Snapshot -->
-      <div class="space-y-6">
+      <!-- Left Column: Health & Roles -->
+      <div class="space-y-8">
+        <!-- 1. System Vital Monitors -->
         <div class="pixel-card">
-          <h3 class="text-xs font-black tracking-widest text-pixel-plum/80 uppercase mb-8 flex items-center gap-2 font-display">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>
-            Recent System Activity
+          <h3 class="text-xs font-black tracking-widest text-pixel-plum/80 uppercase mb-6 flex items-center gap-2 font-display">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            Service Health Protocols
           </h3>
-          <div class="space-y-4">
-            <div v-for="user in allUsers.slice(0, 3)" :key="user.id" class="flex items-center justify-between p-4 bg-pixel-plum/5 rounded-lg border border-pixel-plum/5">
-              <div class="flex items-center gap-4">
-                <div class="w-10 h-10 rounded bg-pixel-violet/10 flex items-center justify-center text-pixel-violet font-black text-sm">
-                  {{ user.username.charAt(0) }}
-                </div>
-                <div>
-                  <p class="text-sm font-black text-pixel-plum uppercase">{{ user.username }}</p>
-                  <p class="text-pixel-10 font-bold text-pixel-plum/40 uppercase tracking-tighter">{{ user.role }} • {{ user.lastLogin }}</p>
-                </div>
-              </div>
-              <div class="text-right">
-                <span class="text-pixel-10 font-black uppercase px-2 py-0.5 rounded bg-pixel-moss/10 text-pixel-moss">Active</span>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div v-for="service in [
+              { name: 'AUTH_GATEWAY', status: 'Online', color: 'bg-pixel-moss' },
+              { name: 'SIM_ENGINE', status: 'Online', color: 'bg-pixel-moss' },
+              { name: 'DATA_VAULT', status: 'Syncing', color: 'bg-signal-gold' },
+              { name: 'EDGE_NODE', status: 'Online', color: 'bg-pixel-moss' }
+            ]" :key="service.name" class="p-3 bg-pixel-plum/5 rounded border border-pixel-plum/5 flex items-center gap-3">
+              <div class="w-2 h-2 rounded-full animate-pulse" :class="service.color"></div>
+              <div>
+                <p class="text-[9px] font-black text-pixel-plum/40 uppercase leading-none mb-1">{{ service.name }}</p>
+                <p class="text-[11px] font-black text-pixel-plum uppercase tracking-tighter">{{ service.status }}</p>
               </div>
             </div>
           </div>
-          <button @click="$emit('changeTab', 'users')" class="w-full mt-6 py-3 bg-pixel-plum/5 rounded text-xs font-black uppercase text-pixel-plum/60 hover:bg-pixel-plum/10 transition-all tracking-[0.2em]">
-            Access User Registry
-          </button>
+        </div>
+
+        <!-- 2. User Role Distribution -->
+        <div class="pixel-card">
+          <h3 class="text-xs font-black tracking-widest text-pixel-plum/80 uppercase mb-6 flex items-center gap-2 font-display">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Network Role Allocation
+          </h3>
+          <div class="space-y-5">
+            <div v-for="role in [
+              { label: 'Level 1 Operatives', count: allUsers.filter(u => u.role === 'player').length, total: allUsers.length, color: 'bg-pixel-violet' },
+              { label: 'Command Instructors', count: allUsers.filter(u => u.role === 'educator').length, total: allUsers.length, color: 'bg-signal-gold' },
+              { label: 'System Oversight', count: allUsers.filter(u => u.role === 'admin').length, total: allUsers.length, color: 'bg-byte-coral' }
+            ]" :key="role.label">
+              <div class="flex justify-between text-[10px] font-black uppercase mb-2">
+                <span class="text-pixel-plum/60">{{ role.label }}</span>
+                <span class="text-pixel-plum">{{ role.count }}</span>
+              </div>
+              <div class="h-2 bg-pixel-plum/5 rounded-full overflow-hidden">
+                <div class="h-full transition-all duration-1000" :class="role.color" :style="{ width: `${(role.count / role.total) * 100}%` }"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Audit Stream Snapshot -->
-      <div class="space-y-6">
-        <div class="pixel-card bg-pixel-plum/5 border-pixel-plum/10 border-t-4 border-t-pixel-plum">
-          <h3 class="text-xs font-black tracking-widest text-pixel-plum/80 uppercase mb-6 flex items-center gap-2 font-display">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-            Recent System Events
+      <!-- Right Column: Heatmap -->
+      <div class="space-y-8">
+        <!-- 3. Global Activity Heatmap (Stylized) -->
+        <div class="pixel-card bg-[#1a1c23] border-[#2d303e] h-full flex flex-col">
+          <h3 class="text-xs font-black tracking-widest text-white/60 uppercase mb-6 flex items-center gap-2 font-display">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 0 20 15.3 15.3 0 0 1 0-20Z"/></svg>
+            Simulation Vector Map
           </h3>
-          <div class="space-y-4">
-            <div v-for="log in auditLogs.slice(0, 4)" :key="log.id" class="p-3 border-b border-pixel-plum/5 last:border-0 flex items-start gap-4">
-              <div class="mt-1 w-1.5 h-1.5 rounded-full shrink-0" :class="getStatusColor(log.status)"></div>
-              <div class="space-y-1">
-                <p class="text-[11px] font-black text-pixel-plum tracking-tight leading-none uppercase">{{ log.action }}</p>
-                <p class="text-pixel-10 font-bold text-pixel-plum/40 uppercase tracking-tighter">
-                  User: <span class="text-pixel-violet">{{ log.user }}</span> • {{ log.timestamp }}
-                </p>
-              </div>
+          <div class="flex-1 min-h-[300px] bg-black/40 rounded border border-white/5 relative overflow-hidden group">
+            <!-- Mock Grid / Map Pattern -->
+            <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(circle, #7D5CFF 1px, transparent 1px); background-size: 20px 20px;"></div>
+            
+            <!-- Pulsing Activity Points -->
+            <div v-for="point in [
+              { t: '15%', l: '25%', c: 'bg-pixel-violet' },
+              { t: '65%', l: '75%', c: 'bg-pixel-violet' },
+              { t: '40%', l: '50%', c: 'bg-byte-coral' },
+              { t: '80%', l: '20%', c: 'bg-signal-gold' },
+              { t: '30%', l: '85%', c: 'bg-pixel-violet' }
+            ]" :key="point.t" 
+                 class="absolute w-3 h-3 rounded-full animate-ping opacity-75"
+                 :class="point.c"
+                 :style="{ top: point.t, left: point.l }"></div>
+            
+            <div class="absolute inset-0 flex items-center justify-center">
+              <p class="text-[9px] font-black text-white/30 uppercase tracking-[0.5em] group-hover:text-white/60 transition-colors">Sector: ALPHA-9</p>
             </div>
           </div>
-          <button @click="$emit('changeTab', 'audit')" class="w-full mt-6 py-2 border border-pixel-plum/10 rounded text-pixel-9 font-black uppercase text-pixel-plum/60 hover:bg-pixel-plum/5 transition-all tracking-widest">
-            View Full System Logs
-          </button>
+          <div class="mt-6 flex justify-between items-center text-[9px] font-black uppercase text-white/40">
+            <div class="flex items-center gap-4">
+              <span class="flex items-center gap-1.5"><div class="w-1.5 h-1.5 rounded-full bg-pixel-violet"></div> Home</span>
+              <span class="flex items-center gap-1.5"><div class="w-1.5 h-1.5 rounded-full bg-byte-coral"></div> Office</span>
+              <span class="flex items-center gap-1.5"><div class="w-1.5 h-1.5 rounded-full bg-signal-gold"></div> Cafe</span>
+            </div>
+            <span class="text-pixel-moss flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
+              Secure
+            </span>
+          </div>
         </div>
       </div>
     </div>

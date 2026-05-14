@@ -21,13 +21,22 @@ export const mockPlayer = {
  * Central source of truth for all actors in the system.
  */
 export const mockUsers = [
-  { id: 'u1', username: 'NeonSpecter', email: 'neon@cyber.net', role: 'player', status: 'active', joined: '2026-05-01', map_progress: 2, security_credits: 1540, last_synced_at: "2026-05-07T12:00:00Z", classroom_code: "MORPH9" },
-  { id: 'u2', username: 'ByteGhost', email: 'ghost@vault.io', role: 'player', status: 'active', joined: '2026-05-02', map_progress: 1, security_credits: 1100, last_synced_at: "2026-05-06T15:00:00Z", classroom_code: "MORPH9" },
-  { id: 'u3', username: 'LogicBomb', email: 'bomb@dnsc.edu.ph', role: 'educator', status: 'active', joined: '2026-05-03', portal_access: true },
-  { id: 'u4', username: 'EchoZero', email: 'echo@void.com', role: 'player', status: 'inactive', joined: '2026-04-28', map_progress: 0, security_credits: 100, last_synced_at: null, classroom_code: "CYBER2" },
-  { id: 'u5', username: 'Aris Thorne', email: 'thorne@dnsc.edu.ph', role: 'educator', status: 'active', joined: '2026-05-05', portal_access: true },
-  { id: 'u6', username: 'NeonViper', email: 'viper@strike.net', role: 'player', status: 'active', joined: '2026-05-06', map_progress: 3, security_credits: 2200, last_synced_at: "2026-05-08T09:00:00Z", classroom_code: "CYBER2" },
-  { id: 'u7', username: 'System Root', email: 'root@cybermorph.dev', role: 'admin', status: 'active', joined: '2026-01-01', portal_access: true },
+  // Admins (Root Level)
+  { id: 'u1', username: 'SystemRoot', full_name: 'Josip Admin', email: 'admin@cybermorph.dev', role: 'admin', status: 'active', joined: '2026-01-15', portal_access: true },
+  
+  // Educators (Command Instructors)
+  { id: 'u2', username: 'AThorne', full_name: 'Dr. Aris Thorne', email: 'thorne@dnsc.edu.ph', role: 'educator', status: 'active', joined: '2026-03-10', portal_access: true },
+  { id: 'u3', username: 'SConnor', full_name: 'Sarah Connor', email: 's.connor@cybersec.edu', role: 'educator', status: 'active', joined: '2026-04-02', portal_access: true },
+  { id: 'u4', username: 'MAnderson', full_name: 'Mark Anderson', email: 'anderson.m@dnsc.edu.ph', role: 'educator', status: 'pending', joined: '2026-05-12', portal_access: false },
+
+  // Players (Field Operatives)
+  { id: 'u5', username: 'NeonSpecter', full_name: 'Kevin Flynn', email: 'k.flynn@grid.com', role: 'player', status: 'active', joined: '2026-05-01', map_progress: 2, security_credits: 1540, last_synced_at: "2026-05-07T12:00:00Z", classroom_code: "MORPH9" },
+  { id: 'u6', username: 'ByteGhost', full_name: 'Jia Chen', email: 'j.chen@vault.io', role: 'player', status: 'active', joined: '2026-05-02', map_progress: 1, security_credits: 1100, last_synced_at: "2026-05-06T15:00:00Z", classroom_code: "MORPH9" },
+  { id: 'u7', username: 'EchoZero', full_name: 'Elena Rossi', email: 'e.rossi@void.com', role: 'player', status: 'inactive', joined: '2026-04-28', map_progress: 0, security_credits: 100, last_synced_at: null, classroom_code: "CYBER2" },
+  { id: 'u8', username: 'NeonViper', full_name: 'Marcus Wright', email: 'm.wright@resistance.net', role: 'player', status: 'active', joined: '2026-05-06', map_progress: 3, security_credits: 2200, last_synced_at: "2026-05-08T09:00:00Z", classroom_code: "CYBER2" },
+  { id: 'u9', username: 'PixelPioneer', full_name: 'Hiroshi Sato', email: 'hiro.sato@tech.jp', role: 'player', status: 'active', joined: '2026-05-09', map_progress: 1, security_credits: 850, last_synced_at: "2026-05-10T14:20:00Z", classroom_code: "MORPH9" },
+  { id: 'u10', username: 'LogicBomb', full_name: 'Samantha Reed', email: 's.reed@dnsc.edu.ph', role: 'player', status: 'suspended', joined: '2026-05-03', map_progress: 2, security_credits: 0, last_synced_at: "2026-05-04T08:15:00Z", classroom_code: "CYBER2" },
+  { id: 'u11', username: 'DataSurge', full_name: 'Ahmed Hassan', email: 'ahmed.h@globalsec.org', role: 'player', status: 'active', joined: '2026-05-11', map_progress: 0, security_credits: 500, last_synced_at: "2026-05-12T10:00:00Z", classroom_code: "MORPH9" },
 ];
 
 // Table 5: web_user_profiles (Admin)
