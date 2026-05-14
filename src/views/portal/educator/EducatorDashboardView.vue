@@ -1,14 +1,15 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useRoute, useRouter } from 'vue-router'
 import { mockEducator, mockClassroomCodes } from '@/api/mock'
 
 // Components
 import EducatorMetrics from './components/EducatorMetrics.vue'
-import StudentProgressTable from './components/StudentProgressTable.vue'
-import ClassroomCodeList from './components/ClassroomCodeList.vue'
-import GenerateCodeModal from './components/GenerateCodeModal.vue'
+import ClassThreatHeatmap from './components/ClassThreatHeatmap.vue'
+import PerformanceTrendChart from './components/PerformanceTrendChart.vue'
+import ClassLeaderboard from './components/ClassLeaderboard.vue'
+import InstructorBroadcast from './components/InstructorBroadcast.vue'
 
 const auth = useAuthStore()
 const route = useRoute()
@@ -17,8 +18,6 @@ const showWelcomeToast = ref(false)
 
 const activeCodes = ref([...mockClassroomCodes])
 const allStudents = ref([...mockEducator.assigned_students])
-const selectedClass = ref(null)
-const showConfirmModal = ref(false)
 
 onMounted(() => {
   if (route.query.login === 'success') {
@@ -31,37 +30,10 @@ onMounted(() => {
     }, 500)
   }
 })
-
-const students = computed(() => {
-  if (!selectedClass.value) return allStudents.value
-  // Simple mock filtering based on code
-  if (selectedClass.value.code_value === 'MORPH9') return allStudents.value.slice(0, 2)
-  if (selectedClass.value.code_value === 'CYBER2') return allStudents.value.slice(2, 3)
-  return []
-})
-
-const confirmGenerateCode = () => {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-  let result = ''
-  for (let i = 0; i < 6; i++) result += chars.charAt(Math.floor(Math.random() * chars.length))
-
-  activeCodes.value.unshift({
-    code_id: `c${activeCodes.value.length + 1}`,
-    code_value: result,
-    is_active: true,
-    students_count: 0,
-    created_at: new Date().toISOString(),
-  })
-  showConfirmModal.value = false
-}
-
-const toggleClassFilter = (code) => {
-  selectedClass.value = selectedClass.value?.code_id === code.code_id ? null : code
-}
 </script>
 
 <template>
-  <div class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 text-pixel-plum pb-12">
+  <div class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 text-pixel-plum pb-12 relative">
     <!-- Success Toast Notification -->
     <transition
       enter-active-class="transition duration-500 ease-out"
@@ -71,7 +43,7 @@ const toggleClassFilter = (code) => {
       leave-from-class="opacity-100"
       leave-to-class="opacity-0"
     >
-      <div v-if="showWelcomeToast" class="fixed bottom-8 right-8 z-100 flex items-center gap-4 bg-pixel-moss p-4 rounded-lg shadow-pixel-purple border border-white/20">
+      <div v-if="showWelcomeToast" class="fixed bottom-8 right-8 z-50 flex items-center gap-4 bg-pixel-moss p-4 rounded-lg shadow-pixel-purple border border-white/20">
         <div class="w-10 h-10 bg-white/20 rounded flex items-center justify-center">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
         </div>
@@ -95,45 +67,28 @@ const toggleClassFilter = (code) => {
           Rank: <span class="text-pixel-violet">Senior Educator</span>
         </p>
       </div>
-
-      <button
-        @click="showConfirmModal = true"
-        class="inline-flex items-center gap-3 bg-pixel-moss text-white px-6 py-3 rounded-lg font-black font-display text-xs uppercase tracking-widest shadow-pixel-soft hover:brightness-105 transition-all active:scale-95 group"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="group-hover:rotate-90 transition-transform"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-        <span>Generate Access Code</span>
-      </button>
     </div>
 
-    <!-- Operational Metrics -->
+    <!-- Top Row: Metrics -->
     <EducatorMetrics 
       :totalStudents="allStudents.length"
       :activeCodes="activeCodes.filter(c => c.is_active).length"
       avgProgress="Map 2.3"
     />
 
-    <div class="grid grid-cols-1 xl:grid-cols-[1fr_350px] gap-8">
-      <!-- Student Progress -->
-      <StudentProgressTable 
-        :students="students"
-        :selectedClass="selectedClass"
-        @clearFilter="selectedClass = null"
-      />
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+      <!-- Analytics -->
+      <div class="space-y-8">
+        <ClassThreatHeatmap />
+        <PerformanceTrendChart />
+      </div>
 
-      <!-- Active Classroom Codes -->
-      <ClassroomCodeList 
-        :codes="activeCodes"
-        :selectedClass="selectedClass"
-        @selectClass="toggleClassFilter"
-      />
+      <!-- Tactical Widgets -->
+      <div class="space-y-8">
+        <InstructorBroadcast />
+        <ClassLeaderboard />
+      </div>
     </div>
-
-    <!-- Confirmation Modal -->
-    <GenerateCodeModal 
-      :show="showConfirmModal"
-      @close="showConfirmModal = false"
-      @confirm="confirmGenerateCode"
-    />
   </div>
 </template>
 

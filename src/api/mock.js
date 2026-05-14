@@ -103,16 +103,43 @@ export const mockEducator = {
   portal_access: true,
   last_login_at: "2026-05-08T08:00:00Z",
   assigned_students: [
-    { username: "PlayerOne", map_progress: 2, security_credits: 1540, last_synced_at: "2026-05-07T12:00:00Z" },
-    { username: "CyberGhost", map_progress: 1, security_credits: 1100, last_synced_at: "2026-05-06T15:00:00Z" },
-    { username: "NeonViper", map_progress: 3, security_credits: 2200, last_synced_at: "2026-05-08T09:00:00Z" },
+    { username: "PlayerOne", map_progress: 2, security_credits: 1540, last_synced_at: "2026-05-07T12:00:00Z", classroom_code: "MORPH9" },
+    { username: "CyberGhost", map_progress: 1, security_credits: 1100, last_synced_at: "2026-05-06T15:00:00Z", classroom_code: "MORPH9" },
+    { username: "NeonViper", map_progress: 3, security_credits: 2200, last_synced_at: "2026-05-08T09:00:00Z", classroom_code: "CYBER2" },
   ]
 };
 
 export const mockClassroomCodes = [
-  { code_id: "c1", code_value: "MORPH9", is_active: true, students_count: 2, created_at: "2026-05-01T10:00:00Z" },
-  { code_id: "c2", code_value: "CYBER2", is_active: false, students_count: 1, created_at: "2024-12-15T10:00:00Z" },
+  { code_id: "c1", code_value: "MORPH9", name: "Cyber Defense 101", description: "Introductory course focusing on basic password hygiene and phishing awareness.", is_active: true, students_count: 2, created_at: "2026-05-01T10:00:00Z" },
+  { code_id: "c2", code_value: "CYBER2", name: "Network Security Alpha", description: "Advanced session covering network protocols, firewall management, and intrusion detection.", is_active: false, students_count: 1, created_at: "2024-12-15T10:00:00Z" },
 ];
+
+export const mockClassAnalytics = {
+  threatFailRates: [
+    { name: 'Phishing', rate: 68, trend: 'up' },
+    { name: 'Password Attacks', rate: 42, trend: 'down' },
+    { name: 'Rogue Software', rate: 15, trend: 'stable' },
+    { name: 'DDoS', rate: 85, trend: 'up' },
+  ],
+  weeklyHealth: [65, 72, 68, 74, 80, 78, 85], // Security credits avg % over 7 days
+  topOperators: [
+    { username: 'NeonViper', score: 2200, rank: 1 },
+    { username: 'PlayerOne', score: 1540, rank: 2 },
+    { username: 'CyberGhost', score: 1100, rank: 3 },
+  ]
+};
+
+export const mockStudentDetails = {
+  username: "NeonViper",
+  rank: "Elite Operative",
+  sessions: [
+    { map: "Office", result: "win", credits: 600, duration: "5:10", date: "2026-05-08" },
+    { map: "Office", result: "lose", credits: -150, duration: "2:30", date: "2026-05-07" },
+    { map: "Home", result: "win", credits: 450, duration: "4:20", date: "2026-05-06" },
+  ],
+  threatsUnlocked: ["Phishing", "Password Attacks", "Rogue Software"],
+  weaknesses: ["Social Engineering", "Network Traffic Analysis"]
+};
 
 export const mockThreats = [
   { id: 1, name: "Rogue Software", description: "Malicious applications disguised as legitimate tools.", icon: "box", unlocked: true },

@@ -4,7 +4,7 @@ defineProps({
   selectedClass: Object
 })
 
-defineEmits(['clearFilter'])
+defineEmits(['clearFilter', 'viewStudent'])
 
 const formatDate = (dateStr) => {
   if (!dateStr) return 'Never'
@@ -49,7 +49,8 @@ const formatDate = (dateStr) => {
           <tr
             v-for="student in students"
             :key="student.username"
-            class="group hover:bg-pixel-violet/5 transition-colors"
+            @click="$emit('viewStudent', student)"
+            class="group hover:bg-pixel-violet/5 transition-colors cursor-pointer"
           >
             <td class="py-4 px-2">
               <span class="text-sm font-black text-pixel-plum">{{ student.username }}</span>

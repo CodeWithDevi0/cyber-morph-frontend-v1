@@ -47,7 +47,17 @@ const router = createRouter({
         { 
           path: 'educator', 
           name: 'educator', 
-          component: () => import('../views/portal/educator/EducatorPortalView.vue') 
+          component: () => import('../views/portal/educator/EducatorDashboardView.vue') 
+        },
+        { 
+          path: 'educator/classroom', 
+          name: 'educator-classroom', 
+          component: () => import('../views/portal/educator/ClassroomView.vue') 
+        },
+        { 
+          path: 'educator/classrooms', 
+          name: 'educator-classrooms', 
+          component: () => import('../views/portal/educator/ClassroomManagementView.vue') 
         },
         { 
           path: 'admin', 

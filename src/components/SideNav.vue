@@ -16,7 +16,9 @@ const navLinks = computed(() => {
   }
   if (auth.isEducator) {
     return [
-      { name: 'COMMAND', path: '/portal/educator', icon: 'monitor' },
+      { name: 'DASHBOARD', path: '/portal/educator', icon: 'layout' },
+      { name: 'CLASSROOM', path: '/portal/educator/classroom', icon: 'users' },
+      { name: 'UNITS', path: '/portal/educator/classrooms', icon: 'shield' },
       { name: 'RANKINGS', path: '/portal/leaderboard', icon: 'trophy' },
     ];
   }
