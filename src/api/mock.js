@@ -16,6 +16,20 @@ export const mockPlayer = {
   created_at: new Date().toISOString()
 };
 
+/**
+ * UNIVERSAL USER REGISTRY
+ * Central source of truth for all actors in the system.
+ */
+export const mockUsers = [
+  { id: 'u1', username: 'NeonSpecter', email: 'neon@cyber.net', role: 'player', status: 'active', joined: '2026-05-01', map_progress: 2, security_credits: 1540, last_synced_at: "2026-05-07T12:00:00Z", classroom_code: "MORPH9" },
+  { id: 'u2', username: 'ByteGhost', email: 'ghost@vault.io', role: 'player', status: 'active', joined: '2026-05-02', map_progress: 1, security_credits: 1100, last_synced_at: "2026-05-06T15:00:00Z", classroom_code: "MORPH9" },
+  { id: 'u3', username: 'LogicBomb', email: 'bomb@dnsc.edu.ph', role: 'educator', status: 'active', joined: '2026-05-03', portal_access: true },
+  { id: 'u4', username: 'EchoZero', email: 'echo@void.com', role: 'player', status: 'inactive', joined: '2026-04-28', map_progress: 0, security_credits: 100, last_synced_at: null, classroom_code: "CYBER2" },
+  { id: 'u5', username: 'Aris Thorne', email: 'thorne@dnsc.edu.ph', role: 'educator', status: 'active', joined: '2026-05-05', portal_access: true },
+  { id: 'u6', username: 'NeonViper', email: 'viper@strike.net', role: 'player', status: 'active', joined: '2026-05-06', map_progress: 3, security_credits: 2200, last_synced_at: "2026-05-08T09:00:00Z", classroom_code: "CYBER2" },
+  { id: 'u7', username: 'System Root', email: 'root@cybermorph.dev', role: 'admin', status: 'active', joined: '2026-01-01', portal_access: true },
+];
+
 // Table 5: web_user_profiles (Admin)
 export const mockAdmin = {
   web_profile_id: "w-uuid-002",
@@ -25,18 +39,12 @@ export const mockAdmin = {
   portal_access: true,
   last_login_at: new Date().toISOString(),
   stats: {
-    totalUsers: 1254,
+    totalUsers: mockUsers.length,
     activeSessions: 42,
     threatsDetected: 8,
     systemUptime: "99.9%"
   },
-  all_users: [
-    { id: 'u1', username: 'NeonSpecter', email: 'neon@cyber.net', role: 'player', status: 'active', joined: '2026-05-01' },
-    { id: 'u2', username: 'ByteGhost', email: 'ghost@vault.io', role: 'player', status: 'active', joined: '2026-05-02' },
-    { id: 'u3', username: 'LogicBomb', email: 'bomb@dnsc.edu.ph', role: 'educator', status: 'active', joined: '2026-05-03' },
-    { id: 'u4', username: 'EchoZero', email: 'echo@void.com', role: 'player', status: 'inactive', joined: '2026-04-28' },
-    { id: 'u5', username: 'Aris Thorne', email: 'thorne@dnsc.edu.ph', role: 'educator', status: 'active', joined: '2026-05-05' },
-  ],
+  all_users: [...mockUsers],
   pending_approvals: [
     { id: 'p1', displayName: 'Dr. Aris Thorne', email: 'thorne@dnsc.edu.ph', appliedAt: '2 hours ago' },
     { id: 'p2', displayName: 'Sarah Connor', email: 'sarah@skynet.com', appliedAt: '5 hours ago' },
@@ -102,11 +110,7 @@ export const mockEducator = {
   role: "educator",
   portal_access: true,
   last_login_at: "2026-05-08T08:00:00Z",
-  assigned_students: [
-    { username: "PlayerOne", map_progress: 2, security_credits: 1540, last_synced_at: "2026-05-07T12:00:00Z", classroom_code: "MORPH9" },
-    { username: "CyberGhost", map_progress: 1, security_credits: 1100, last_synced_at: "2026-05-06T15:00:00Z", classroom_code: "MORPH9" },
-    { username: "NeonViper", map_progress: 3, security_credits: 2200, last_synced_at: "2026-05-08T09:00:00Z", classroom_code: "CYBER2" },
-  ]
+  assigned_students: mockUsers.filter(user => user.role === 'player' && user.classroom_code)
 };
 
 export const mockClassroomCodes = [
