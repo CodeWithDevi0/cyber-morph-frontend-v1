@@ -67,7 +67,7 @@ const router = createRouter({
         { 
           path: 'admin/users', 
           name: 'admin-users', 
-          component: () => import('../views/portal/admin/AdminUserRegistryView.vue') 
+          component: () => import('../views/portal/admin/AdminUsersView.vue') 
         },
         { 
           path: 'admin/logs', 

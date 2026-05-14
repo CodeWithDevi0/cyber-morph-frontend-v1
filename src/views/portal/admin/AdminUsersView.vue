@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { mockAdmin } from '@/api/mock'
 
 // Components
-import UserRegistry from './components/UserRegistry.vue'
+import UsersTable from './components/UsersTable.vue'
 
 const allUsers = ref([...mockAdmin.all_users])
 </script>
@@ -15,10 +15,10 @@ const allUsers = ref([...mockAdmin.all_users])
       <div>
         <div class="flex items-center gap-3 mb-1">
           <div class="w-2 h-2 rounded-full bg-pixel-violet animate-pulse"></div>
-          <h1 class="text-4xl font-black font-display tracking-tighter text-pixel-plum uppercase">User Registry</h1>
+          <h1 class="text-4xl font-black font-display tracking-tighter text-pixel-plum uppercase">Users</h1>
         </div>
         <p class="text-pixel-10 text-pixel-plum/50 uppercase font-black tracking-[0.3em] flex items-center gap-2">
-          Protocol: <span class="text-pixel-violet">Identity Management</span> 
+          Protocol: <span class="text-pixel-violet">Identity Hub</span> 
           <span class="mx-1 opacity-30">|</span> 
           Total Entities: <span class="text-pixel-plum">{{ allUsers.length }}</span>
         </p>
@@ -29,7 +29,7 @@ const allUsers = ref([...mockAdmin.all_users])
       </div>
     </div>
 
-    <UserRegistry :all-users="allUsers" />
+    <UsersTable :all-users="allUsers" />
   </div>
 </template>
 
