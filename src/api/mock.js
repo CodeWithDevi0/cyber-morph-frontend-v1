@@ -39,6 +39,29 @@ export const mockUsers = [
   { id: 'u11', username: 'DataSurge', full_name: 'Ahmed Hassan', email: 'ahmed.h@globalsec.org', role: 'player', status: 'active', joined: '2026-05-11', map_progress: 0, security_credits: 500, last_synced_at: "2026-05-12T10:00:00Z", classroom_code: "MORPH9" },
 ];
 
+export const mockGlobalAnalytics = {
+  threatFailRates: [
+    { id: 1, name: 'Phishing', failureRate: 65, avgResponseTime: '4.2s', status: 'critical' },
+    { id: 2, name: 'Password Attacks', failureRate: 38, avgResponseTime: '2.8s', status: 'stable' },
+    { id: 3, name: 'Rogue Software', failureRate: 22, avgResponseTime: '5.1s', status: 'improving' },
+    { id: 4, name: 'DDoS', failureRate: 78, avgResponseTime: '1.5s', status: 'critical' },
+    { id: 5, name: 'Man-in-the-Middle', failureRate: 54, avgResponseTime: '6.3s', status: 'stable' },
+    { id: 6, name: 'Malvertising', failureRate: 41, avgResponseTime: '3.9s', status: 'stable' },
+  ],
+  mapPerformance: [
+    { name: 'Home', completionRate: 92, avgScore: 1850, difficultyRating: 2.1 },
+    { name: 'Office', completionRate: 74, avgScore: 1240, difficultyRating: 4.5 },
+    { name: 'Internet Cafe', completionRate: 48, avgScore: 920, difficultyRating: 7.2 },
+    { name: 'Public Park', completionRate: 15, avgScore: 450, difficultyRating: 9.8 },
+  ],
+  liveSimulations: [
+    { id: 's1', user: 'NeonSpecter', map: 'Office', timeElapsed: '3:45', health: 85, status: 'active' },
+    { id: 's2', user: 'ByteGhost', map: 'Home', timeElapsed: '1:20', health: 100, status: 'active' },
+    { id: 's3', user: 'EchoZero', map: 'Internet Cafe', timeElapsed: '5:10', health: 40, status: 'warning' },
+    { id: 's4', user: 'NeonViper', map: 'Public Park', timeElapsed: '2:30', health: 15, status: 'critical' },
+  ]
+};
+
 // Table 5: web_user_profiles (Admin)
 export const mockAdmin = {
   web_profile_id: "w-uuid-002",
@@ -54,6 +77,7 @@ export const mockAdmin = {
     systemUptime: "99.9%"
   },
   all_users: [...mockUsers],
+  analytics: mockGlobalAnalytics,
   pending_approvals: [
     { id: 'p1', displayName: 'Dr. Aris Thorne', email: 'thorne@dnsc.edu.ph', appliedAt: '2 hours ago' },
     { id: 'p2', displayName: 'Sarah Connor', email: 'sarah@skynet.com', appliedAt: '5 hours ago' },

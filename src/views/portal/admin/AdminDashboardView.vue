@@ -40,8 +40,8 @@ const getStatusColor = (status) => {
           <h1 class="text-4xl font-black font-display tracking-tighter text-pixel-plum uppercase">System Oversight</h1>
         </div>
         <p class="text-pixel-10 text-pixel-plum/50 uppercase font-black tracking-[0.3em] flex items-center gap-2">
-          Operator: <span class="text-pixel-violet">{{ auth.user?.display_name || 'Root Admin' }}</span> 
-          <span class="mx-1 opacity-30">|</span> 
+          Operator: <span class="text-pixel-violet">{{ auth.user?.display_name || 'Root Admin' }}</span>
+          <span class="mx-1 opacity-30">|</span>
           Access Level: <span class="text-byte-coral">L5 Cardinal</span>
         </p>
       </div>
@@ -52,7 +52,7 @@ const getStatusColor = (status) => {
       </div>
     </div>
 
-    <AdminOverview 
+    <AdminOverview
       :system-stats="systemStats"
       :all-users="allUsers"
       :audit-logs="auditLogs"

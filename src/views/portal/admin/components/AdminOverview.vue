@@ -90,6 +90,27 @@ defineEmits(['changeTab']);
             </div>
           </div>
         </div>
+
+        <!-- 3. Global Threat Vulnerabilities (Analytics Preview) -->
+        <div class="pixel-card">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="text-xs font-black tracking-widest text-pixel-plum/80 uppercase flex items-center gap-2 font-display">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21 11-8-8-8 8"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/></svg>
+              Critical Vulnerability Vectors
+            </h3>
+            <router-link to="/portal/admin/analytics" class="text-[9px] font-black text-pixel-violet hover:underline uppercase tracking-widest">Full Analysis</router-link>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div v-for="threat in [
+              { name: 'DDoS', rate: 78, color: 'text-byte-coral', bg: 'bg-byte-coral/10' },
+              { name: 'Phishing', rate: 65, color: 'text-byte-coral', bg: 'bg-byte-coral/10' },
+              { name: 'MITM', rate: 54, color: 'text-signal-gold', bg: 'bg-signal-gold/10' }
+            ]" :key="threat.name" class="p-3 rounded border border-pixel-plum/5" :class="threat.bg">
+              <p class="text-[9px] font-black text-pixel-plum/40 uppercase mb-1">{{ threat.name }} FAIL RATE</p>
+              <p class="text-xl font-black" :class="threat.color">{{ threat.rate }}%</p>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Right Column: Heatmap -->
