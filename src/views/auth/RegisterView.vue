@@ -36,18 +36,34 @@
         </div>
       </transition>
 
-      <form @submit.prevent="handleRegister" class="space-y-5">
+      <div v-if="isSubmitted" class="text-center py-8 animate-in zoom-in duration-500">
+        <div class="w-20 h-20 bg-pixel-moss/20 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-pixel-moss"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <h2 class="text-2xl font-black text-pixel-plum font-display uppercase tracking-tight">Transmission Received</h2>
+        <p class="text-sm font-bold text-pixel-plum/60 mt-4 leading-relaxed">
+          Your instructor credentials have been uploaded to the DNSC secure queue.
+        </p>
+        <p class="text-xs font-black text-pixel-violet uppercase tracking-widest mt-6 bg-pixel-violet/5 p-4 rounded border border-pixel-violet/10">
+          Status: Pending Admin Verification
+        </p>
+        <router-link to="/login" class="inline-block mt-10 py-3 px-8 bg-pixel-violet text-white font-black font-display uppercase tracking-widest rounded-md hover:brightness-110 shadow-pixel-purple transition-all">
+          Return to Terminal
+        </router-link>
+      </div>
+
+      <form v-else @submit.prevent="handleRegister" class="space-y-5">
         <div>
-          <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-pixel-violet mb-1.5 ml-1">Username</label>
-          <input v-model="username" type="text" class="w-full bg-white/50 border border-pixel-violet/15 p-3 text-pixel-plum rounded-md focus:border-pixel-violet/50 outline-none transition-all" placeholder="Professor Oak" required />
+          <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-pixel-violet mb-1.5 ml-1">Display Name</label>
+          <input v-model="displayName" @input="auth.error = null" type="text" class="w-full bg-white/50 border border-pixel-violet/15 p-3 text-pixel-plum rounded-md focus:border-pixel-violet/50 outline-none transition-all" placeholder="Dr. Aris Thorne" required />
         </div>
         <div>
           <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-pixel-violet mb-1.5 ml-1">Email</label>
-          <input v-model="email" type="email" class="w-full bg-white/50 border border-pixel-violet/15 p-3 text-pixel-plum rounded-md focus:border-pixel-violet/50 outline-none transition-all" placeholder="teacher@test.com" required />
+          <input v-model="email" @input="auth.error = null" type="email" class="w-full bg-white/50 border border-pixel-violet/15 p-3 text-pixel-plum rounded-md focus:border-pixel-violet/50 outline-none transition-all" placeholder="teacher@test.com" required />
         </div>
         <div>
           <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-pixel-violet mb-1.5 ml-1">Secret Key (Password)</label>
-          <input v-model="password" type="password" class="w-full bg-white/50 border border-pixel-violet/15 p-3 text-pixel-plum rounded-md focus:border-pixel-violet/50 outline-none transition-all" placeholder="••••••••" required />
+          <input v-model="password" @input="auth.error = null" type="password" class="w-full bg-white/50 border border-pixel-violet/15 p-3 text-pixel-plum rounded-md focus:border-pixel-violet/50 outline-none transition-all" placeholder="••••••••" required />
         </div>
         
         <button 
@@ -60,7 +76,7 @@
         </button>
       </form>
 
-      <p class="mt-8 text-center text-sm font-bold text-pixel-plum/60">
+      <p v-if="!isSubmitted" class="mt-8 text-center text-sm font-bold text-pixel-plum/60">
         Already registered? <router-link to="/login" class="text-pixel-violet hover:underline">Login here</router-link>
       </p>
     </div>
@@ -68,18 +84,25 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useAuthStore } from '@/stores/auth';
-import { useRouter } from 'vue-router';
 
 const auth = useAuthStore();
-const router = useRouter();
-const username = ref('');
+const displayName = ref('');
 const email = ref('');
 const password = ref('');
+const isSubmitted = ref(false);
+
+onMounted(() => {
+  auth.error = null; // Clear any previous errors
+});
 
 const handleRegister = async () => {
-  const success = await auth.register({ username: username.value, email: email.value, password: password.value });
-  if (success) router.push('/dashboard');
+  const success = await auth.registerEducator({ 
+    display_name: displayName.value, 
+    email: email.value, 
+    password: password.value 
+  });
+  if (success) isSubmitted.value = true;
 };
 </script>

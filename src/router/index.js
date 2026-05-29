@@ -10,14 +10,19 @@ const router = createRouter({
       component: () => import('../views/LandingView.vue'),
     },
     {
+      path: '/download',
+      name: 'download',
+      component: () => import('../views/DownloadView.vue'),
+    },
+    {
       path: '/login',
       name: 'login',
-      component: () => import('../views/LoginView.vue'),
+      component: () => import('../views/auth/LoginView.vue'),
     },
     {
       path: '/register',
       name: 'register',
-      component: () => import('../views/RegisterView.vue'),
+      component: () => import('../views/auth/RegisterView.vue'),
     },
     {
       path: '/portal',
@@ -27,42 +32,72 @@ const router = createRouter({
         {
           path: 'dashboard',
           name: 'dashboard',
-          component: () => import('../views/DashboardView.vue'),
+          component: () => import('../views/portal/player/DashboardView.vue'),
         },
         { 
           path: 'mission-hub', 
           name: 'mission-hub', 
-          component: () => import('../views/MissionHubView.vue') 
+          component: () => import('../views/portal/player/MissionHubView.vue') 
         },
         { 
           path: 'history', 
           name: 'history', 
-          component: () => import('../views/SessionHistoryView.vue') 
+          component: () => import('../views/portal/player/SessionHistoryView.vue') 
         },
         { 
           path: 'leaderboard', 
           name: 'leaderboard', 
-          component: () => import('../views/LeaderboardView.vue') 
+          component: () => import('../views/portal/shared/LeaderboardView.vue') 
         },
         { 
           path: 'educator', 
           name: 'educator', 
-          component: () => import('../views/EducatorPortalView.vue') 
+          component: () => import('../views/portal/educator/EducatorDashboardView.vue') 
+        },
+        { 
+          path: 'educator/classroom', 
+          name: 'educator-classroom', 
+          component: () => import('../views/portal/educator/ClassroomView.vue') 
+        },
+        { 
+          path: 'educator/classrooms', 
+          name: 'educator-classrooms', 
+          component: () => import('../views/portal/educator/ClassroomManagementView.vue') 
         },
         { 
           path: 'admin', 
           name: 'admin', 
-          component: () => import('../views/AdminPortalView.vue') 
+          component: () => import('../views/portal/admin/AdminDashboardView.vue') 
+        },
+        { 
+          path: 'admin/users', 
+          name: 'admin-users', 
+          component: () => import('../views/portal/admin/AdminUsersView.vue') 
+        },
+        { 
+          path: 'admin/logs', 
+          name: 'admin-logs', 
+          component: () => import('../views/portal/admin/AdminSystemLogsView.vue') 
+        },
+        { 
+          path: 'admin/analytics', 
+          name: 'admin-analytics', 
+          component: () => import('../views/portal/admin/AdminAnalyticsView.vue') 
+        },
+        { 
+          path: 'admin/approvals', 
+          name: 'admin-approvals', 
+          component: () => import('../views/portal/admin/AuthorizationQueueView.vue') 
         },
         { 
           path: 'classroom/join', 
           name: 'classroom-join', 
-          component: () => import('../views/ClassroomJoinView.vue') 
+          component: () => import('../views/portal/player/ClassroomJoinView.vue') 
         },
         { 
           path: 'threats', 
           name: 'threats', 
-          component: () => import('../views/ThreatIndexView.vue') 
+          component: () => import('../views/portal/player/ThreatIndexView.vue') 
         },
       ]
     },
@@ -82,12 +117,24 @@ router.beforeEach((to) => {
   if (to.meta.requiresAuth && !auth.isLoggedIn) {
     return '/'
   } 
-  // 2. If user IS logged in and tries to go to login/register or landing -> /portal/dashboard
-  else if (auth.isLoggedIn && (to.path === '/login' || to.path === '/register' || to.path === '/')) {
+  
+  // 2. If user IS logged in and tries to go to login/register or landing -> Redirect to their role dashboard
+  if (auth.isLoggedIn && (to.path === '/login' || to.path === '/register' || to.path === '/')) {
+    if (auth.isAdmin) return '/portal/admin'
+    if (auth.isEducator) return '/portal/educator'
     return '/portal/dashboard'
   }
+
+  // 3. Prevent cross-role access (Optional but recommended)
+  if (auth.isLoggedIn) {
+    if (to.path.startsWith('/portal/admin') && !auth.isAdmin) return '/portal/dashboard'
+    if (to.path.startsWith('/portal/educator') && !auth.isEducator) return '/portal/dashboard'
+    // If Admin/Educator tries to go to Player Dashboard, let them or redirect to their hub?
+    if (to.path === '/portal/dashboard' && auth.isAdmin) return '/portal/admin'
+    if (to.path === '/portal/dashboard' && auth.isEducator) return '/portal/educator'
+  }
   
-  // 3. Otherwise, proceed
+  // 4. Otherwise, proceed
   return true
 })
 

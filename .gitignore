@@ -21,11 +21,9 @@ coverage
 .docs/
 STUDENT_GUIDE.md
 implementation_plan.md
-GEMINI.md
 task.md
 walkthrough.md
-plan.md
-AGENTS.md
+
 
 # Editor directories and files
 .vscode/*

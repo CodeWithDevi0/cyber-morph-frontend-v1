@@ -9,7 +9,7 @@
       leave-from-class="opacity-100"
       leave-to-class="opacity-0"
     >
-      <div v-if="showLogoutToast" class="fixed bottom-8 right-8 z-[100] flex items-center gap-4 bg-pixel-moss p-4 rounded-lg shadow-pixel-purple border border-white/20">
+      <div v-if="showLogoutToast" class="fixed bottom-8 right-8 z-100 flex items-center gap-4 bg-pixel-moss p-4 rounded-lg shadow-pixel-purple border border-white/20">
         <div class="w-10 h-10 bg-white/20 rounded flex items-center justify-center">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
         </div>
@@ -56,11 +56,11 @@
       <form @submit.prevent="handleLogin" class="space-y-5">
         <div>
           <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-pixel-violet mb-1.5 ml-1">Identity (Email)</label>
-          <input v-model="email" type="email" class="w-full bg-white/50 border border-pixel-violet/15 p-3 text-pixel-plum rounded-md focus:border-pixel-violet/50 outline-none transition-all" placeholder="player@test.com" required />
+          <input v-model="email" @input="auth.error = null" type="email" class="w-full bg-white/50 border border-pixel-violet/15 p-3 text-pixel-plum rounded-md focus:border-pixel-violet/50 outline-none transition-all" placeholder="player@test.com" required />
         </div>
         <div>
           <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-pixel-violet mb-1.5 ml-1">Access Key (Password)</label>
-          <input v-model="password" type="password" class="w-full bg-white/50 border border-pixel-violet/15 p-3 text-pixel-plum rounded-md focus:border-pixel-violet/50 outline-none transition-all" placeholder="••••••••" required />
+          <input v-model="password" @input="auth.error = null" type="password" class="w-full bg-white/50 border border-pixel-violet/15 p-3 text-pixel-plum rounded-md focus:border-pixel-violet/50 outline-none transition-all" placeholder="••••••••" required />
         </div>
         
         <button 
@@ -74,8 +74,15 @@
       </form>
 
       <p class="mt-8 text-center text-sm font-bold text-pixel-plum/60">
-        New investigator? <router-link to="/register" class="text-pixel-violet hover:underline">Register here</router-link>
+        New Educator? <router-link to="/register" class="text-pixel-violet hover:underline">Register here</router-link>
       </p>
+      
+      <div class="mt-6 pt-6 border-t border-pixel-plum/5">
+        <p class="text-[10px] text-center font-black text-pixel-plum/30 uppercase tracking-widest leading-relaxed">
+          Players: Access your dashboard here.<br />
+          New players must register via the Godot game client.
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -95,6 +102,7 @@ const showLogoutToast = ref(false);
 const isLogoutSuccess = computed(() => route.query.logout === 'success');
 
 onMounted(() => {
+  auth.error = null; // Clear any previous errors
   if (isLogoutSuccess.value) {
     showLogoutToast.value = true;
     // Clear the URL immediately so refresh doesn't trigger it again
@@ -108,6 +116,10 @@ onMounted(() => {
 
 const handleLogin = async () => {
   const success = await auth.login(email.value, password.value);
-  if (success) router.push('/dashboard?login=success');
+  if (success) {
+    if (auth.isAdmin) router.push('/portal/admin?login=success');
+    else if (auth.isEducator) router.push('/portal/educator?login=success');
+    else router.push('/portal/dashboard?login=success');
+  }
 };
 </script>
