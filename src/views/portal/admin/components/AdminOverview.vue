@@ -26,8 +26,8 @@ defineEmits(['changeTab']);
     <!-- Operational Metrics -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       <div class="pixel-card bg-pixel-plum text-white shadow-pixel-hero border-none">
-        <p class="stat-label-pixel !text-dark/40">Network Identity Count</p>
-        <p class="text-3xl font-black text-pixel-plum">{{ systemStats.totalUsers }}</p>
+        <p class="stat-label-pixel !text-white/40">Network Identity Count</p>
+        <p class="text-3xl font-black">{{ systemStats.totalUsers }}</p>
       </div>
       <div class="pixel-card border-l-4 border-l-pixel-violet">
         <p class="stat-label-pixel">Active Game Sessions</p>
