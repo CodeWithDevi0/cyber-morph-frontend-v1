@@ -5,29 +5,12 @@ import { mockLeaderboard } from '@/api/mock';
 const maps = ['Overall', 'Home', 'Internet Cafe', 'Office', 'Public Park'];
 const activeTab = ref('Overall');
 const searchQuery = ref('');
-const isSearching = ref(false); // New state for loading realism
 const currentPage = ref(1);
 const pageSize = 10;
 
-// Reset page when tab changes
-watch(activeTab, () => {
+// Reset page when tab or search changes
+watch([activeTab, searchQuery], () => {
   currentPage.value = 1;
-});
-
-// Add a realistic delay to the search bar
-watch(searchQuery, (newVal) => {
-  if (newVal === '') {
-    isSearching.value = false;
-    currentPage.value = 1;
-    return;
-  }
-  
-  isSearching.value = true;
-  // Simulate a network search delay of 600ms
-  setTimeout(() => {
-    isSearching.value = false;
-    currentPage.value = 1;
-  }, 600);
 });
 
 const filteredScores = computed(() => {
@@ -38,11 +21,8 @@ const filteredScores = computed(() => {
   return scores.sort((a, b) => b.total_score - a.total_score);
 });
 
-// The searched scores only return data if we are NOT currently "searching"
 const searchedScores = computed(() => {
-  if (isSearching.value) return []; // Show empty state while loading
   if (!searchQuery.value) return filteredScores.value;
-  
   const q = searchQuery.value.toLowerCase();
   return filteredScores.value.filter(s => 
     s.username.toLowerCase().includes(q)
@@ -54,9 +34,8 @@ const paginatedScores = computed(() => {
   return searchedScores.value.slice(start, start + pageSize);
 });
 
-const totalPages = computed(() => Math.ceil((!searchQuery.value ? filteredScores.value.length : searchedScores.value.length) / pageSize));
+const totalPages = computed(() => Math.ceil(searchedScores.value.length / pageSize));
 
-// The podium should ALWAYS show the top 3 overall (not affected by search)
 const topThree = computed(() => filteredScores.value.slice(0, 3));
 
 const formatDate = (dateStr) => {
@@ -77,10 +56,12 @@ const getRankColor = (index) => {
 
 <template>
   <div class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 text-pixel-plum relative overflow-hidden">
+    <!-- Background Scanning Grid Overlay -->
     <div class="absolute inset-0 pointer-events-none opacity-[0.03] overflow-hidden">
       <div class="w-full h-full bg-[linear-gradient(to_right,#000_1px,transparent_1px),linear-gradient(to_bottom,#000_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
     </div>
 
+    <!-- Hall of Fame Header -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b-2 border-pixel-plum/10 pb-8 relative">
       <div class="z-10">
         <div class="flex items-center gap-4 mb-2">
@@ -110,6 +91,7 @@ const getRankColor = (index) => {
         </div>
       </div>
       
+      <!-- Live Scanning Animation -->
       <div class="hidden lg:flex items-center gap-3 px-4 py-2 bg-pixel-plum/5 rounded-full border border-pixel-plum/10 self-start md:self-center">
         <div class="flex gap-1">
           <div v-for="i in 3" :key="i" class="w-1.5 h-4 bg-pixel-violet/40 rounded-full animate-bounce" :style="{ animationDelay: `${i * 150}ms` }"></div>
@@ -118,6 +100,7 @@ const getRankColor = (index) => {
       </div>
     </div>
 
+    <!-- Map Tabs -->
     <div class="flex flex-wrap gap-3 border-b border-pixel-plum/10 pb-px overflow-x-auto no-scrollbar relative z-10">
       <button 
         v-for="map in maps" 
@@ -132,17 +115,19 @@ const getRankColor = (index) => {
       </button>
     </div>
 
+    <!-- Podium (Top 3) -->
     <div v-if="topThree.length > 0" class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-6 relative z-10">
       <div 
         v-for="(player, index) in topThree" 
         :key="player.score_id"
-        class="bg-white/60 backdrop-blur-md border border-pixel-violet/10 rounded-xl shadow-pixel-soft relative flex flex-col items-center pt-12 pb-8 group transition-all hover:scale-[1.02]"
+        class="pixel-card relative flex flex-col items-center pt-12 pb-8 group transition-all hover:scale-[1.02]"
         :class="[
           index === 0 ? 'md:-translate-y-6 border-signal-gold/40 bg-gradient-to-b from-signal-gold/10 to-transparent order-1 md:order-2' : '',
           index === 1 ? 'order-2 md:order-1' : '',
           index === 2 ? 'order-3' : ''
         ]"
       >
+        <!-- Rank Crown/Badge -->
         <div class="absolute -top-6 w-14 h-14 rounded-xl bg-white border-2 flex items-center justify-center font-black text-2xl shadow-pixel-soft z-20"
              :class="[
                index === 0 ? 'border-signal-gold text-signal-gold shadow-signal-gold/20' : 
@@ -153,6 +138,7 @@ const getRankColor = (index) => {
           {{ index + 1 }}
         </div>
 
+        <!-- Rank Effects for #1 -->
         <div v-if="index === 0" class="absolute inset-0 bg-signal-gold/5 animate-pulse rounded-lg pointer-events-none"></div>
 
         <div class="w-20 h-20 rounded-full bg-pixel-plum/5 flex items-center justify-center mb-6 border-2 border-pixel-plum/10 relative">
@@ -178,13 +164,15 @@ const getRankColor = (index) => {
       </div>
     </div>
 
-    <div class="bg-white/60 backdrop-blur-md border border-pixel-violet/10 rounded-xl shadow-pixel-soft overflow-hidden relative z-10 border-t-4 border-t-pixel-violet/30">
+    <!-- Leaderboard Table -->
+    <div class="pixel-card overflow-hidden relative z-10 border-t-4 border-pixel-violet/30">
       <div class="p-6 border-b border-pixel-plum/10 bg-pixel-plum/[0.02] flex flex-col md:flex-row items-center justify-between gap-4">
         <h2 class="text-pixel-10 font-black uppercase tracking-[0.3em] text-pixel-plum/70 flex items-center gap-3 shrink-0">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-pixel-violet"><path d="M12 20v-6M6 20V10M18 20V4"/></svg>
           Active Personnel Registry
         </h2>
         
+        <!-- Search Bar -->
         <div class="flex-1 max-w-sm w-full md:px-4">
           <div class="relative group">
             <input 
@@ -201,19 +189,7 @@ const getRankColor = (index) => {
           Last Synchronized: <span class="text-pixel-plum/60">JUST NOW</span>
         </div>
       </div>
-      
-      <div class="overflow-x-auto min-h-[300px] relative">
-        <div v-if="isSearching" class="absolute inset-0 bg-white/50 backdrop-blur-[2px] flex items-center justify-center z-20 transition-opacity">
-           <div class="flex flex-col items-center gap-3">
-             <div class="flex gap-2">
-               <div class="w-2 h-2 bg-pixel-violet rounded-full animate-bounce" style="animation-delay: 0ms"></div>
-               <div class="w-2 h-2 bg-pixel-violet rounded-full animate-bounce" style="animation-delay: 150ms"></div>
-               <div class="w-2 h-2 bg-pixel-violet rounded-full animate-bounce" style="animation-delay: 300ms"></div>
-             </div>
-             <span class="text-[10px] font-black uppercase tracking-widest text-pixel-violet">Querying Database...</span>
-           </div>
-        </div>
-
+      <div class="overflow-x-auto">
         <table class="w-full text-left">
           <thead>
             <tr class="bg-pixel-plum/[0.01]">
@@ -224,7 +200,7 @@ const getRankColor = (index) => {
               <th class="py-5 text-pixel-10 uppercase text-pixel-plum/50 font-black tracking-widest px-6 text-right">Timestamp</th>
             </tr>
           </thead>
-          <transition-group name="list" tag="tbody" class="divide-y divide-pixel-plum/5">
+          <tbody class="divide-y divide-pixel-plum/5">
             <tr 
               v-for="(player, index) in paginatedScores" 
               :key="player.score_id" 
@@ -259,17 +235,12 @@ const getRankColor = (index) => {
                 {{ formatDate(player.recorded_at) }}
               </td>
             </tr>
-          </transition-group>
+          </tbody>
         </table>
-        
-        <div v-if="!isSearching && paginatedScores.length === 0" class="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-pixel-plum/20 mb-3"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-          <p class="text-xs font-black uppercase tracking-widest text-pixel-plum/40">No Operators Found</p>
-          <p class="text-[10px] font-bold uppercase tracking-tighter text-pixel-plum/30 mt-1">Adjust search parameters or sector filter</p>
-        </div>
       </div>
 
-      <div v-if="totalPages > 1 && !isSearching" class="p-4 border-t border-pixel-plum/10 bg-pixel-plum/[0.02] flex flex-col sm:flex-row items-center justify-center gap-4">
+      <!-- Pagination Controls -->
+      <div v-if="totalPages > 1" class="p-4 border-t border-pixel-plum/10 bg-pixel-plum/[0.02] flex flex-col sm:flex-row items-center justify-center gap-4">
         <div class="flex items-center gap-2">
           <button 
             @click="currentPage--" 
@@ -308,15 +279,4 @@ const getRankColor = (index) => {
 @reference "@/assets/main.css";
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-/* Table Row Smooth Animation */
-.list-enter-active,
-.list-leave-active {
-  transition: all 0.3s ease;
-}
-.list-enter-from,
-.list-leave-to {
-  opacity: 0;
-  transform: translateX(20px);
-}
 </style>
