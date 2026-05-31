@@ -80,11 +80,6 @@ const router = createRouter({
           component: () => import('../views/portal/admin/AdminSystemLogsView.vue') 
         },
         { 
-          path: 'admin/analytics', 
-          name: 'admin-analytics', 
-          component: () => import('../views/portal/admin/AdminAnalyticsView.vue') 
-        },
-        { 
           path: 'admin/approvals', 
           name: 'admin-approvals', 
           component: () => import('../views/portal/admin/AuthorizationQueueView.vue') 

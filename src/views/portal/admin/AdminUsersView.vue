@@ -247,22 +247,29 @@ const getStatusColor = (status) => {
           <table class="w-full text-left border-collapse">
             <thead>
               <tr
-                class="border-b-2 border-pixel-plum/10 bg-pixel-plum/5 text-pixel-plum font-black text-xs uppercase tracking-widest"
+                class="border-b-2 border-pixel-plum/10 bg-pixel-plum/5 text-pixel-plum/50 font-black text-pixel-10 uppercase tracking-widest"
               >
-                <th class="p-4">Identity (Username)</th>
+                <th class="p-4 pl-6">Operator Identity</th>
                 <th class="p-4">Clearance Role</th>
                 <th class="p-4">System Status</th>
-                <th class="p-4">Last Sync</th>
-                <th class="p-4 text-right">Actions</th>
+                <th class="p-4">Last Synchronized</th>
+                <th class="p-4 pr-6 text-right">Actions</th>
               </tr>
             </thead>
-            <transition-group name="list" tag="tbody">
+            <transition-group name="list" tag="tbody" class="divide-y divide-pixel-plum/5">
               <tr
                 v-for="user in allUsers"
                 :key="user.id"
-                class="border-b border-pixel-plum/5 hover:bg-pixel-plum/5 transition-colors"
+                class="group border-b border-pixel-plum/5 hover:bg-pixel-violet/[0.03] transition-all"
               >
-                <td class="p-4 font-bold text-pixel-plum">{{ user.username }}</td>
+                <td class="p-4 pl-6">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-pixel-plum/5 flex items-center justify-center text-pixel-plum/30 group-hover:bg-pixel-violet/10 group-hover:text-pixel-violet transition-colors">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </div>
+                    <span class="text-sm font-black text-pixel-plum group-hover:text-pixel-violet transition-colors">{{ user.username }}</span>
+                  </div>
+                </td>
                 <td class="p-4">
                   <span
                     class="px-2 py-1 border rounded text-[10px] uppercase font-black tracking-wider"
@@ -271,7 +278,7 @@ const getStatusColor = (status) => {
                   >
                 </td>
                 <td
-                  class="p-4 font-bold text-xs uppercase tracking-wider"
+                  class="p-4 font-black text-xs uppercase tracking-wider"
                   :class="getStatusColor(user.status)"
                 >
                   <div class="flex items-center gap-2">
@@ -288,8 +295,8 @@ const getStatusColor = (status) => {
                     {{ user.status }}
                   </div>
                 </td>
-                <td class="p-4 text-xs font-bold text-pixel-plum/50">{{ user.lastLogin }}</td>
-                <td class="p-4 text-right flex justify-end gap-2">
+                <td class="p-4 text-xs font-bold text-pixel-plum/60">{{ user.lastLogin }}</td>
+                <td class="p-4 pr-6 text-right flex justify-end gap-2">
                   <button
                     @click="openModal('edit', user)"
                     class="p-2 border-2 border-pixel-plum/20 text-pixel-plum rounded hover:bg-pixel-plum hover:text-white transition-colors"
@@ -363,9 +370,9 @@ const getStatusColor = (status) => {
           <div
             v-for="req in pendingQueue"
             :key="req.id"
-            class="bg-white border-2 border-signal-gold/50 rounded-xl p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden"
+            class="bg-white border-2 border-pixel-violet/30 rounded-xl p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden"
           >
-            <div class="absolute left-0 top-0 bottom-0 w-2 bg-signal-gold"></div>
+            <div class="absolute left-0 top-0 bottom-0 w-2 bg-pixel-violet"></div>
 
             <div class="pl-4">
               <div class="flex items-center gap-3 mb-2">
@@ -375,7 +382,7 @@ const getStatusColor = (status) => {
                   {{ req.username }}
                 </h3>
                 <span
-                  class="px-2 py-0.5 border border-signal-gold text-signal-gold rounded text-[10px] uppercase font-black tracking-wider"
+                  class="px-2 py-0.5 border border-pixel-violet text-pixel-violet rounded text-[10px] uppercase font-black tracking-wider"
                   >Awaiting Clearance</span
                 >
               </div>
