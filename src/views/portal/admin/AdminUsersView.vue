@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 // --- UI STATE ---
-// 'registry' for main users, 'queue' for pending educators
+// 'registry' for main users, 'queue' for pending educators, 'reclamation' for soft-deleted records
 const activeTab = ref('registry')
 
 // Toast Notification State
@@ -18,6 +18,10 @@ const triggerToast = (message, type = 'success', duration = 3000) => {
 const isModalOpen = ref(false)
 const modalMode = ref('add')
 const formData = ref({ id: null, username: '', role: 'Player', status: 'Active' })
+
+// Modal State (For Soft-Deletion Security Protocol)
+const isDeleteModalOpen = ref(false)
+const deleteTarget = ref({ id: null, username: '', role: '', reason: 'Violation of security compliance parameters' })
 
 // --- 30% FUNCTIONALITY IN-MEMORY STATE ---
 
@@ -60,6 +64,28 @@ const pendingQueue = ref([
   },
 ])
 
+// 3. System Reclamation Center (Table 11: deleted_records_log)
+const deletedRecords = ref([
+  {
+    id: 'del-101',
+    table_name: 'player_profiles',
+    record_id: '99',
+    snapshot: JSON.stringify({ id: 99, username: 'DarkOperative', role: 'Player', status: 'Suspended', lastLogin: '5 days ago' }),
+    reason: 'Security breach attempt - invalid API key signature',
+    deleted_at: new Date(Date.now() - 3600000 * 24).toLocaleString(),
+    deleted_by: 'RootAdmin'
+  },
+  {
+    id: 'del-102',
+    table_name: 'web_user_profiles',
+    record_id: '88',
+    snapshot: JSON.stringify({ id: 88, username: 'Prof. Shadow', role: 'Educator', status: 'Inactive', lastLogin: '7 days ago' }),
+    reason: 'Expired classroom contract credentials',
+    deleted_at: new Date(Date.now() - 3600000 * 12).toLocaleString(),
+    deleted_by: 'RootAdmin'
+  }
+])
+
 // --- CRUD OPERATIONS (System Registry) ---
 
 const openModal = (mode, user = null) => {
@@ -92,12 +118,52 @@ const saveUser = () => {
   isModalOpen.value = false
 }
 
-const deleteUser = (id, username) => {
-  if (
-    confirm(`SECURITY OVERRIDE: Are you sure you want to permanently purge entity [${username}]?`)
-  ) {
-    allUsers.value = allUsers.value.filter((u) => u.id !== id)
-    triggerToast(`Entity [${username}] purged from system.`, 'alert')
+// Aligned with Table 11: deleted_records_log
+const confirmDelete = (user) => {
+  deleteTarget.value = {
+    id: user.id,
+    username: user.username,
+    role: user.role,
+    reason: 'Violation of security compliance parameters'
+  }
+  isDeleteModalOpen.value = true
+}
+
+const executeDelete = () => {
+  const user = allUsers.value.find((u) => u.id === deleteTarget.value.id)
+  if (!user) return
+
+  // 1. Log deleted record snapshot
+  deletedRecords.value.unshift({
+    id: `del-${Date.now()}`,
+    table_name: user.role === 'Player' ? 'player_profiles' : 'web_user_profiles',
+    record_id: String(user.id),
+    snapshot: JSON.stringify(user),
+    reason: deleteTarget.value.reason || 'N/A - General System Maintenance',
+    deleted_at: new Date().toLocaleString(),
+    deleted_by: 'RootAdmin',
+  })
+
+  // 2. Remove from active registry
+  allUsers.value = allUsers.value.filter((u) => u.id !== deleteTarget.value.id)
+  isDeleteModalOpen.value = false
+  triggerToast(`Entity [${deleteTarget.value.username}] soft-deleted and logged in Reclamation Hub.`, 'alert')
+}
+
+// Undelete / Reclaim Entity
+const handleRestore = (record) => {
+  try {
+    const originalUser = JSON.parse(record.snapshot)
+    
+    // 1. Remove from deleted log
+    deletedRecords.value = deletedRecords.value.filter((r) => r.id !== record.id)
+    
+    // 2. Add back to main registry
+    allUsers.value.unshift(originalUser)
+    
+    triggerToast(`Entity [${originalUser.username}] restored to System Registry successfully.`, 'success')
+  } catch {
+    triggerToast('Failed to parse entity recovery snapshot.', 'alert')
   }
 }
 
@@ -122,6 +188,14 @@ const handleApprove = (educator) => {
 const handleDeny = (id, username) => {
   pendingQueue.value = pendingQueue.value.filter((e) => e.id !== id)
   triggerToast(`Clearance denied for [${username}]. Purged from queue.`, 'alert')
+}
+
+const getUsernameFromSnapshot = (snapshotStr) => {
+  try {
+    return JSON.parse(snapshotStr).username || 'Unknown'
+  } catch {
+    return 'Unknown'
+  }
 }
 
 // --- UI HELPERS ---
@@ -207,6 +281,23 @@ const getStatusColor = (status) => {
               class="bg-byte-coral text-white px-2 py-0.5 rounded-full text-[10px] animate-pulse"
             >
               {{ pendingQueue.length }}
+            </span>
+          </button>
+          <button
+            @click="activeTab = 'reclamation'"
+            class="px-6 py-2.5 rounded text-xs font-black uppercase tracking-widest transition-all flex items-center gap-2"
+            :class="
+              activeTab === 'reclamation'
+                ? 'bg-white shadow-sm text-pixel-plum'
+                : 'text-pixel-plum/50 hover:text-pixel-plum'
+            "
+          >
+            System Reclamation
+            <span
+              v-if="deletedRecords.length > 0"
+              class="bg-pixel-violet text-white px-2 py-0.5 rounded-full text-[10px]"
+            >
+              {{ deletedRecords.length }}
             </span>
           </button>
         </div>
@@ -315,7 +406,7 @@ const getStatusColor = (status) => {
                     </svg>
                   </button>
                   <button
-                    @click="deleteUser(user.id, user.username)"
+                    @click="confirmDelete(user)"
                     class="p-2 border-2 border-byte-coral/20 text-byte-coral rounded hover:bg-byte-coral hover:text-white transition-colors"
                   >
                     <svg
@@ -346,7 +437,7 @@ const getStatusColor = (status) => {
         </div>
       </div>
 
-      <div v-else key="queue" class="space-y-4">
+      <div v-else-if="activeTab === 'queue'" key="queue" class="space-y-4">
         <div
           v-if="pendingQueue.length === 0"
           class="bg-pixel-moss/10 border-2 border-pixel-moss/30 rounded-xl p-12 text-center text-pixel-moss font-black uppercase tracking-widest text-sm flex flex-col items-center gap-4"
@@ -426,6 +517,95 @@ const getStatusColor = (status) => {
             </div>
           </div>
         </transition-group>
+      </div>
+
+      <div v-else-if="activeTab === 'reclamation'" key="reclamation" class="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+        <div
+          v-if="deletedRecords.length === 0"
+          class="bg-pixel-violet/10 border-2 border-pixel-violet/30 rounded-xl p-12 text-center text-pixel-violet font-black uppercase tracking-widest text-sm flex flex-col items-center gap-4"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="48"
+            height="48"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          Reclamation Center is empty. No soft-deleted logs.
+        </div>
+
+        <div
+          v-else
+          class="bg-white border-2 border-pixel-plum/10 rounded-xl overflow-hidden shadow-pixel-soft"
+        >
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr
+                  class="border-b-2 border-pixel-plum/10 bg-pixel-plum/5 text-pixel-plum/50 font-black text-pixel-10 uppercase tracking-widest"
+                >
+                  <th class="p-4 pl-6">Deleted Entity</th>
+                  <th class="p-4">Source Table</th>
+                  <th class="p-4">Reason for Deletion</th>
+                  <th class="p-4">Authorized By</th>
+                  <th class="p-4">Timestamp</th>
+                  <th class="p-4 pr-6 text-right">Actions</th>
+                </tr>
+              </thead>
+              <transition-group name="list" tag="tbody" class="divide-y divide-pixel-plum/5">
+                <tr
+                  v-for="record in deletedRecords"
+                  :key="record.id"
+                  class="group border-b border-pixel-plum/5 hover:bg-pixel-violet/[0.03] transition-all"
+                >
+                  <td class="p-4 pl-6 font-black text-sm text-pixel-plum group-hover:text-pixel-violet transition-colors">
+                    {{ getUsernameFromSnapshot(record.snapshot) }}
+                  </td>
+                  <td class="p-4">
+                    <span class="px-2 py-1 border rounded text-[10px] uppercase font-black tracking-wider text-pixel-plum/60 bg-pixel-plum/5 border-pixel-plum/10">
+                      {{ record.table_name }}
+                    </span>
+                  </td>
+                  <td class="p-4 text-xs font-bold text-byte-coral/80 max-w-xs truncate" :title="record.reason">
+                    {{ record.reason }}
+                  </td>
+                  <td class="p-4 text-xs font-black text-pixel-plum/70">
+                    {{ record.deleted_by }}
+                  </td>
+                  <td class="p-4 text-xs font-bold text-pixel-plum/50">
+                    {{ record.deleted_at }}
+                  </td>
+                  <td class="p-4 pr-6 text-right flex justify-end gap-2">
+                    <button
+                      @click="handleRestore(record)"
+                      title="Reclaim/Restore Entity"
+                      class="p-2 border-2 border-pixel-violet/20 text-pixel-violet rounded hover:bg-pixel-violet hover:text-white transition-colors"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.5"
+                      >
+                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                        <path d="M3 3v5h5"></path>
+                      </svg>
+                    </button>
+                  </td>
+                </tr>
+              </transition-group>
+            </table>
+          </div>
+        </div>
       </div>
     </transition>
 
@@ -514,6 +694,100 @@ const getStatusColor = (status) => {
                 class="flex-1 py-3 bg-pixel-violet text-white font-black text-xs uppercase tracking-widest rounded shadow-pixel-soft hover:brightness-110 transition-colors"
               >
                 {{ modalMode === 'add' ? 'Register' : 'Save Changes' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </transition>
+
+    <!-- Beautiful Soft-Deletion Security Protocol Modal -->
+    <transition name="modal">
+      <div
+        v-if="isDeleteModalOpen"
+        class="fixed inset-0 bg-pixel-plum/40 backdrop-blur-sm z-40 flex items-center justify-center p-4"
+      >
+        <div
+          class="modal-content bg-white border-2 border-byte-coral rounded-xl w-full max-w-md shadow-2xl overflow-hidden"
+        >
+          <!-- Header -->
+          <div class="p-6 bg-byte-coral/5 border-b-2 border-byte-coral/20 flex justify-between items-center">
+            <div class="flex items-center gap-2 text-byte-coral">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+              <h2 class="text-base font-black font-display uppercase tracking-wider">
+                Security Deletion Protocol
+              </h2>
+            </div>
+            <button
+              @click="isDeleteModalOpen = false"
+              class="text-pixel-plum/50 hover:text-byte-coral transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Body -->
+          <form @submit.prevent="executeDelete" class="p-6 space-y-4">
+            <div class="bg-byte-coral/[0.04] border-2 border-byte-coral/20 rounded-lg p-4 space-y-2">
+              <p class="text-xs font-bold text-pixel-plum/70 uppercase">
+                Target Entity:
+                <span class="text-byte-coral font-black">{{ deleteTarget.username }}</span>
+              </p>
+              <p class="text-xs font-bold text-pixel-plum/70 uppercase">
+                Clearance Role:
+                <span class="text-pixel-plum font-black">{{ deleteTarget.role }}</span>
+              </p>
+            </div>
+
+            <div>
+              <label
+                class="block text-[10px] font-black uppercase tracking-widest text-pixel-plum/70 mb-2"
+                >Authorization Reason for Soft-Deletion</label
+              >
+              <textarea
+                v-model="deleteTarget.reason"
+                required
+                rows="3"
+                class="w-full p-3 border-2 border-pixel-plum/20 rounded font-bold text-sm text-pixel-plum focus:outline-none focus:border-byte-coral transition-colors"
+                placeholder="Specify administrative reason for deactivation/soft-deletion..."
+              ></textarea>
+            </div>
+
+            <!-- Footer Buttons -->
+            <div class="pt-4 flex gap-3">
+              <button
+                type="button"
+                @click="isDeleteModalOpen = false"
+                class="flex-1 py-3 border-2 border-pixel-plum/20 text-pixel-plum font-black text-xs uppercase tracking-widest rounded hover:bg-pixel-plum/5 transition-colors"
+              >
+                Abort Protocol
+              </button>
+              <button
+                type="submit"
+                class="flex-1 py-3 bg-byte-coral text-white font-black text-xs uppercase tracking-widest rounded shadow-pixel-soft hover:brightness-110 transition-colors transform active:scale-95 flex items-center justify-center gap-2"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                  <line x1="17" y1="8" x2="22" y2="13"></line>
+                  <line x1="22" y1="8" x2="17" y2="13"></line>
+                </svg>
+                Execute Soft-Delete
               </button>
             </div>
           </form>
