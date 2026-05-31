@@ -11,6 +11,7 @@ const navLinks = computed(() => {
     return [
       { name: 'OVERVIEW', path: '/portal/admin', icon: 'shield-check' },
       { name: 'USERS', path: '/portal/admin/users', icon: 'users' },
+      { name: 'CLASSROOMS', path: '/portal/admin/classrooms', icon: 'book-open' },
       { name: 'RANKINGS', path: '/portal/leaderboard', icon: 'trophy' },
       // { name: 'PROTOCOLS', path: '/portal/admin/approvals', icon: 'user-check' },
       { name: 'SYSTEM LOGS', path: '/portal/admin/logs', icon: 'file-text' },

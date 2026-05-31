@@ -124,7 +124,7 @@ const confirmDelete = (user) => {
     id: user.id,
     username: user.username,
     role: user.role,
-    reason: 'Violation of security compliance parameters'
+    reason: 'Violation of security compliance parameters (CMP-902-SEC)'
   }
   isDeleteModalOpen.value = true
 }
@@ -754,18 +754,11 @@ const getStatusColor = (status) => {
               </p>
             </div>
 
-            <div>
-              <label
-                class="block text-[10px] font-black uppercase tracking-widest text-pixel-plum/70 mb-2"
-                >Authorization Reason for Soft-Deletion</label
-              >
-              <textarea
-                v-model="deleteTarget.reason"
-                required
-                rows="3"
-                class="w-full p-3 border-2 border-pixel-plum/20 rounded font-bold text-sm text-pixel-plum focus:outline-none focus:border-byte-coral transition-colors"
-                placeholder="Specify administrative reason for deactivation/soft-deletion..."
-              ></textarea>
+            <div class="bg-byte-coral/[0.04] border-2 border-byte-coral/20 rounded-lg p-4">
+              <span class="block text-[10px] font-black uppercase tracking-widest text-byte-coral mb-1">Security Decommission Policy</span>
+              <p class="text-xs font-bold text-pixel-plum/70 leading-relaxed">
+                This entity will be flagged as <span class="text-byte-coral font-black">DECOMMISSIONED</span>. Active web profiles and mobile player registries will be soft-deleted. The snapshot will be recorded securely in the reclamation table under security policy standard <span class="font-black text-pixel-plum">CMP-902-SEC</span>.
+              </p>
             </div>
 
             <!-- Footer Buttons -->
