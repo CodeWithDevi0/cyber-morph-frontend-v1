@@ -377,7 +377,7 @@ onUnmounted(() => {
           <h1
             class="mx-auto mt-5 max-w-4xl text-5xl font-black leading-[0.98] text-pixel-plum sm:text-6xl lg:text-7xl"
           >
-            Train defenders inside living cyber worlds.
+            Level up your skills through interactive missions.
           </h1>
           <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-pixel-plum/75">
             CyberMorph turns digital safety lessons into playable missions, clear progress, and
@@ -390,21 +390,6 @@ onUnmounted(() => {
             </router-link>
             <a href="#showcase" class="btn-hero btn-hero-secondary"> View Showcase </a>
           </div>
-
-          <dl class="mx-auto mt-12 grid max-w-2xl grid-cols-3 gap-3">
-            <div class="metric-tile">
-              <dt>Maps</dt>
-              <dd>04</dd>
-            </div>
-            <div class="metric-tile">
-              <dt>Roles</dt>
-              <dd>03</dd>
-            </div>
-            <div class="metric-tile">
-              <dt>Mode</dt>
-              <dd>Live</dd>
-            </div>
-          </dl>
         </div>
       </div>
     </div>

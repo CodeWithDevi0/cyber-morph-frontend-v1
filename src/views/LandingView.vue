@@ -1,12 +1,12 @@
 <script setup>
-import phishBaitGif from '@/assets/attacks_types/GIFs/Phish_Bait.gif'
-import mitmAttackGif from '@/assets/attacks_types/GIFs/MitM-Attack.gif'
+// import phishBaitGif from '@/assets/attacks_types/GIFs/Phish_Bait.gif'
+// import mitmAttackGif from '@/assets/attacks_types/GIFs/MitM-Attack.gif'
 
 // Components
 import LandingHeader from '@/components/landing/LandingHeader.vue'
 import LandingHero from '@/components/landing/LandingHero.vue'
 import FeatureGrid from '@/components/landing/FeatureGrid.vue'
-import ThreatShowcase from '@/components/landing/ThreatShowcase.vue'
+// import ThreatShowcase from '@/components/landing/ThreatShowcase.vue'
 import MapGallery from '@/components/landing/MapGallery.vue'
 import UpdatesSection from '@/components/landing/UpdatesSection.vue'
 import LandingFooter from '@/components/landing/LandingFooter.vue'
@@ -17,34 +17,34 @@ const getMap = (name) => mapImages[`/src/assets/maps/${name}.png`] || ''
 
 const navItems = [
   { label: 'Features', href: '#features' },
-  { label: 'Threats', href: '#attacks' },
+  // { label: 'Threats', href: '#attacks' },
   { label: 'Showcase', href: '#showcase' },
   { label: 'Updates', href: '#updates' },
   { label: 'Download', href: '/download' },
 ]
 
-const attacks = [
-  {
-    id: '01',
-    title: 'Phish-Bait',
-    subtitle: 'Deceitful Charmer',
-    description:
-      'Deceptive communications engineered to trick targets into revealing credentials or installing malware.',
-    image: phishBaitGif,
-    locked: false,
-    color: '#38e8d5',
-  },
-  {
-    id: '02',
-    title: 'Man in the Middle',
-    subtitle: 'Silent Interceptor',
-    description:
-      'An attacker secretly relays and possibly alters the communications between two parties.',
-    image: mitmAttackGif,
-    locked: false,
-    color: '#ff4444',
-  },
-]
+// const attacks = [
+//   {
+//     id: '01',
+//     title: 'Phish-Bait',
+//     subtitle: 'Deceitful Charmer',
+//     description:
+//       'Deceptive communications engineered to trick targets into revealing credentials or installing malware.',
+//     image: phishBaitGif,
+//     locked: false,
+//     color: '#38e8d5',
+//   },
+//   {
+//     id: '02',
+//     title: 'Man in the Middle',
+//     subtitle: 'Silent Interceptor',
+//     description:
+//       'An attacker secretly relays and possibly alters the communications between two parties.',
+//     image: mitmAttackGif,
+//     locked: false,
+//     color: '#ff4444',
+//   },
+// ]
 
 const features = [
   {
@@ -139,7 +139,7 @@ const updates = [
 
     <FeatureGrid :features="features" />
 
-    <ThreatShowcase :attacks="attacks" />
+    <!-- <ThreatShowcase :attacks="attacks" /> -->
 
     <MapGallery :showcases="showcases" />
 
