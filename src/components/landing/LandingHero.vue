@@ -377,7 +377,7 @@ onUnmounted(() => {
           <h1
             class="mx-auto mt-5 max-w-4xl text-5xl font-black leading-[0.98] text-pixel-plum sm:text-6xl lg:text-7xl"
           >
-            Level up your skills through interactive missions.
+            Learn cyber threat through game simulation.
           </h1>
           <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-pixel-plum/75">
             CyberMorph turns digital safety lessons into playable missions, clear progress, and
