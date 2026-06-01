@@ -12,9 +12,9 @@
           <template v-if="auth.isPlayer || !auth.user?.role">
             <router-link to="/portal/dashboard" class="nav-link">DASHBOARD</router-link>
             <router-link to="/portal/mission-hub" class="nav-link">MISSIONS</router-link>
+            <router-link to="/portal/threats" class="nav-link">THREAT INDEX</router-link>
+            <router-link to="/portal/classroom/join" class="nav-link">CLASS</router-link>
             <router-link to="/portal/leaderboard" class="nav-link">RANKINGS</router-link>
-            <router-link to="/portal/threats" class="nav-link">DATABASE</router-link>
-            <router-link to="/portal/classroom/join" class="nav-link">UNITS</router-link>
             <router-link to="/portal/history" class="nav-link">LOGS</router-link>
           </template>
           <template v-else-if="auth.isEducator">

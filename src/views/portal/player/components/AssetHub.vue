@@ -17,11 +17,11 @@
       </div>
     </div>
 
-    <!-- Intel Mastery -->
+    <!-- Cyber Threat Mastery -->
     <div class="pixel-card border-l-4 border-l-byte-coral">
-      <p class="stat-label-pixel">Intel Mastery</p>
+      <p class="stat-label-pixel">Cyber Threat Mastery</p>
       <div class="flex items-end justify-between">
-        <span class="text-3xl font-black text-pixel-plum">{{ unlockedThreats }}/12</span>
+        <span class="text-3xl font-black text-pixel-plum">{{ unlockedThreats }}/8</span>
         <span class="text-pixel-10 text-pixel-plum/40 font-black uppercase tracking-widest mb-1"
           >Threats</span
         >
@@ -29,7 +29,7 @@
       <div class="mt-3 h-1.5 w-full bg-pixel-plum/5 rounded-full overflow-hidden">
         <div 
           class="h-full bg-byte-coral transition-all duration-1000" 
-          :style="{ width: (unlockedThreats / 12) * 100 + '%' }"
+          :style="{ width: (unlockedThreats / 8) * 100 + '%' }"
         ></div>
       </div>
     </div>

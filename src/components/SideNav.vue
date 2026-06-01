@@ -29,9 +29,9 @@ const navLinks = computed(() => {
   return [
     { name: 'DASHBOARD', path: '/portal/dashboard', icon: 'layout' },
     { name: 'MISSIONS', path: '/portal/mission-hub', icon: 'target' },
-    { name: 'DATABASE', path: '/portal/threats', icon: 'database' },
+    { name: 'THREAT INDEX', path: '/portal/threats', icon: 'database' },
+    { name: 'CLASS', path: '/portal/classroom/join', icon: 'users' },
     { name: 'RANKINGS', path: '/portal/leaderboard', icon: 'trophy' },
-    { name: 'UNITS', path: '/portal/classroom/join', icon: 'users' },
     { name: 'LOGS', path: '/portal/history', icon: 'history' },
   ]
 })

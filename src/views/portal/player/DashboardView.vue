@@ -25,7 +25,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <!-- Deployment Card -->
         <div class="lg:col-span-8">
-          <SimulationLaunch :nextMapName="getNextMapName()" />
+          <SimulationLaunch :nextMapName="getNextMapName()" class="h-full" />
         </div>
 
         <!-- Essential Stats Sidebar -->

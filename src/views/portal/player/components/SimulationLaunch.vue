@@ -1,6 +1,6 @@
 <template>
   <div
-    class="group relative overflow-hidden bg-pixel-plum rounded-xl p-8 text-white shadow-pixel-hero transition-all hover:scale-[1.01] active:scale-[0.99]"
+    class="group relative overflow-hidden bg-pixel-plum rounded-xl p-8 text-white shadow-pixel-hero transition-all hover:scale-[1.01] active:scale-[0.99] h-full"
   >
     <!-- Decorative Background Pattern -->
     <div
